@@ -5,11 +5,12 @@
 // 4. Publishes the monthly series (upsert, then remove stale rows).
 // 5. Builds the holdings snapshot (positions, lots, dividends, closed positions, trade notes).
 // 6. Builds the research snapshot (reports, returns since each pitch, scorecard, pipeline).
+// 7. Publishes each position's month-end value and monthly change (Performance page hover).
 // Called by pg_cron after the US market close, or by hand with select public.run_data_job();
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { buildResearch, researchTickers, type PipelineIdea, type ResearchReport } from "./research.ts";
 import { buildHoldings, type BenchmarkSector, type LedgerTrade, type Security } from "./holdings.ts";
-import { LedgerError, monthlyReturns, requiredTickers, valuePortfolio, type DailyValue, type MonthlyReturn, type PriceBar } from "./core.ts";
+import { LedgerError, monthEndPositions, monthlyReturns, requiredTickers, valuePortfolio, type DailyValue, type MonthlyReturn, type PriceBar } from "./core.ts";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
@@ -177,6 +178,11 @@ Deno.serve(async (req) => {
     });
     await publishSnapshot(db, holdings);
     await publishResearch(holdings.positions.map((p) => p.t));
+    await publishSnapshot(db, {
+      as_of: daily[daily.length - 1]?.date ?? null,
+      methodology: "Month-end close × shares held. Change = month-end value − prior month-end value − purchases + sales + dividends; percent = change ÷ (prior value + purchases).",
+      months: monthEndPositions(trades, prices, calendar),
+    }, "monthly_positions");
 
     const last = daily[daily.length - 1];
     await db.from("fund_profile").update({

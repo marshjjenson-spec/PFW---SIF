@@ -261,6 +261,20 @@ td.barcell { width: 34%; min-width: 200px; padding-block: 8px; }
 .heat-detail { margin-top: 12px; font-size: 12.5px; min-height: 22px; color: var(--fg-2); }
 .heat-detail b { color: var(--fg); font-weight: 600; }
 .heat-detail .num { font-size: 16px; font-weight: 600; }
+/* Month hover: each position's month-end value and change */
+.heat-tip { position: fixed; z-index: 60; width: 340px; max-width: calc(100vw - 24px); background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--gold); border-radius: var(--r); box-shadow: 0 10px 28px rgba(20, 23, 26, .16); padding: 12px 14px 10px; font-size: 12.5px; pointer-events: none; }
+.heat-tip[hidden] { display: none; }
+.heat-tip .tt-h { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin-bottom: 8px; }
+.heat-tip .tt-h b { font-family: var(--f-display); font-size: 18px; font-weight: 600; color: var(--fg-strong); }
+.heat-tip .tt-h span { font-size: 11px; color: var(--fg-2); }
+.heat-tip table { width: 100%; border-collapse: collapse; min-width: 0; }
+.heat-tip th { font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-2); text-align: right; padding: 0 0 4px 8px; border-bottom: 1px solid var(--line); background: transparent; }
+.heat-tip th:first-child, .heat-tip td:first-child { text-align: left; padding-left: 0; }
+.heat-tip td { text-align: right; padding: 4px 0 4px 8px; border-bottom: 1px solid var(--line-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.heat-tip td:first-child { font-weight: 600; color: var(--fg); }
+.heat-tip tr.tot td { font-weight: 600; border-bottom: 0; border-top: 1px solid var(--line); }
+.heat-tip tr.cash td { color: var(--fg-2); }
+.heat-tip .note { margin: 6px 0 0; font-size: 10.5px; color: var(--fg-2); }
 .scale { display: flex; align-items: center; gap: 6px; font-family: var(--f-num); font-size: 12px !important; font-size: 11px; color: var(--fg-2); }
 .scale span.sw { width: 24px; height: 8px; display: inline-block; border-radius: 1px; }
 
@@ -486,7 +500,8 @@ footer.site-foot .wrap { padding-block: 26px; display: flex; flex-wrap: wrap; ju
         </div>
       </div>
       <div class="table-wrap"><table class="heat" id="heat"></table></div>
-      <p class="heat-detail" id="heat-detail" aria-live="polite">Hover or tab to a month to compare PFW-SIF, the benchmark and the spread.</p>
+      <p class="heat-detail" id="heat-detail" aria-live="polite">Hover or tab to a month to compare PFW-SIF, the benchmark and the spread, and to see each position's month-end value and change.</p>
+      <div class="heat-tip" id="heat-tip" role="tooltip" hidden></div>
     </div>
   </section>
 
@@ -591,7 +606,7 @@ Capture (up/down)   = Ann. return₍ₚ₎ / Ann. return₍b₎ over months wher
   };
 
   /* ---------------- Live data (Supabase, read-only) ---------------- */
-  let LIVE = [], PROFILE = null, EXCLUDED = [], LOAD_ERROR = null;
+  let LIVE = [], PROFILE = null, EXCLUDED = [], LOAD_ERROR = null, MPOS = {};
   async function loadData() {
     const c = window.PFW_CONFIG || {};
     if (!c.supabaseUrl || !c.supabaseKey) throw new Error("config.js is missing supabaseUrl or supabaseKey.");
@@ -603,6 +618,11 @@ Capture (up/down)   = Ann. return₍ₚ₎ / Ann. return₍b₎ over months wher
       fetch(base + "fund_profile?select=*&id=eq.1", { headers })
     ]);
     if (!mr.ok || !fp.ok) throw new Error("The performance database returned " + (mr.ok ? fp.status : mr.status) + ".");
+    // Month-end positions for the monthly table hover. Optional: the page works without it.
+    fetch(base + "public_snapshots?select=data&id=eq.monthly_positions", { headers })
+      .then(r => (r.ok ? r.json() : []))
+      .then(rows => { for (const m of (rows[0] && rows[0].data && rows[0].data.months) || []) MPOS[m.month] = m; })
+      .catch(() => {});
     const rows = await mr.json(), prof = await fp.json();
     PROFILE = prof[0] || {};
     CONFIG.performanceType = TYPE_LABELS[PROFILE.performance_type] ? PROFILE.performance_type : "simulated";
@@ -1172,8 +1192,34 @@ Capture (up/down)   = Ann. return₍ₚ₎ / Ann. return₍b₎ over months wher
     const d = data().find(x => x.y === +td.dataset.y && x.m === +td.dataset.m); if (!d) return;
     $("heat-detail").innerHTML = "<b>" + MONL[d.m] + " " + d.y + "</b> · PFW-SIF <span class=\"num " + cls(d.p) + "\">" + pct(d.p, 2) + "</span> · S&amp;P 500 TR <span class=\"num " + cls(d.b) + "\">" + pct(d.b, 2) + "</span> · Spread <span class=\"num " + cls(d.p - d.b) + "\">" + pts(d.p - d.b, 2) + "</span>";
   }
-  $("heat").addEventListener("pointerover", e => { const td = e.target.closest("td.c[data-y]"); if (td) heatDetail(td); });
-  $("heat").addEventListener("focusin", e => { const td = e.target.closest("td.c[data-y]"); if (td) heatDetail(td); });
+  function heatTip(td) {
+    const tip = $("heat-tip");
+    const y = +td.dataset.y, m = +td.dataset.m;
+    const e = MPOS[y + "-" + String(m + 1).padStart(2, "0")];
+    if (!e || !e.positions) { tip.hidden = true; return; }
+    const sm = v => (v < 0 ? minus : v > 0 ? "+" : "") + "$" + Math.abs(Math.round(v)).toLocaleString("en-US");
+    const [ey, em, ed] = e.date.split("-").map(Number);
+    const rows = e.positions.map(p => '<tr><td>' + esc(p.t) + (p.shares === 0 ? ' <span style="font-weight:400;color:var(--fg-2)">sold</span>' : "") + '</td><td>' + money(p.value) + '</td><td class="' + cls(p.change / 1e4) + '">' + sm(p.change) + '</td><td class="' + cls(p.changePct) + '">' + (p.changePct === null ? "—" : pct(p.changePct, 1)) + "</td></tr>").join("");
+    const invested = e.positions.reduce((s, p) => s + p.value, 0);
+    tip.innerHTML = '<div class="tt-h"><b>' + MONL[m] + " " + y + '</b><span>Values at the ' + MON[em - 1] + " " + ed + ", " + ey + " close</span></div>" +
+      '<table><thead><tr><th>Position</th><th>Value</th><th>Change</th><th>%</th></tr></thead><tbody>' + rows +
+      '<tr class="cash"><td>Cash</td><td>' + money(e.cash) + '</td><td></td><td></td></tr>' +
+      '<tr class="tot"><td>Total</td><td>' + money(e.value) + '</td><td></td><td>' + (invested + e.cash > 0 ? Math.round(invested / (invested + e.cash) * 100) + "% invested" : "") + "</td></tr></tbody></table>" +
+      '<p class="note">Change is the gain or loss for the month, including dividends and any buys or sales.</p>';
+    tip.hidden = false;
+    const r = td.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+    let left = Math.min(Math.max(12, r.left + r.width / 2 - w / 2), window.innerWidth - w - 12);
+    let top = r.bottom + 8;
+    if (top + h > window.innerHeight - 8) top = Math.max(8, r.top - h - 8);
+    tip.style.left = left + "px"; tip.style.top = top + "px";
+  }
+  const hideTip = () => { $("heat-tip").hidden = true; };
+  $("heat").addEventListener("pointerover", e => { const td = e.target.closest("td.c[data-y]"); if (td) { heatDetail(td); heatTip(td); } });
+  $("heat").addEventListener("focusin", e => { const td = e.target.closest("td.c[data-y]"); if (td) { heatDetail(td); heatTip(td); } });
+  $("heat").addEventListener("pointerleave", hideTip);
+  $("heat").addEventListener("focusout", hideTip);
+  window.addEventListener("scroll", hideTip, { passive: true });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") hideTip(); });
 
   /* ---------------- Consistency + rolling risk ---------------- */
   function renderConsistency(animate) {

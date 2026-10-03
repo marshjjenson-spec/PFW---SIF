@@ -106,6 +106,15 @@ One row per report. Required: `title`, `report_type` (`Initiation`, `Update`, `E
 
 Each report with a ticker gets its total return since publication, next to the S&P 500 Total Return over the same dates. The track record averages Buy-rated pitches with an Approved or Not approved decision, so the page shows how the ideas the fund bought did against the ones it passed on.
 
+## Research report pages (`/reports`)
+
+Each research report has its own page on the site, for example `/reports/amd-2024-initiation`, and `/reports/` lists them all. Each page has a one-page summary (rating, price target, key financials, peer comparison, performance chart, catalysts, risks, DCF and committee decision) and a second page with the full case for buying or holding, the price target build and performance since the report.
+
+- Wording: `tools/reports-content.mjs`.
+- Numbers: `tools/report-data.json`, made by `node tools/fetch-report-data.mjs <cache-folder>` from SEC EDGAR filings (only filings made on or before each report date) and Yahoo Finance prices.
+- Rebuild the pages after editing either file: `node tools/build-reports.mjs`.
+- The Research tab still links to the Markdown copies in `research-reports/`. Point `report_url` at the `/reports/...` pages once the site has its https address.
+
 ## Pitch pipeline (`research_pipeline` table)
 
 `ticker`, `company`, `team`, `stage` (`Researching`, `Pitch scheduled` or `Committee vote`), `pitch_date`, `idea`. Delete the row once the company is pitched and add a research report instead.

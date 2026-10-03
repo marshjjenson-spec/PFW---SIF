@@ -113,7 +113,7 @@ Each research report has its own page on the site, for example `/reports/amd-202
 - Wording: `tools/reports-content.mjs`.
 - Numbers: `tools/report-data.json`, made by `node tools/fetch-report-data.mjs <cache-folder>` from SEC EDGAR filings (only filings made on or before each report date) and Yahoo Finance prices.
 - Rebuild the pages after editing either file: `node tools/build-reports.mjs`.
-- The Research tab still links to the Markdown copies in `research-reports/`. Point `report_url` at the `/reports/...` pages once the site has its https address.
+- The Research and Holdings tabs link to these pages (`report_url` and `thesis_url` hold paths like `/reports/aapl-2026-review`). `research-reports/` keeps Markdown copies of the same research.
 
 ## Pitch pipeline (`research_pipeline` table)
 

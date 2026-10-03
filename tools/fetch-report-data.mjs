@@ -105,6 +105,7 @@ const TAGS = {
   ocf: ["NetCashProvidedByUsedInOperatingActivities", "NetCashProvidedByUsedInOperatingActivitiesContinuingOperations"],
   capex: ["PaymentsToAcquirePropertyPlantAndEquipment", "PaymentsToAcquireProductiveAssets", "PaymentsForProceedsFromProductiveAssets"],
   dilShares: ["WeightedAverageNumberOfDilutedSharesOutstanding"],
+  da: ["DepreciationDepletionAndAmortization", "DepreciationAndAmortization", "DepreciationAmortizationAndAccretionNet", "OtherDepreciationAndAmortization", "Depreciation"],
 };
 const INSTANT = {
   cash: [["CashAndCashEquivalentsAtCarryingValue", "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents"]],
@@ -192,7 +193,11 @@ async function fundamentals(ticker, asOf, years = 4) {
   const rev = annual(all, TAGS.revenue, asOf, "USD");
   const ends = [...rev.keys()].sort().slice(-years);
   const get = (k, unit = "USD") => annual(all, TAGS[k], asOf, unit);
-  const m = { cost: get("cost"), gross: get("gross"), opInc: get("opInc"), netInc: get("netInc"), eps: get("eps", "USD/shares"), ocf: get("ocf"), capex: get("capex"), dilShares: get("dilShares", "shares") };
+  const m = { cost: get("cost"), gross: get("gross"), opInc: get("opInc"), netInc: get("netInc"), eps: get("eps", "USD/shares"), ocf: get("ocf"), capex: get("capex"), dilShares: get("dilShares", "shares"), da: get("da") };
+  // Some companies (AMD) tag only part of D&A under the usual names; never use less than
+  // depreciation plus amortization of intangibles.
+  const dep = annual(all, ["Depreciation"], asOf, "USD"), amort = annual(all, ["AmortizationOfIntangibleAssets"], asOf, "USD");
+  for (const [end, v] of dep) { const sum = v + (amort.get(end) || 0); if (!(m.da.get(end) >= sum)) m.da.set(end, sum); }
   const fy = ends.map((end) => {
     const r = rev.get(end);
     // GE's filings tag product costs and service costs separately and include GE Capital
@@ -201,18 +206,36 @@ async function fundamentals(ticker, asOf, years = 4) {
     const cash = instantAt(all, INSTANT.cash, asOf, end), st = instantAt(all, INSTANT.stInv, asOf, end), lt = instantAt(all, INSTANT.ltInv, asOf, end);
     return {
       end, revenue: r, gross, opInc: m.opInc.get(end) ?? null, netInc: m.netInc.get(end) ?? null, eps: m.eps.get(end) ?? null,
-      ocf: m.ocf.get(end) ?? null, capex: m.capex.get(end) ?? null, dilShares: m.dilShares.get(end) ?? null,
+      ocf: m.ocf.get(end) ?? null, capex: m.capex.get(end) ?? null, dilShares: m.dilShares.get(end) ?? null, da: m.da.get(end) ?? null,
       cashInv: cash == null ? null : cash + (st || 0) + (lt || 0), debt: instantAt(all, INSTANT.debt, asOf, end), equity: instantAt(all, INSTANT.equity, asOf, end),
     };
   });
   const last = fy[fy.length - 1];
   const t = {};
-  if (last) for (const k of ["revenue", "netInc", "eps", "ocf", "capex", "opInc"]) {
+  if (last) for (const k of ["revenue", "netInc", "eps", "ocf", "capex", "opInc", "da"]) {
     const tags = k === "revenue" ? TAGS.revenue : TAGS[k];
     const r = ttm(all, tags, asOf, last.end, last[k], k === "eps" ? "USD/shares" : "USD");
     if (r && last[k] != null) { t[k] = r.val; t.through = r.through; }
   }
   return { fy, ttm: t };
+}
+
+// Valuation and return measures from the latest fiscal year. US federal tax rate for ROIC:
+// 35% before 2018, 21% after the 2017 Tax Cuts and Jobs Act.
+function extras(fy, mcap, asOf) {
+  const l = fy[fy.length - 1] || {}, p = fy[fy.length - 2] || {};
+  const tax = asOf < "2018-01-01" ? 0.35 : 0.21;
+  const fcf = (x) => (x.ocf != null && x.capex != null ? x.ocf - x.capex : null);
+  const ebitda = l.opInc != null && l.da != null ? l.opInc + l.da : null;
+  const ev = mcap != null && l.debt != null && l.cashInv != null ? mcap + l.debt - l.cashInv : null;
+  const invested = l.equity != null && l.debt != null && l.cashInv != null ? l.equity + l.debt - l.cashInv : null;
+  return {
+    ebitda, ev, evEbitda: ev != null && ebitda > 0 ? ev / ebitda : null,
+    roic: l.opInc != null && invested > 0 ? (l.opInc * (1 - tax)) / invested : null,
+    opIncGrowth: l.opInc != null && p.opInc > 0 ? l.opInc / p.opInc - 1 : null,
+    fcfGrowth: fcf(l) != null && fcf(p) > 0 ? fcf(l) / fcf(p) - 1 : null,
+    epsGrowth: l.eps != null && p.eps > 0 ? l.eps / p.eps - 1 : null,
+  };
 }
 
 async function snapshot(ticker, asOf) {
@@ -243,6 +266,7 @@ async function snapshot(ticker, asOf) {
     fcfTtm: Number.isFinite(fcf) ? fcf : null, fcfYield: Number.isFinite(fcf) && shares ? fcf / (shares * row.raw) : null,
     debtToEquity: lastFy.debt != null && lastFy.equity > 0 ? lastFy.debt / lastFy.equity : null,
     beta: await beta(ticker, asOf),
+    ...extras(f.fy, shares ? shares * row.raw : null, asOf),
     ttmThrough: f.ttm.through || null,
     fundamentals: f,
   };

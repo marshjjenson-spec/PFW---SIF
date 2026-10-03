@@ -758,7 +758,8 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   const fmtDate = iso => { if (!iso) return "—"; const [y, m, d] = String(iso).slice(0, 10).split("-").map(Number); return MON[m - 1] + " " + d + ", " + y; };
   const shares = v => Number(v).toLocaleString("en-US", { maximumFractionDigits: 4 });
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const safeUrl = u => { if (!u || !/^https?:\/\//i.test(String(u).trim())) return null; try { return new URL(String(u).trim()).href; } catch (e) { return null; } };
+  // Full https links, or this site's own report pages (/reports/...).
+  const safeUrl = u => { const s = String(u || "").trim(); if (!/^https?:\/\//i.test(s) && !/^\/reports\/[\w.-]*$/.test(s)) return null; try { return new URL(s, location.origin).href; } catch (e) { return null; } };
   const linkOut = (u, label, extra) => { const h = safeUrl(u); return h ? '<a class="link-out' + (extra ? " " + extra : "") + '" href="' + esc(h) + '" target="_blank" rel="noopener">' + label + "</a>" : ""; };
 
   /* ---------------- Data (Supabase, read-only) ---------------- */

@@ -817,7 +817,8 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   const money = (v, d = 2) => has(v) ? (v < 0 ? minus : "") + "$" + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }) : "—";
   const cls = v => !has(v) || Math.abs(v) < 5e-4 ? "" : v > 0 ? "pos" : "neg";
   const fmtDate = iso => { if (!iso) return "—"; const [y, m, d] = String(iso).slice(0, 10).split("-").map(Number); return MON[m - 1] + " " + d + ", " + y; };
-  const safeUrl = u => { if (!u || !/^https?:\/\//i.test(String(u).trim())) return null; try { return new URL(String(u).trim()).href; } catch (e) { return null; } };
+  // Full https links, or this site's own report pages (/reports/...).
+  const safeUrl = u => { const s = String(u || "").trim(); if (!/^https?:\/\//i.test(s) && !/^\/reports\/[\w.-]*$/.test(s)) return null; try { return new URL(s, location.origin).href; } catch (e) { return null; } };
   const linkOut = (u, label, style) => { const h = safeUrl(u); return h ? '<a class="link-out" href="' + esc(h) + '" target="_blank" rel="noopener"' + (style ? ' style="' + style + '"' : "") + ">" + label + "</a>" : ""; };
   const decTag = d => d ? '<span class="dtag ' + esc(d.toLowerCase().replace(/\s+/g, "-")) + '">' + (d === "Approved" ? '<svg width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' : "") + esc(d) + "</span>" : "";
 

@@ -1,7 +1,7 @@
 # Alphabet Inc. (GOOGL): Initiation
 
 **PFW-SIF Equity Research · Communication Services team**
-**Published:** January 5, 2016 · **Rating:** Buy · **Price at pitch:** ~$742 · **12-month target:** $900
+**Published:** January 5, 2016 · **Rating:** Buy · **Price at pitch:** $761.53 · **12-month target:** $900
 **Investment committee:** Approved, January 7, 2016 · **Executed:** January 11, 2016 at $733.07
 
 > Facts in this report are limited to what was public on the publication date. Prepared for the PFW-SIF student investment fund (simulated portfolio). Educational only; not investment advice.
@@ -28,7 +28,7 @@ We recommend initiating a position in Alphabet Class A shares. Search is shiftin
 - **Currency.** A strong dollar reduces reported growth.
 
 ## Valuation and target
-A 24x multiple on our 2016 earnings estimate, plus net cash, implies about **$900** per share, roughly 21% upside.
+A 24x multiple on our 2016 earnings estimate, plus net cash, implies about **$900** per share, roughly 18% upside.
 
 ## Committee vote
 Approved, January 7, 2016. At the same meeting, the committee declined the Intel pitch, preferring Alphabet's higher growth.

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Join the Fund | PFW-SIF</title>
+<meta name="description" content="How to join the Purdue Fort Wayne Student Investment Fund: who can apply, what members do, the time commitment and the application steps.">
+<meta name="theme-color" content="#1F2328">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Cormorant+Garamond:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/config.js"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"></div></header>
+<div class="strip"><div class="wrap"><b>Join the fund</b><span>Open to Purdue Fort Wayne students in any major</span></div></div>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Membership</p>
+      <h1>Learn investing by doing it, <em>in front of a committee.</em></h1>
+      <p class="lede">Members research real companies, write reports, pitch to the investment committee and help manage the fund's portfolio. You do not need to be a finance major or have investing experience; you need curiosity, reliability and a willingness to have your work questioned.</p>
+      <div style="margin-top:26px;display:flex;flex-wrap:wrap;gap:12px" id="apply-row"></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="eyebrow">What you get</p><h2>Why students join</h2></div></div>
+      <div class="grid g4">
+        <div class="card top"><h3>Real analyst work</h3><p>Financial modeling, valuation, industry research and written reports, the core skills of equity research and asset management jobs.</p></div>
+        <div class="card top"><h3>A public track record</h3><p>Your reports are published on this site with their price targets and results, something concrete to show employers.</p></div>
+        <div class="card top"><h3>Presentation practice</h3><p>Pitching to the committee and defending a thesis under questioning builds the skills interviews test.</p></div>
+        <div class="card top"><h3>Leadership</h3><p>Members can move up to sector lead and officer roles that run the portfolio, risk and operations.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="eyebrow">Expectations</p><h2>What members do</h2></div></div>
+      <div class="grid g2">
+        <div class="card"><p class="k">Every week</p><ul><li>Attend the weekly fund meeting (about one hour).</li><li>Work with your sector team on coverage and research (two to four hours).</li><li>Follow news on the companies your team covers or holds.</li></ul></div>
+        <div class="card"><p class="k">Every semester</p><ul><li>Contribute to at least one initiation report or position review.</li><li>Present a pitch or review to the investment committee.</li><li>Take part in the annual review of the holdings your team covers.</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="eyebrow">How to apply</p><h2>Four steps</h2></div></div>
+      <div class="steps">
+        <div class="step"><div><h3>Apply</h3><span class="who">Start of each semester</span></div><p>Submit a short application: your major and year, why you want to join, and which sectors interest you. A résumé is welcome but not required.</p></div>
+        <div class="step"><div><h3>Stock idea</h3><span class="who">One page</span></div><p>Write one page on a company you think is worth owning or avoiding: what it does, why the market might be wrong about it, and one risk. Clear thinking matters more than polish.</p></div>
+        <div class="step"><div><h3>Conversation</h3><span class="who">About 20 minutes</span></div><p>Talk with two fund officers about your idea and your interests. There are no trick questions and no finance quiz.</p></div>
+        <div class="step"><div><h3>Onboarding</h3><span class="who">First two weeks</span></div><p>New members join a sector team, learn the fund's report template and valuation model, and shadow a committee meeting before presenting.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="cta"><div><h3>Questions before you apply?</h3><p>Read the FAQ, or see the kind of work members do in the research library.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="/faq">Read the FAQ</a><a class="btn" href="/reports/" style="background:transparent;color:#fff;border:1px solid var(--border-dark)">See the research</a></div></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot"></footer>
+<script src="/assets/site.js"></script>
+<script>
+(function () {
+  const { config: c, fmt, $ } = window.PFW;
+  const row = $("apply-row");
+  if (c.applyUrl) row.innerHTML = '<a class="btn" href="' + fmt.esc(c.applyUrl) + '">Apply now</a>';
+  else if (c.contactEmail) row.innerHTML = '<a class="btn" href="mailto:' + fmt.esc(c.contactEmail) + '?subject=' + encodeURIComponent("PFW-SIF membership") + '">Email the fund to apply</a>';
+  else row.innerHTML = '<p class="notice" style="margin:0"><b>Applications open at the start of each semester.</b> The application link will appear here when it opens.</p>';
+  row.innerHTML += '<a class="btn ghost" href="/team">See open roles</a>';
+})();
+</script>
+</body>
+</html>

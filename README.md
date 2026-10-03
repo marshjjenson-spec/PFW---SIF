@@ -115,6 +115,22 @@ Each research report has its own page on the site, for example `/reports/amd-202
 - Rebuild the pages after editing either file: `node tools/build-reports.mjs`.
 - The Research and Holdings tabs link to these pages (`report_url` and `thesis_url` hold paths like `/reports/aapl-2026-review`). `research-reports/` keeps Markdown copies of the same research.
 
+## Other pages
+
+| Page | What it shows | Where its content comes from |
+|---|---|---|
+| `/quarterly` | A review of every quarter: return vs the S&P 500 TR, contribution by position, quarter-end holdings, research published | Built live from `monthly_returns` and the `monthly_positions` and `research` snapshots |
+| `/process` | Investment philosophy, the seven-step process, the investment policy and a live check of each policy limit | Text in `site/process.html`; limits from `fund_profile.policy` |
+| `/team` | Officer roles, the 11 sector teams (with live report counts and holdings) and committee rules | Names in `site/data/team.json` (empty name = "Open") |
+| `/about` | Mission, how the fund works, live fund facts and a timeline from the trade ledger | `fund_profile` and the `holdings` snapshot |
+| `/join` | Membership, expectations and the application steps | Set `applyUrl` or `contactEmail` in `site/config.js` to show an Apply button |
+| `/faq`, `/disclosures` | Common questions; simulated-performance, methodology, no-advice and privacy disclosures | Text in the page files |
+| `/404` | Shown for any address that does not exist | |
+
+Shared header, mobile menu and footer for these pages: `site/assets/site.css` and `site/assets/site.js`. The Holdings and Research pages also load `site/assets/mobile-nav.js` for a Menu button on phones.
+
+**Month hover on the Performance page.** Hovering a month in the monthly returns table shows each position's month-end value and its gain or loss for that month. The nightly job publishes this as the `monthly_positions` snapshot (`monthEndPositions` in `core.ts`).
+
 ## Pitch pipeline (`research_pipeline` table)
 
 `ticker`, `company`, `team`, `stage` (`Researching`, `Pitch scheduled` or `Committee vote`), `pitch_date`, `idea`. Delete the row once the company is pitched and add a research report instead.

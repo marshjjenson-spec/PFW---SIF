@@ -1,0 +1,25 @@
+{
+  "_how_to_edit": "Put a member's name in \"name\" (and optionally \"major\" and \"year\"). Leave name empty to show the role as Open. Sector teams use the GICS sector names. Then reload the Team page.",
+  "semester": "Fall 2026",
+  "leadership": [
+    { "role": "Portfolio Manager", "name": "", "major": "", "year": "", "duty": "Runs the portfolio day to day, sizes positions within policy limits and executes approved trades." },
+    { "role": "Chief Investment Officer", "name": "", "major": "", "year": "", "duty": "Chairs the investment committee and sets the research agenda across sector teams." },
+    { "role": "Chief Risk Officer", "name": "", "major": "", "year": "", "duty": "Monitors concentration, beta, drawdowns and policy compliance, independent of the pitching teams." },
+    { "role": "Director of Research", "name": "", "major": "", "year": "", "duty": "Edits every report for quality and consistency and maintains the pitch pipeline." },
+    { "role": "Director of Operations", "name": "", "major": "", "year": "", "duty": "Keeps the trade ledger, data job and website accurate, and runs recruiting." },
+    { "role": "Faculty Advisor", "name": "", "major": "", "year": "", "duty": "Advises the fund, approves the investment policy and attends committee meetings." }
+  ],
+  "sector_teams": [
+    { "sector": "Information Technology", "lead": "", "analysts": [] },
+    { "sector": "Communication Services", "lead": "", "analysts": [] },
+    { "sector": "Consumer Discretionary", "lead": "", "analysts": [] },
+    { "sector": "Consumer Staples", "lead": "", "analysts": [] },
+    { "sector": "Health Care", "lead": "", "analysts": [] },
+    { "sector": "Financials", "lead": "", "analysts": [] },
+    { "sector": "Industrials", "lead": "", "analysts": [] },
+    { "sector": "Energy", "lead": "", "analysts": [] },
+    { "sector": "Materials", "lead": "", "analysts": [] },
+    { "sector": "Utilities", "lead": "", "analysts": [] },
+    { "sector": "Real Estate", "lead": "", "analysts": [] }
+  ]
+}

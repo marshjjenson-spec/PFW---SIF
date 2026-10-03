@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Team | PFW-SIF</title>
+<meta name="description" content="How PFW-SIF is organized: leadership roles, eleven sector teams aligned with the S&amp;P 500, and the investment committee that votes on every pitch.">
+<meta name="theme-color" content="#1F2328">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Cormorant+Garamond:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/config.js"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"></div></header>
+<div class="strip"><div class="wrap"><b>Team</b><span id="semester">Leadership · sector teams · investment committee</span></div></div>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Who runs the fund</p>
+      <h1>Students make every decision, <em>and sign their names to it.</em></h1>
+      <p class="lede">PFW-SIF is organized like an investment firm. Sector teams cover the market and write research, an investment committee votes on every pitch, and a small leadership group runs the portfolio, the risk checks and the fund's operations.</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="eyebrow">Leadership</p><h2>Officers and advisor</h2></div><p class="aside">Open roles are filled each semester. <a href="/join">See how to join.</a></p></div>
+      <div class="grid g3" id="leaders"><p class="loading">Loading the team…</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="eyebrow">Sector teams</p><h2>Eleven teams, one per S&amp;P 500 sector</h2></div><p class="aside">Coverage and holdings update from the fund's research and holdings data.</p></div>
+      <div class="table-wrap"><table class="t" id="sectors"><thead><tr><th>Sector</th><th>Team lead</th><th>Analysts</th><th class="r">Reports</th><th>Held</th></tr></thead><tbody><tr><td colspan="5" class="loading">Loading…</td></tr></tbody></table></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="eyebrow">Governance</p><h2>The investment committee</h2></div></div>
+      <div class="grid g3">
+        <div class="card top"><h3>Who votes</h3><p>The Chief Investment Officer (chair), the Portfolio Manager, the Chief Risk Officer, the Director of Research and the sector team leads. The faculty advisor attends and may comment but does not vote.</p></div>
+        <div class="card top"><h3>How a vote works</h3><p>The pitching team presents and takes questions. A simple majority of members present approves. Members of the pitching team do not vote on their own pitch. Every vote is recorded with the report.</p></div>
+        <div class="card top"><h3>What it decides</h3><p>New positions, additions, trims and exits; changes to the investment policy; and the annual review of every holding against its original thesis.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot"></footer>
+<script src="/assets/site.js"></script>
+<script>
+(async function () {
+  const { snapshot, fmt, $ } = window.PFW;
+  const esc = fmt.esc;
+  let team = null, research = null, holdings = null;
+  try { team = await (await fetch("/data/team.json", { cache: "no-cache" })).json(); } catch (e) { team = null; }
+  try { [research, holdings] = await Promise.all([snapshot("research"), snapshot("holdings")]); } catch (e) {}
+  if (!team) { $("leaders").innerHTML = '<p class="loading">The team list could not be loaded.</p>'; return; }
+  if (team.semester) $("semester").textContent = team.semester + " · leadership · sector teams · investment committee";
+  $("leaders").innerHTML = team.leadership.map((r) => '<div class="card role"><p class="k">' + esc(r.role) + "</p>" + (r.name ? '<h3>' + esc(r.name) + "</h3>" + (r.major || r.year ? '<p class="muted" style="margin:0;font-size:13px">' + esc([r.major, r.year].filter(Boolean).join(" · ")) + "</p>" : "") : '<h3 style="color:var(--fg-2)">Position open</h3>') + '<p style="margin-top:8px">' + esc(r.duty) + "</p>" + (r.name ? "" : '<a class="open" href="/join" style="text-decoration:none">Apply</a>') + "</div>").join("");
+  const cov = {}; for (const c of (research && research.coverage) || []) cov[c.sector] = c;
+  const held = {}; for (const p of (holdings && holdings.positions) || []) (held[p.sector] ||= []).push(p.t);
+  $("sectors").querySelector("tbody").innerHTML = team.sector_teams.map((s) => {
+    const c = cov[s.sector];
+    const analysts = (s.analysts || []).filter(Boolean);
+    return "<tr><td><b>" + esc(s.sector) + "</b></td><td>" + (s.lead ? esc(s.lead) : '<span class="muted">Open</span>') + "</td><td>" + (analysts.length ? esc(analysts.join(", ")) : '<span class="muted">Recruiting</span>') + '</td><td class="r">' + (c ? c.reports + '<br><span class="muted" style="font-size:12px">latest ' + fmt.date(c.latest) + "</span>" : '<span class="muted">0</span>') + "</td><td>" + (held[s.sector] ? held[s.sector].map(esc).join(", ") : '<span class="muted">—</span>') + "</td></tr>";
+  }).join("");
+})();
+</script>
+</body>
+</html>

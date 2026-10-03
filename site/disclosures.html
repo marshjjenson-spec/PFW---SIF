@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Disclosures | PFW-SIF</title>
+<meta name="description" content="Important disclosures for the PFW-SIF website: simulated performance, methodology, data sources, no investment advice, and privacy.">
+<meta name="theme-color" content="#1F2328">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Cormorant+Garamond:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/config.js"></script>
+</head>
+<body>
+<header class="site"><div class="wrap"></div></header>
+<div class="strip"><div class="wrap"><b>Disclosures</b><span>Please read before relying on anything on this site</span></div></div>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Important information</p>
+      <h1>Disclosures</h1>
+      <p class="lede" id="status">The Purdue Fort Wayne Student Investment Fund is an educational program. This site reports a simulated portfolio.</p>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:20px">
+    <div class="wrap prose">
+      <h2 style="font-size:28px;margin-bottom:10px">Simulated performance</h2>
+      <p>Unless a page states otherwise, performance shown on this site is simulated. It is calculated from a paper portfolio using actual historical closing prices, dividends and stock splits, and does not represent the results of actual trading or assets under management. Simulated results have inherent limits: they do not reflect trading costs beyond any commissions recorded, market impact, taxes, or the effect of real-money decisions under pressure, and parts of the record were reconstructed after the fact. Past performance, simulated or actual, does not guarantee future results.</p>
+
+      <h2 style="font-size:28px;margin:30px 0 10px">Retrospective research</h2>
+      <p>Research reports dated before the fund's launch are retrospective case studies. They are written using only information that was public on the report date, and the investment committee votes recorded with them are part of the simulation.</p>
+
+      <h2 style="font-size:28px;margin:30px 0 10px">Not investment advice</h2>
+      <p>Nothing on this site is investment, legal, tax or accounting advice, an offer to buy or sell any security, or a recommendation that any security is suitable for any person. Ratings and price targets are student opinions produced for education. Do your own research and consult a licensed professional before investing.</p>
+
+      <h2 style="font-size:28px;margin:30px 0 10px">Methodology and data</h2>
+      <p>The portfolio is valued at each market close from the trade ledger. Monthly returns use the Modified Dietz method; longer-period returns compound monthly returns. The benchmark is the S&amp;P 500 Total Return, measured with SPY adjusted closing prices. Risk statistics use monthly returns and the risk-free rate shown on the Performance page. Prices, dividends and splits come from Tiingo; company financials in research reports come from SEC EDGAR filings. Data may contain errors or delays, and figures may be restated if source data is corrected.</p>
+
+      <h2 style="font-size:28px;margin:30px 0 10px">Affiliation</h2>
+      <p>PFW-SIF is a student organization at Purdue University Fort Wayne's Doermer School of Business. Views on this site are those of the student members and do not necessarily reflect the views of the university or its faculty.</p>
+
+      <h2 style="font-size:28px;margin:30px 0 10px">Privacy</h2>
+      <p>This site does not use cookies, analytics or advertising trackers, and it does not collect personal information. Pages load fonts from Google Fonts and read public fund data from the fund's database. Your browser may remember small display preferences locally.</p>
+
+      <p class="muted" style="margin-top:30px;font-size:13px" id="asof"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot"></footer>
+<script src="/assets/site.js"></script>
+<script>
+(async function () {
+  const { get, fmt, $ } = window.PFW;
+  try {
+    const [p] = await get("fund_profile?select=performance_type,data_through,risk_free_rate,risk_free_source&id=eq.1");
+    if (!p) return;
+    const live = p.performance_type === "live" || p.performance_type === "actual";
+    $("status").textContent = live
+      ? "The Purdue Fort Wayne Student Investment Fund is an educational program. Performance on this site reflects the fund's actual holdings."
+      : "The Purdue Fort Wayne Student Investment Fund is an educational program. This site currently reports a simulated portfolio.";
+    $("asof").textContent = "Performance type: " + (live ? "fund" : "simulated") + " · data through " + fmt.date(p.data_through) + " · risk-free rate " + fmt.pct(Number(p.risk_free_rate) || 0, 2, false) + " (" + (p.risk_free_source || "not configured") + ").";
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

@@ -29,7 +29,7 @@ We recommend initiating a position in Apple. The market is pricing Apple as if t
 - **New categories unproven.** Apple Watch has not yet shown it can be another major product line.
 
 ## Valuation and target
-Applying a 13x multiple to our estimate of normalized earnings of about $9 per share, plus net cash of roughly $15 per share, gives about **$135**, or ~26% upside before dividends.
+Applying a 13x multiple to normalized earnings of about $9 per share ($117) and adding roughly $24 of net cash per share, less about $6 for the US tax on repatriating overseas cash, gives about **$135**, or ~26% upside before dividends.
 
 ## What would make us sell
 Two consecutive years of a shrinking installed base, a cut to the capital return program, or Services growth falling below the growth of the device base.

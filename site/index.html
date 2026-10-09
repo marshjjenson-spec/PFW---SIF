@@ -3,1321 +3,469 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Performance | PFW-SIF</title>
-<meta name="description" content="Purdue Fort Wayne Student Investment Fund performance against the S&amp;P 500 Total Return: headline returns, risk statistics, drawdowns and calendar history.">
-<meta property="og:title" content="PFW-SIF Performance">
-<meta property="og:description" content="Every return, benchmarked. Every method, disclosed.">
+<title>PFW-SIF | Purdue Fort Wayne Student Investment Fund</title>
+<meta name="description" content="The Purdue Fort Wayne Student Investment Fund: students research, pitch and manage an equity portfolio against the S&amp;P 500 Total Return, with every result published.">
+<meta property="og:title" content="PFW-SIF · Purdue Fort Wayne Student Investment Fund">
+<meta property="og:description" content="Students research, pitch and manage a portfolio against the S&amp;P 500, and publish every result.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#1F2328">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Cormorant+Garamond:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
 <style>
-html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; }
-img { max-width: 100%; }
-[hidden] { display: none !important; }
-/* Layout: the front page of an institutional research report — charcoal masthead, ivory body, hairline rules; one measurement window drives analytics and the chart; full-history tables and a methodology appendix close it. */
-/* PFW-SIF institutional design system */
-:root {
-  --gold: #CFB991;          /* PFW Gold: brand accent, active states, PFW-SIF line */
-  --gold-dark: #B49A6C;     /* PFW Dark Gold: hover, secondary accents, reference lines */
-  --gold-light: #E7DFCF;    /* PFW Light Gold: subtle highlights, active controls */
-  --charcoal: #1F2328;      /* Deep Charcoal */
-  --near-black: #14171A;    /* Near Black */
-  --slate: #343A40;         /* Slate */
-  --slate-2: #4F565D;       /* Institutional Gray: paragraphs, benchmark line */
-  --muted: #697078;         /* Muted Slate */
-  --light-slate: #9AA1A8;   /* Light Slate */
-  --ivory: #F7F5F0;         /* main background */
-  --warm-white: #FBFAF7;    /* secondary surfaces */
-  --white: #FFFFFF;         /* charts, tables */
-  --border: #D9D5CC;
-  --border-light: #E8E5DE;
-  --border-dark: #3A3F44;
-  /* roles */
-  --bg: var(--ivory);
-  --paper: var(--white);
-  --soft: var(--warm-white);
-  --surface: var(--ivory);
-  --fg: var(--charcoal);
-  --fg-strong: var(--near-black);
-  --fg-h3: var(--slate);
-  --fg-p: var(--slate-2);
-  --fg-2: var(--muted);
-  --fg-3: var(--light-slate);
-  --line: var(--border);
-  --line-2: var(--border-light);
-  --gold-wash: var(--gold-light);
-  --gold-text: var(--gold-dark);
-  --c-p: var(--gold);
-  --c-b: var(--slate-2);
-  --c-ref: var(--gold-dark);
-  --c-grid: var(--border-light);
-  --pos: #287A52; --pos-dark: #1F6241; --pos-wash: #E6F0EA;
-  --neg: #A44747; --neg-dark: #863838; --neg-wash: #F3E8E6;
-  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --f-num: "Cormorant Garamond", "Times New Roman", Times, serif;
-  --f-display: "Cormorant Garamond", "Times New Roman", Times, serif;
-  --maxw: 1320px;
-  --r: 6px;
-}
-/* Single light look by design: ivory/white surfaces in every viewer theme. */
-:root, :root[data-theme="dark"] { color-scheme: light; }
+/* Home page: charcoal hero with live numbers, ticker tape, interactive growth chart,
+   "what if" calculator, portfolio donut, research highlights and the process. */
+.home-hero { position: relative; overflow: hidden; background: var(--charcoal); color: #fff; padding-block: 76px 64px; isolation: isolate; }
+.home-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .5;
+  background-image: linear-gradient(rgba(207,185,145,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(207,185,145,.08) 1px, transparent 1px);
+  background-size: 48px 48px; mask-image: radial-gradient(ellipse at 70% 30%, #000 0%, transparent 70%); }
+.home-hero .spark { position: absolute; right: -40px; top: 60px; width: min(720px, 62vw); height: 300px; z-index: -1; opacity: .5; }
+.live { position: relative; background: linear-gradient(180deg, rgba(31,35,40,0) 0, rgba(31,35,40,.85) 28px); }
+.home-hero .spark path.f { fill: url(#heroFill); }
+.home-hero .spark path.l { fill: none; stroke: var(--gold); stroke-width: 2.2; stroke-dasharray: 2600; stroke-dashoffset: 2600; animation: draw 2.6s ease-out .3s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.home-hero .eyebrow { color: var(--gold); }
+.home-hero h1 { color: #fff; font-size: clamp(42px, 6vw, 76px); line-height: 1.02; letter-spacing: -0.015em; max-width: 15ch; margin-top: 16px; }
+.home-hero h1 em { font-style: normal; color: var(--gold); }
+.home-hero .lede { color: #C9CDD1; max-width: 58ch; font-size: 17px; margin-top: 20px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.hero-actions .ghost-d { background: transparent; color: #fff; border: 1px solid #4a5057; }
+.hero-actions .ghost-d:hover { border-color: var(--gold); color: #fff; background: rgba(255,255,255,.04); }
+.live { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 48px; border-top: 1px solid #3A3F44; }
+.live > div { padding: 18px 22px 4px 0; }
+.live > div + div { padding-left: 22px; border-left: 1px solid #3A3F44; }
+.live dt { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #9AA1A8; }
+.live dd { margin: 6px 0 0; font-family: var(--f-num); font-size: clamp(30px, 3.4vw, 44px); font-weight: 600; color: #fff; line-height: 1; }
+.live dd.pos { color: #7FC59E; } .live dd.neg { color: #E08E8E; }
+.live small { display: block; margin-top: 6px; font-size: 12px; color: #9AA1A8; }
+@media (max-width: 760px) { .live { grid-template-columns: repeat(2, minmax(0, 1fr)); } .live > div:nth-child(3) { border-left: 0; padding-left: 0; } .live > div:nth-child(n+3) { border-top: 1px solid #3A3F44; } }
+.sim-tag { display: inline-block; margin-top: 22px; font-size: 11.5px; color: #9AA1A8; border: 1px solid #3A3F44; border-radius: 999px; padding: 5px 12px; }
+.sim-tag a { color: var(--gold); }
 
-* { box-sizing: border-box; }
-body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
-h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-wrap: balance; margin: 0; }
-p { margin: 0; }
-button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.num { font-family: var(--f-num); font-variant-numeric: lining-nums tabular-nums; }
-.eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-2); }
-.pos { color: var(--pos); } .neg { color: var(--neg); }
-.muted { color: var(--fg-2); }
-.wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: 40px; }
-@media (max-width: 760px) { .wrap { padding-inline: 16px; } }
+/* Ticker tape */
+.tape { background: var(--near-black); border-top: 1px solid #2A2F34; border-bottom: 2px solid var(--gold); overflow: hidden; white-space: nowrap; }
+.tape .track { display: inline-flex; gap: 0; animation: tape 40s linear infinite; padding-block: 11px; }
+.tape:hover .track { animation-play-state: paused; }
+.tape a { display: inline-flex; align-items: baseline; gap: 10px; padding-inline: 26px; color: #D4D7DA; text-decoration: none; font-size: 13px; border-right: 1px solid #2A2F34; }
+.tape a b { color: #fff; letter-spacing: .04em; }
+.tape a .px { font-variant-numeric: tabular-nums; }
+.tape a .ch.pos { color: #7FC59E; } .tape a .ch.neg { color: #E08E8E; }
+.tape a:hover b { color: var(--gold); }
+@keyframes tape { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .tape .track { animation: none; } .home-hero .spark path.l { animation: none; stroke-dashoffset: 0; } }
 
-/* Masthead (charcoal) */
-.site { background: var(--charcoal); color: #FFFFFF; border-bottom: 1px solid var(--border-dark); position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; }
-.site .wrap { display: flex; align-items: center; gap: 28px; min-height: 60px; }
-.mark { display: flex; flex-direction: column; line-height: 1; gap: 5px; }
-.mark b { font-family: var(--f-display); font-weight: 700; font-size: 21px; letter-spacing: 0.04em; }
-.mark span { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
-.nav { display: flex; gap: 26px; margin-left: auto; font-size: 13px; font-weight: 500; letter-spacing: 0.01em; }
-.nav a { color: var(--light-slate); text-decoration: none; transition: color .15s; }
-.nav a:hover { color: #FFFFFF; }
-.nav a[aria-current] { color: #FFFFFF; box-shadow: inset 0 -2px 0 var(--gold); }
-.nav span { color: var(--light-slate); white-space: nowrap; padding-block: 6px; }
-.nav span[aria-current] { color: #FFFFFF; box-shadow: inset 0 -2px 0 var(--gold); }
-.apply { text-decoration: none; background: var(--gold); color: var(--charcoal); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 9px 16px; border-radius: 4px; white-space: nowrap; }
-@media (max-width: 980px) { .nav { display: none; } .apply { margin-left: auto; } }
-@media (max-width: 980px) {
-  .site .wrap { flex-wrap: wrap; row-gap: 0; }
-  .nav { display: flex; order: 3; width: 100%; margin-left: 0; gap: 22px; overflow-x: auto; scrollbar-width: none; border-top: 1px solid rgba(255,255,255,0.08); }
-  .nav::-webkit-scrollbar { display: none; }
-  .nav a { padding-block: 11px; white-space: nowrap; }
-}
+/* Growth chart */
+.chart-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 20px 14px; }
+.chart-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+.legend-h { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; color: var(--fg-2); }
+.legend-h span { display: inline-flex; align-items: center; gap: 8px; }
+.legend-h i { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
+.legend-h b { color: var(--fg); font-family: var(--f-num); font-size: 19px; }
+#growth { position: relative; }
+#growth svg { width: 100%; height: auto; display: block; touch-action: pan-y; }
+#growth .grid-l { stroke: var(--line-2); }
+#growth .ax-t { font: 11px var(--f-body); fill: var(--fg-2); }
+#growth .l-fund { fill: none; stroke: var(--gold-dark); stroke-width: 2.5; stroke-linejoin: round; }
+#growth .l-bench { fill: none; stroke: var(--slate-2); stroke-width: 1.6; stroke-linejoin: round; opacity: .8; }
+#growth .a-fund { fill: url(#fundFill); }
+#growth .xh { stroke: var(--charcoal); stroke-width: 1; stroke-dasharray: 3 3; }
+#growth .dot-f { fill: var(--gold-dark); stroke: #fff; stroke-width: 2; }
+#growth .dot-b { fill: var(--slate-2); stroke: #fff; stroke-width: 2; }
+.g-tip { position: absolute; pointer-events: none; background: var(--charcoal); color: #fff; border-radius: 5px; padding: 10px 12px; font-size: 12.5px; min-width: 190px; box-shadow: 0 8px 20px rgba(0,0,0,.18); transform: translate(-50%, -100%); white-space: nowrap; }
+.g-tip b { display: block; font-family: var(--f-display); font-size: 16px; color: var(--gold); margin-bottom: 4px; }
+.g-tip div { display: flex; justify-content: space-between; gap: 14px; }
+.g-tip span.v { font-variant-numeric: tabular-nums; font-weight: 600; }
+.g-tip[hidden] { display: none; }
 
-/* Data status strip */
-.preview { background: var(--near-black); color: var(--light-slate); font-size: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
-.preview .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; padding-block: 8px; }
-.status-label { font-family: var(--f-body); font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 9px; }
-.status-label::before { content: ""; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+/* Calculator */
+.calc { display: grid; grid-template-columns: 1fr 1.2fr; gap: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.calc .in { padding: 26px; background: var(--soft); border-right: 1px solid var(--line); }
+.calc label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); margin: 0 0 8px; }
+.calc input[type=range] { width: 100%; accent-color: var(--gold-dark); }
+.calc .amt { font-family: var(--f-num); font-size: 34px; font-weight: 600; color: var(--fg-strong); margin-bottom: 4px; }
+.calc select { font: 500 15px var(--f-body); padding: 9px 12px; border: 1px solid var(--line); border-radius: 4px; background: #fff; color: var(--fg); width: 100%; }
+.calc .out { padding: 26px; display: grid; gap: 16px; align-content: center; }
+.calc .res { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.calc .res div { border-top: 3px solid var(--gold-dark); padding-top: 10px; }
+.calc .res div.b { border-top-color: var(--slate-2); }
+.calc .res dt { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); }
+.calc .res dd { margin: 4px 0 0; font-family: var(--f-num); font-size: clamp(30px, 3.5vw, 42px); font-weight: 600; color: var(--fg-strong); }
+.calc .res small { display: block; font-size: 13px; color: var(--fg-2); }
+.calc .bar { height: 10px; background: var(--line-2); border-radius: 5px; overflow: hidden; display: flex; }
+.calc .bar span { display: block; height: 100%; transition: width .5s ease; }
+@media (max-width: 760px) { .calc { grid-template-columns: 1fr; } .calc .in { border-right: 0; border-bottom: 1px solid var(--line); } }
 
-/* Segmented controls: thin, terminal-like */
-.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); overflow: hidden; }
-.seg button { border: 0; border-right: 1px solid var(--line-2); background: none; padding: 7px 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-2); cursor: pointer; position: relative; transition: color .18s, background-color .18s; }
-.seg button:last-child { border-right: 0; }
-.seg button:hover:not(:disabled) { color: var(--fg); background: var(--warm-white); box-shadow: inset 0 -1px 0 var(--gold-dark); }
-.seg button[aria-pressed="true"] { color: var(--fg); background: var(--gold-light); }
-.seg button[aria-pressed="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--gold); }
-.seg button:disabled { color: var(--fg-3); opacity: 0.5; cursor: not-allowed; }
-.seg.small button { padding: 6px 11px; font-size: 10.5px; }
+/* Donut */
+.mix { display: grid; grid-template-columns: 300px 1fr; gap: 36px; align-items: center; }
+@media (max-width: 820px) { .mix { grid-template-columns: 1fr; justify-items: center; } }
+.donut { position: relative; width: 300px; max-width: 100%; }
+.donut svg { width: 100%; height: auto; display: block; }
+.donut path { cursor: pointer; transition: transform .2s ease, opacity .2s; transform-origin: 150px 150px; }
+.donut path.dim { opacity: .35; }
+.donut path.on { transform: scale(1.04); }
+.donut .center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; pointer-events: none; }
+.donut .center b { font-family: var(--f-num); font-size: 34px; font-weight: 600; color: var(--fg-strong); line-height: 1; }
+.donut .center span { display: block; font-size: 12px; color: var(--fg-2); margin-top: 4px; max-width: 150px; }
+.mix-list { width: 100%; display: grid; gap: 0; border-top: 1px solid var(--fg); }
+.mix-list a { display: grid; grid-template-columns: 14px 64px 1fr auto auto; gap: 14px; align-items: center; padding: 13px 4px; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--fg); transition: background .15s; }
+.mix-list a:hover, .mix-list a.on { background: var(--soft); }
+.mix-list i { width: 12px; height: 12px; border-radius: 3px; }
+.mix-list b { letter-spacing: .03em; }
+.mix-list .nm { color: var(--fg-2); font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mix-list .w { font-family: var(--f-num); font-size: 20px; font-weight: 600; text-align: right; }
+.mix-list .g { font-size: 13px; text-align: right; min-width: 92px; }
 
-/* Report front page */
-.hero { padding-block: 64px 0; background: var(--bg); }
-.hero .rule { display: none; }
-.hero h1 { font-size: clamp(38px, 5vw, 60px); line-height: 1.04; letter-spacing: -0.01em; font-weight: 600; color: var(--fg-strong); margin-top: 14px; max-width: 26ch; }
-.hero h1 em { display: block; font-style: normal; font-weight: 600; color: var(--fg-2); }
-.hero .lede { max-width: 64ch; margin-top: 18px; font-size: 15.5px; line-height: 1.65; color: var(--fg-p); }
-.hero-rule { height: 2px; width: 64px; background: var(--gold); margin-top: 32px; }
-.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 28px 0 0; background: var(--soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.facts > div { padding: 14px 20px; min-width: 0; }
-.facts > div:first-child { padding-left: 16px; }
-.facts > div + div { border-left: 1px solid var(--line); }
-.facts dt { margin: 0; }
-.facts dd { margin: 5px 0 0; font-size: 15px; font-weight: 500; color: var(--fg); }
-.facts dd.num { font-weight: 600; font-size: 19px; }
-.facts dd .muted { font-size: 12px; font-weight: 400; }
-@media (max-width: 760px) { .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } .facts > div:nth-child(3) { border-left: 0; padding-left: 0; } .facts > div:nth-child(n+3) { border-top: 1px solid var(--line); } }
-.notice { display: grid; grid-template-columns: auto 1fr; gap: 6px 24px; align-items: baseline; margin-top: 24px; padding: 14px 18px; background: var(--soft); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; }
-.badge { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); white-space: nowrap; }
-.notice p { font-size: 13px; line-height: 1.5; color: var(--fg-2); max-width: 96ch; }
-@media (max-width: 620px) { .notice { grid-template-columns: 1fr; } }
+/* Research highlight cards */
+.rcard { display: flex; flex-direction: column; gap: 10px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 22px; text-decoration: none; color: var(--fg); transition: transform .2s ease, box-shadow .2s ease, border-color .2s; }
+.rcard:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(20,23,26,.08); border-color: var(--gold-dark); }
+.rcard .top { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-2); }
+.rcard .pill { color: #fff; background: var(--gold-dark); padding: 2px 8px; border-radius: 3px; letter-spacing: .08em; }
+.rcard .pill.hold { background: var(--slate-2); } .rcard .pill.no { background: var(--neg); }
+.rcard h3 { font-size: 23px; line-height: 1.15; }
+.rcard p { font-size: 14px; margin: 0; }
+.rcard .since { margin-top: auto; display: flex; gap: 18px; padding-top: 12px; border-top: 1px solid var(--line-2); font-size: 12px; color: var(--fg-2); }
+.rcard .since b { display: block; font-family: var(--f-num); font-size: 22px; font-weight: 600; }
+.score { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--fg); border-bottom: 1px solid var(--line); margin-top: 26px; }
+.score > div { padding: 16px 18px 16px 0; }
+.score > div + div { padding-left: 18px; border-left: 1px solid var(--line); }
+.score dt { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); }
+.score dd { margin: 6px 0 0; font-family: var(--f-num); font-size: 30px; font-weight: 600; }
+.score small { display: block; font-size: 12.5px; color: var(--fg-2); margin-top: 2px; }
+@media (max-width: 760px) { .score { grid-template-columns: 1fr; } .score > div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); } }
 
-/* Sections */
-section.block { padding-block: 64px; }
-section.block + section.block, .hero + section.block { border-top: 1px solid var(--line); }
-.hero + section.block { border-top: 0; }
-.sec-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 32px; margin-bottom: 24px; }
-.sec-head .eyebrow { display: inline-flex; align-items: center; gap: 10px; }
-.sec-head .eyebrow::before { content: ""; width: 14px; height: 2px; background: var(--gold-dark); }
-.sec-head h2 { font-size: clamp(27px, 2.8vw, 34px); line-height: 1.12; margin-top: 8px; }
-.sec-head .aside { font-size: 13px; color: var(--fg-2); max-width: 50ch; }
+/* Process tabs */
+.ptabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--fg); }
+.ptabs button { text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line); padding: 18px 16px 16px 0; cursor: pointer; font: inherit; color: var(--fg-2); position: relative; }
+.ptabs button b { display: block; font-family: var(--f-num); font-size: 30px; color: var(--fg-3); line-height: 1; margin-bottom: 6px; transition: color .2s; }
+.ptabs button span { font-family: var(--f-display); font-size: 22px; font-weight: 600; }
+.ptabs button[aria-selected="true"] { color: var(--fg-strong); }
+.ptabs button[aria-selected="true"] b { color: var(--gold-dark); }
+.ptabs button[aria-selected="true"]::after { content: ""; position: absolute; left: 0; right: 16px; bottom: -1px; height: 3px; background: var(--gold); }
+.ppanel { padding: 22px 0 0; display: grid; grid-template-columns: 1.4fr 1fr; gap: 30px; min-height: 120px; }
+.ppanel p { font-size: 16px; }
+.ppanel .ex { background: var(--soft); border: 1px solid var(--line); border-left: 3px solid var(--gold); padding: 14px 16px; font-size: 13.5px; color: var(--fg-2); border-radius: 0 4px 4px 0; }
+@media (max-width: 760px) { .ptabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ppanel { grid-template-columns: 1fr; } }
 
-/* Headline metrics */
-.cards { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--fg); border-bottom: 1px solid var(--line); }
-.card { padding: 18px 18px 20px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
-.card:first-child { padding-left: 0; }
-.card + .card { border-left: 1px solid var(--line-2); }
-.card .big { font-family: var(--f-num); font-variant-numeric: lining-nums; font-size: clamp(32px, 2.8vw, 40px); font-weight: 600; letter-spacing: -0.01em; color: var(--fg-strong); line-height: 1.05; }
-.card .big.na { color: var(--fg-3); }
-.card .sub { font-size: 12.5px; color: var(--fg-2); line-height: 1.6; }
-.card .sub .num { font-size: 15.5px; font-weight: 600; color: var(--fg-p); }
-.card .sub .num.pos { color: var(--pos); } .card .sub .num.neg { color: var(--neg); }
-@media (max-width: 1100px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } .card:nth-child(4) { border-left: 0; padding-left: 0; } .card:nth-child(n+4) { border-top: 1px solid var(--line-2); } }
-@media (max-width: 560px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } .card { padding: 14px 12px 16px; } .card:nth-child(odd) { border-left: 0; padding-left: 0; } .card:nth-child(even) { border-left: 1px solid var(--line-2); } .card:nth-child(n+3) { border-top: 1px solid var(--line-2); } .card .big { font-size: 24px; } }
-
-/* Measurement window */
-.window-bar { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 60px); z-index: 20; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-block: 1px solid var(--line); }
-.window-bar .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding-block: 10px; }
-.window-bar .range { font-size: 12.5px; color: var(--fg-2); }
-.window-bar .range .num { font-size: 16px; font-weight: 600; }
-.window-bar .range .num { color: var(--fg); font-weight: 500; }
-.window-bar .scope { font-size: 12px; color: var(--fg-3); margin-left: auto; max-width: 56ch; }
-@media (max-width: 1280px) { .window-bar .scope { display: none; } }
-@media (max-width: 700px) { .window-bar { position: static; } }
-
-/* Risk & return grid */
-.metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--fg); border-bottom: 1px solid var(--line); }
-.metric { padding: 18px 20px 18px; min-width: 0; border-right: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
-.metric:nth-child(4n+1) { padding-left: 0; }
-.metric:nth-child(4n) { border-right: 0; }
-.metric:nth-last-child(-n+4) { border-bottom: 0; }
-.metric .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.metric .val { font-family: var(--f-num); font-variant-numeric: lining-nums; font-size: 33px; font-weight: 600; letter-spacing: -0.01em; margin-top: 10px; line-height: 1.1; }
-.metric .val.na { color: var(--fg-3); }
-.metric .how { font-size: 12px; color: var(--fg-2); margin-top: 6px; }
-.metric .def { font-size: 12.5px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line-2); color: var(--fg-2); }
-.info { flex: none; width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--line); background: transparent; font-size: 10.5px; font-weight: 600; line-height: 1; color: var(--fg-2); cursor: pointer; transition: border-color .18s, color .18s; }
-.info:hover { border-color: var(--gold); color: var(--fg); }
-.info[aria-expanded="true"] { background: var(--fg); color: var(--paper); border-color: var(--fg); }
-.foot-note { font-size: 12px; color: var(--fg-2); margin-top: 14px; max-width: 120ch; }
-@media (max-width: 960px) { .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .metric { padding-left: 16px !important; } .metric:nth-child(odd) { padding-left: 0 !important; } .metric:nth-child(4n) { border-right: 1px solid var(--line-2); } .metric:nth-child(2n) { border-right: 0; } .metric:nth-last-child(-n+4) { border-bottom: 1px solid var(--line-2); } .metric:nth-last-child(-n+2) { border-bottom: 0; } }
-@media (max-width: 480px) { .metric .val { font-size: 22px; } }
-
-/* Main chart */
-.chart-band { padding-block: 64px; border-top: 1px solid var(--line); }
-.chart-panel { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); }
-.chart-controls { display: flex; flex-wrap: wrap; gap: 10px 16px; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--line-2); }
-.chart-title { padding: 20px 20px 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; align-items: baseline; }
-.chart-title h3 { font-size: 23px; font-weight: 600; color: var(--fg-h3); }
-.legend { display: flex; gap: 20px; font-size: 12px; color: var(--fg-2); flex-wrap: wrap; }
-.legend span { display: inline-flex; align-items: center; gap: 8px; }
-.legend i { display: inline-block; width: 18px; height: 2px !important; }
-.legend span:nth-child(2) i, .legend i.dash { background: repeating-linear-gradient(90deg, var(--c-b) 0 5px, transparent 5px 9px) !important; }
-.chart { position: relative; }
-.chart svg { display: block; width: 100%; overflow: visible; touch-action: pan-y; }
-.chart svg:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-#main-chart { padding: 8px 20px 4px; }
-.tip { position: static; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; min-height: 52px; margin-top: 6px; padding: 12px 16px; font-family: var(--f-body); font-size: 12px; background: var(--warm-white); color: var(--fg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line-2); border-left: 3px solid var(--line); font-variant-numeric: tabular-nums; transition: border-color .18s, background-color .18s; }
-.tip.live { border-left-color: var(--gold); background: #FFFFFF; }
-.tip:empty { display: none; }
-.tip .state { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-3); padding: 3px 7px; border: 1px solid var(--line); border-radius: 3px; }
-.tip.live .state { color: var(--gold-dark); border-color: var(--gold-light); background: var(--gold-light); }
-.tip .d { font-family: var(--f-display); font-size: 19px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--fg); margin: 0; padding: 0 22px 0 0; border: 0; border-right: 1px solid var(--line); line-height: 1.2; }
-.tip .r { display: inline-flex; align-items: baseline; gap: 10px; }
-.tip .r + .r { margin-left: 18px; }
-.tip .r .k { display: inline-flex; align-items: center; gap: 7px; font-family: var(--f-body); font-size: 12px; }
-.tip .r .k i { width: 10px; height: 2px; display: inline-block; }
-.tip .r .muted { font-family: var(--f-body); font-size: 11.5px; }
-.tip .grp { display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 4px 0; }
-.tip .grp + .grp { padding-left: 24px; border-left: 1px solid var(--line-2); }
-.tip .num { font-size: 17px; font-weight: 600; }
-@media (max-width: 640px) { .tip { gap: 8px 16px; } .tip .d { border-right: 0; padding-right: 0; width: 100%; } .tip .grp + .grp { padding-left: 0; border-left: 0; } }
-.chart-stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line-2); }
-.chart-stats > div { padding: 12px 20px; min-width: 0; }
-.chart-stats > div + div { border-left: 1px solid var(--line-2); }
-.chart-stats .eyebrow { font-size: 10px; }
-.chart-stats .v { font-family: var(--f-num); font-size: 20px; font-weight: 600; margin-top: 4px; font-variant-numeric: tabular-nums; }
-@media (max-width: 960px) { .chart-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } .chart-stats > div:nth-child(4) { border-left: 0; } .chart-stats > div:nth-child(n+4) { border-top: 1px solid var(--line-2); } }
-@media (max-width: 520px) { .chart-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .chart-stats > div { padding: 10px 14px; } .chart-stats > div:nth-child(odd) { border-left: 0; } .chart-stats > div:nth-child(4) { border-left: 1px solid var(--line-2); } .chart-stats > div:nth-child(n+3) { border-top: 1px solid var(--line-2); } #main-chart { padding-inline: 8px; } .chart-controls, .chart-title { padding-inline: 14px; } }
-.chart-note { font-size: 12px; color: var(--fg-2); padding: 12px 20px 14px; border-top: 1px solid var(--line-2); }
-
-/* Tables */
-.table-wrap { overflow-x: auto; background: var(--paper); border-top: 1px solid var(--fg); border-bottom: 1px solid var(--line); }
-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-th { text-align: right; font-size: 10.5px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--fg-2); padding: 11px 16px; border-bottom: 1px solid var(--line); white-space: nowrap; background: var(--paper); }
-th:first-child, td:first-child { text-align: left; padding-left: 14px; }
-td { padding: 10px 16px; border-bottom: 1px solid var(--line-2); text-align: right; white-space: nowrap; font-family: var(--f-num); font-size: 16.5px; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; color: var(--fg); }
-tbody tr:last-child td { border-bottom: 0; }
-tbody tr { transition: background-color .15s; }
-tbody tr:hover { background: var(--gold-wash); }
-td.yr { font-family: var(--f-body); font-weight: 600; font-size: 14px; color: var(--slate); }
-td.yr small { display: block; font-weight: 400; font-size: 11.5px; color: var(--fg-2); }
-td.bench { color: var(--fg-p); }
-td.spread { font-weight: 600; }
-td.barcell { width: 34%; min-width: 200px; padding-block: 8px; }
-.bars { position: relative; height: 20px; }
-.bars .axis { position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--line); }
-.bars .b { position: absolute; height: 6px; }
-.bars .b.p { top: 2px; background: var(--c-p); }
-.bars .b.s { top: 11px; background: var(--c-b); }
-.annual-controls { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-bottom: 16px; }
-
-/* Calendar-return table */
-.heat { min-width: 880px; border-collapse: collapse; }
-.heat th, .heat td { text-align: right; padding: 8px 10px; border: 0; border-bottom: 1px solid var(--line-2); }
-.heat th:first-child, .heat td:first-child, .heat th[scope="row"] { text-align: left; padding-left: 14px; }
-.heat th[scope="row"] { font-family: var(--f-body); font-size: 13.5px !important; font-weight: 600 !important; color: var(--fg) !important; background: transparent !important; letter-spacing: 0 !important; text-transform: none; }
-.heat td.c { font-size: 15.5px; color: var(--fg); }
-.heat td.c[data-y]:hover, .heat td.c[data-y]:focus-visible { box-shadow: inset 0 0 0 1px var(--gold); outline: none; }
-.heat td.empty { color: var(--fg-3); }
-.heat td.ytd { font-weight: 600; border-left: 1px solid var(--line); background: transparent; }
-.heat tbody tr:hover { background: transparent; }
-.heat-detail { margin-top: 12px; font-size: 12.5px; min-height: 22px; color: var(--fg-2); }
-.heat-detail b { color: var(--fg); font-weight: 600; }
-.heat-detail .num { font-size: 16px; font-weight: 600; }
-/* Month hover: each position's month-end value and change */
-.heat-tip { position: fixed; z-index: 60; width: 340px; max-width: calc(100vw - 24px); background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--gold); border-radius: var(--r); box-shadow: 0 10px 28px rgba(20, 23, 26, .16); padding: 12px 14px 10px; font-size: 12.5px; pointer-events: none; }
-.heat-tip[hidden] { display: none; }
-.heat-tip .tt-h { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; margin-bottom: 8px; }
-.heat-tip .tt-h b { font-family: var(--f-display); font-size: 18px; font-weight: 600; color: var(--fg-strong); }
-.heat-tip .tt-h span { font-size: 11px; color: var(--fg-2); }
-.heat-tip table { width: 100%; border-collapse: collapse; min-width: 0; }
-.heat-tip th { font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-2); text-align: right; padding: 0 0 4px 8px; border-bottom: 1px solid var(--line); background: transparent; }
-.heat-tip th:first-child, .heat-tip td:first-child { text-align: left; padding-left: 0; }
-.heat-tip td { text-align: right; padding: 4px 0 4px 8px; border-bottom: 1px solid var(--line-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.heat-tip td:first-child { font-weight: 600; color: var(--fg); }
-.heat-tip tr.tot td { font-weight: 600; border-bottom: 0; border-top: 1px solid var(--line); }
-.heat-tip tr.cash td { color: var(--fg-2); }
-.heat-tip .note { margin: 6px 0 0; font-size: 10.5px; color: var(--fg-2); }
-.scale { display: flex; align-items: center; gap: 6px; font-family: var(--f-num); font-size: 12px !important; font-size: 11px; color: var(--fg-2); }
-.scale span.sw { width: 24px; height: 8px; display: inline-block; border-radius: 1px; }
-
-/* Consistency + rolling */
-.consist { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--fg); border-bottom: 1px solid var(--line); }
-.consist > div { padding: 16px 18px 18px; min-width: 0; }
-.consist > div:first-child { padding-left: 0; }
-.consist > div + div { border-left: 1px solid var(--line-2); }
-.consist .eyebrow { min-height: 2.6em; font-size: 10.5px; }
-.consist .v { font-family: var(--f-num); font-size: 33px; font-weight: 600; letter-spacing: -0.02em; margin-top: 4px; font-variant-numeric: tabular-nums; }
-.consist .meter { height: 2px; background: var(--line-2); margin-top: 10px; position: relative; }
-.consist .meter i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--gold-dark); }
-.consist .n { font-size: 12px; color: var(--fg-2); margin-top: 8px; }
-@media (max-width: 1000px) { .consist { grid-template-columns: repeat(3, minmax(0, 1fr)); } .consist > div:nth-child(4) { border-left: 0; padding-left: 0; } .consist > div:nth-child(n+4) { border-top: 1px solid var(--line-2); } }
-@media (max-width: 560px) { .consist { grid-template-columns: repeat(2, minmax(0, 1fr)); } .consist > div { padding: 14px 12px; } .consist > div:nth-child(odd) { border-left: 0; padding-left: 0; } .consist > div:nth-child(4) { border-left: 1px solid var(--line-2); padding-left: 12px; } .consist > div:nth-child(n+3) { border-top: 1px solid var(--line-2); } }
-.minis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.mini { min-width: 0; background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px 6px; }
-.mini h3 { font-size: 21px; font-weight: 600; color: var(--fg-h3); }
-.mini .muted { font-size: 12px; padding-top: 2px; }
-@media (max-width: 960px) { .minis { grid-template-columns: 1fr; } }
-
-/* Methodology appendix */
-.method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 340px); gap: 48px; }
-@media (max-width: 900px) { .method { grid-template-columns: 1fr; } }
-details { border-top: 1px solid var(--line); }
-details:last-of-type { border-bottom: 1px solid var(--line); }
-summary { cursor: pointer; padding: 15px 0; font-size: 12px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; list-style: none; display: flex; justify-content: space-between; gap: 12px; align-items: center; transition: color .18s; }
-summary:hover { color: var(--gold-text); }
-summary::-webkit-details-marker { display: none; }
-summary::after { content: "+"; font-family: var(--f-mono); font-size: 15px; font-weight: 400; color: var(--fg-2); }
-details[open] > summary::after { content: "−"; }
-details .body { padding: 0 0 20px; font-size: 14.5px; line-height: 1.65; color: var(--fg-p); max-width: 74ch; display: grid; gap: 12px; }
-.formula { font-family: var(--f-mono); font-size: 12.5px; line-height: 1.75; background: var(--ivory); color: var(--slate); border: 1px solid var(--border-light); border-radius: 4px; padding: 12px 16px; overflow-x: auto; white-space: pre; }
-.sources { align-self: start; border-top: 1px solid var(--fg); background: var(--soft); padding: 0 16px 6px; }
-.sources > .eyebrow { padding: 12px 0 4px; }
-.sources dl { margin: 0; display: grid; }
-.sources dl > div { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line-2); align-items: baseline; }
-.sources dt { margin: 0; font-size: 10.5px; }
-.sources dd { margin: 0; font-size: 13px; }
-.sources dd.num { font-size: 16px; }
-.disclaimer { padding-block: 40px 48px; font-size: 12.5px; line-height: 1.5; color: var(--fg-2); display: grid; gap: 8px; max-width: 110ch; }
-.disclaimer strong { color: var(--fg); font-weight: 600; }
-footer.site-foot { background: var(--charcoal); color: #A9AEB4; font-size: 12px; }
-footer.site-foot { border-top: 2px solid var(--gold); }
-footer.site-foot .wrap { padding-block: 26px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
-
-/* Methodology: one full-width expandable bar */
-.method-all { border: 1px solid var(--line) !important; border-radius: var(--r); background: var(--paper); }
-.method-all > summary.method-btn { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 26px; font-size: inherit; letter-spacing: 0; text-transform: none; cursor: pointer; transition: background-color .18s; border-radius: var(--r); }
-.method-all > summary.method-btn:hover { background: var(--warm-white); }
-.method-all[open] > summary.method-btn { border-bottom: 1px solid var(--line-2); border-radius: var(--r) var(--r) 0 0; }
-.method-all > summary.method-btn::after { display: none; }
-.method-btn > span:first-child { display: grid; gap: 6px; }
-.method-title { font-family: var(--f-display); font-size: clamp(25px, 2.6vw, 31px); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); }
-.method-hint { flex: none; display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg); background: var(--gold-light); padding: 9px 14px; border-radius: 4px; box-shadow: inset 0 -2px 0 var(--gold); }
-.method-hint::after { content: ""; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .18s; }
-.method-all[open] .method-hint::after { transform: rotate(-135deg) translateY(-2px); }
-.method-all .when-open { display: none; }
-.method-all[open] .when-open { display: inline; }
-.method-all[open] .when-closed { display: none; }
-.method-body { padding: 4px 26px 8px; }
-.method-body details:first-child { border-top: 0; }
-.method-body details:last-of-type { border-bottom: 0; }
-.method-body details .body { max-width: none; }
-.method-body details .body p { max-width: 90ch; }
-@media (max-width: 560px) { .method-all > summary.method-btn { padding: 18px 16px; flex-wrap: wrap; } .method-body { padding-inline: 16px; } }
-.mini .tip { padding: 10px 12px; gap: 6px 18px; }
-.mini .tip .d { width: 100%; border-right: 0; padding-right: 0; font-size: 17px; }
-
-/* Complete borders: every metric grid and table sits in a closed frame */
-.cards, .metrics, .consist, .table-wrap, .facts { border: 1px solid var(--line) !important; background: var(--paper); border-radius: 4px; overflow: hidden; }
-.facts { background: var(--soft); }
-.card, .metric, .consist > div, .facts > div { padding-left: 20px !important; padding-right: 20px !important; }
-.card + .card, .consist > div + div { border-left-color: var(--line); }
-.metric { border-color: var(--line) !important; }
-.mini { border-color: var(--line); }
-@media (max-width: 560px) { .card, .metric, .consist > div, .facts > div { padding-left: 14px !important; padding-right: 12px !important; } }
-.card .sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-@media (max-width: 1100px) { .card .sub { white-space: normal; } }
-.empty-box { background: var(--paper); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 4px; padding: 28px 30px; }
-.empty-box h2 { font-size: clamp(24px, 2.6vw, 30px); margin-top: 8px; }
-.empty-box p:last-child { margin-top: 10px; color: var(--fg-p); max-width: 70ch; }
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 </style>
-<script src="config.js"></script>
+<script src="/config.js"></script>
 </head>
 <body>
-
-<header class="site">
-  <div class="wrap">
-    <a class="mark" id="home-link" href="/" style="text-decoration:none;color:inherit"><b>PFW-SIF</b><span>Student Investment Fund</span></a>
-    <nav class="nav" aria-label="Site" id="site-nav"></nav>
-    <a class="apply" id="apply-link" href="#" hidden>Apply</a>
-  </div>
-</header>
-
-<div class="preview" role="region" aria-label="Data status">
-  <div class="wrap">
-    <span class="status-label" id="data-status">Simulated track record</span>
-    <span id="data-source">Loading performance data…</span>
-  </div>
-</div>
+<header class="site"><div class="wrap"></div></header>
 
 <main>
-  <div class="hero">
+  <section class="home-hero">
+    <svg class="spark" viewBox="0 0 760 340" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="heroFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#CFB991" stop-opacity=".28"/><stop offset="1" stop-color="#CFB991" stop-opacity="0"/></linearGradient></defs>
+      <path class="f" id="hero-fill" d=""/><path class="l" id="hero-line" d=""/>
+    </svg>
     <div class="wrap">
-      <div class="rule"></div>
-      <p class="eyebrow">Performance · Track Record</p>
-      <h1>Every return, benchmarked.<em>Every method, disclosed.</em></h1>
-      <p class="lede">PFW-SIF results measured against the S&amp;P 500 Total Return, with the risk statistics, drawdowns and calendar history a fund committee would ask for. Figures that need more history than the fund has recorded are shown as N/A, never estimated.</p>
-      <div class="hero-rule" aria-hidden="true"></div>
-      <dl class="facts">
-        <div><dt class="eyebrow">Portfolio</dt><dd id="f-port" data-portfolio-name>PFW-SIF Main Portfolio</dd></div>
-        <div><dt class="eyebrow">Benchmark</dt><dd>S&amp;P 500 Total Return<br><span class="muted">SPY, dividends reinvested</span></dd></div>
-        <div><dt class="eyebrow">Inception</dt><dd id="f-incep" class="num">—</dd></div>
-        <div><dt class="eyebrow">Data through</dt><dd id="f-through" class="num">—</dd></div>
+      <p class="eyebrow">Purdue Fort Wayne Student Investment Fund</p>
+      <h1>Students picking stocks. <em>Graded by the market.</em></h1>
+      <p class="lede">We research companies, pitch them to an investment committee and manage the portfolio against the S&amp;P 500, and we publish every result, including the ideas we turned down.</p>
+      <div class="hero-actions">
+        <a class="btn" href="/performance">See the performance</a>
+        <a class="btn ghost-d" href="/research">Read the research</a>
+        <a class="btn ghost-d" href="/join">Join the fund</a>
+      </div>
+      <dl class="live" id="live">
+        <div><dt>Portfolio value</dt><dd data-count="nav">—</dd><small id="l-nav">Loading…</small></div>
+        <div><dt>Since inception</dt><dd data-count="si">—</dd><small id="l-si">&nbsp;</small></div>
+        <div><dt>Annualized</dt><dd data-count="ann">—</dd><small id="l-ann">&nbsp;</small></div>
+        <div><dt>Holdings</dt><dd data-count="n">—</dd><small id="l-n">&nbsp;</small></div>
       </dl>
-      <div class="notice" role="note">
-        <span class="badge" id="perf-badge">Simulated performance</span>
-        <p id="perf-note">Performance shown on this page reflects the PFW-SIF simulated portfolio and does not represent actual assets under management or actual investment results.</p>
-      </div>
-    </div>
-  </div>
-
-  <section class="block" id="no-data" hidden>
-    <div class="wrap">
-      <div class="empty-box">
-        <p class="eyebrow" id="no-data-eyebrow">Performance history</p>
-        <h2 id="no-data-title">Performance history begins after the fund's first month-end.</h2>
-        <p id="no-data-text">Returns, risk statistics and charts appear here once the fund has recorded its first month of trading.</p>
-      </div>
+      <span class="sim-tag" id="sim-tag">Simulated performance · <a href="/disclosures">what this means</a></span>
     </div>
   </section>
 
-  <section hidden class="block needs-data" aria-labelledby="h-headline">
+  <div class="tape" aria-label="Fund holdings, latest close"><div class="track" id="tape"></div></div>
+
+  <section class="block" style="border-top:0">
     <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">Headline returns</p><h2 id="h-headline">Returns over standard periods</h2></div>
+      <div class="sec-head reveal"><div><p class="eyebrow">Track record</p><h2>Growth of $10,000</h2></div>
+        <div class="seg filters" id="win" role="group" aria-label="Time period"></div></div>
+      <div class="chart-card reveal">
+        <div class="chart-top"><div class="legend-h" id="g-legend"></div><span class="muted" style="font-size:12px" id="g-range"></span></div>
+        <div id="growth"><p class="loading">Loading the track record…</p></div>
       </div>
-      <div class="cards" id="cards"></div>
+      <p class="muted reveal" style="font-size:12px;margin-top:10px">Monthly returns with dividends reinvested, from the fund's published record. Hover or drag across the chart to read any month. Full statistics are on the <a href="/performance">Performance</a> page.</p>
     </div>
   </section>
 
-  <div hidden class="needs-data window-bar">
+  <section class="block">
     <div class="wrap">
-      <span class="eyebrow">Measurement window</span>
-      <div class="seg" role="group" aria-label="Measurement window" id="win"></div>
-      <span class="range" id="range"></span>
-      <span class="scope">Applies to risk analytics, the performance chart, consistency and rolling risk. Annual and monthly tables always show full history.</span>
-    </div>
-  </div>
-
-  <section hidden class="needs-data block" aria-labelledby="h-risk">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">Risk &amp; return analytics</p><h2 id="h-risk">How the return was earned</h2></div>
-        <p class="aside" id="risk-aside"></p>
-      </div>
-      <div class="metrics" id="metrics"></div>
-      <p class="foot-note" id="risk-foot"></p>
-    </div>
-  </section>
-
-  <section hidden class="needs-data chart-band" aria-labelledby="h-chart">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">Performance</p><h2 id="h-chart">PFW-SIF against the S&amp;P 500 TR</h2></div>
-      </div>
-      <div class="chart-panel">
-        <div class="chart-controls">
-          <div class="seg" role="group" aria-label="Chart view" id="mode">
-            <button type="button" data-mode="growth" aria-pressed="true">Growth of $100,000</button>
-            <button type="button" data-mode="dd" aria-pressed="false">Drawdown</button>
-            <button type="button" data-mode="roll" aria-pressed="false">Rolling 1Y</button>
-          </div>
-          <div class="seg" role="group" aria-label="Series shown" id="series">
-            <button type="button" data-s="both" aria-pressed="true">Both</button>
-            <button type="button" data-s="p" aria-pressed="false">PFW-SIF</button>
-            <button type="button" data-s="b" aria-pressed="false">S&amp;P 500 TR</button>
-          </div>
+      <div class="sec-head reveal"><div><p class="eyebrow">Try it</p><h2>What if you had invested with us?</h2></div><p class="aside">Pick an amount and a start date. The result follows the fund's actual monthly returns, compared with the S&amp;P 500 Total Return.</p></div>
+      <div class="calc reveal">
+        <div class="in">
+          <label for="amt">Amount invested</label>
+          <div class="amt" id="amt-out">$10,000</div>
+          <input type="range" id="amt" min="1000" max="100000" step="1000" value="10000" aria-describedby="amt-out">
+          <label for="start" style="margin-top:22px">Starting</label>
+          <select id="start"></select>
         </div>
-        <div class="chart-title">
-          <h3 id="chart-h">Growth of $100,000</h3>
-          <div class="legend" id="legend"></div>
-        </div>
-        <div class="chart" id="main-chart"></div>
-        <div class="chart-stats" id="chart-stats"></div>
-        <p class="chart-note" id="chart-note"></p>
-      </div>
-    </div>
-  </section>
-
-  <section hidden class="needs-data block" aria-labelledby="h-annual">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">Calendar years · full history</p><h2 id="h-annual">Annual performance</h2></div>
-      </div>
-      <div class="annual-controls">
-        <div class="seg small" role="group" aria-label="Annual view" id="a-view">
-          <button type="button" data-v="annual" aria-pressed="true">Annual</button>
-          <button type="button" data-v="cum" aria-pressed="false">Cumulative</button>
-        </div>
-        <div class="seg small" role="group" aria-label="Annual series" id="a-series">
-          <button type="button" data-s="both" aria-pressed="true">Both</button>
-          <button type="button" data-s="p" aria-pressed="false">PFW-SIF</button>
-          <button type="button" data-s="b" aria-pressed="false">S&amp;P 500 TR</button>
+        <div class="out" aria-live="polite">
+          <dl class="res">
+            <div><dt>With PFW-SIF</dt><dd id="c-f">—</dd><small id="c-fr"></small></div>
+            <div class="b"><dt>S&amp;P 500 TR</dt><dd id="c-b">—</dd><small id="c-br"></small></div>
+          </dl>
+          <div class="bar" aria-hidden="true"><span id="c-barf" style="background:var(--gold-dark);width:50%"></span><span id="c-barb" style="background:var(--slate-2);width:50%"></span></div>
+          <p style="margin:0" id="c-sum"></p>
         </div>
       </div>
-      <div class="table-wrap"><table id="annual"></table></div>
     </div>
   </section>
 
-  <section hidden class="needs-data block" aria-labelledby="h-monthly">
+  <section class="block">
     <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">Monthly returns · full history</p><h2 id="h-monthly">Monthly performance</h2></div>
-        <div style="display:grid;gap:10px;justify-items:end">
-          <div class="seg small" role="group" aria-label="Monthly series" id="m-series">
-            <button type="button" data-s="p" aria-pressed="true">PFW-SIF</button>
-            <button type="button" data-s="b" aria-pressed="false">S&amp;P 500 TR</button>
-            <button type="button" data-s="a" aria-pressed="false">Active</button>
-          </div>
-          <div class="scale" aria-hidden="true"><span>−6%</span><span class="sw" id="sw-neg"></span><span class="sw" id="sw-0"></span><span class="sw" id="sw-pos"></span><span>+6%</span></div>
-        </div>
-      </div>
-      <div class="table-wrap"><table class="heat" id="heat"></table></div>
-      <p class="heat-detail" id="heat-detail" aria-live="polite">Hover or tab to a month to compare PFW-SIF, the benchmark and the spread, and to see each position's month-end value and change.</p>
-      <div class="heat-tip" id="heat-tip" role="tooltip" hidden></div>
-    </div>
-  </section>
-
-  <section hidden class="needs-data block" aria-labelledby="h-consist">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><p class="eyebrow">Within the measurement window</p><h2 id="h-consist">Consistency &amp; rolling risk</h2></div>
-      </div>
-      <div class="consist" id="consist"></div>
-      <div class="minis" id="minis" style="margin-top:24px">
-        <div class="mini"><h3>Rolling 12M volatility</h3><p class="muted">Annualized, both series</p><div class="chart" id="mini-vol"></div></div>
-        <div class="mini"><h3>Rolling 12M Sharpe</h3><p class="muted" id="mini-sharpe-note">Risk-free rate as configured</p><div class="chart" id="mini-sharpe"></div></div>
-        <div class="mini"><h3>Rolling 12M beta</h3><p class="muted">PFW-SIF vs S&amp;P 500 TR, 1.0 marked</p><div class="chart" id="mini-beta"></div></div>
+      <div class="sec-head reveal"><div><p class="eyebrow">Portfolio</p><h2>What the fund owns</h2></div><p class="aside" id="mix-asof">Hover a slice or a row for details; click to open the Holdings page.</p></div>
+      <div class="mix reveal">
+        <div class="donut" id="donut"><svg viewBox="0 0 300 300" role="img" aria-label="Portfolio weights"></svg><div class="center"><b id="d-big">—</b><span id="d-small">Hover a slice</span></div></div>
+        <div class="mix-list" id="mix-list"></div>
       </div>
     </div>
   </section>
 
-  <section class="block" aria-labelledby="h-method">
+  <section class="block">
     <div class="wrap">
-      <details class="method-all">
-        <summary class="method-btn">
-          <span><span class="eyebrow">Methodology &amp; data</span><span class="method-title" id="h-method">How these numbers are produced</span></span>
-          <span class="method-hint"><span class="when-closed">Show methodology</span><span class="when-open">Hide methodology</span></span>
-        </summary>
-        <div class="method-body">
-          <details open>
-            <summary>Return calculation</summary>
-            <div class="body">
-              <p>Portfolio values are calculated each trading day from the fund’s trade ledger: cash plus every position valued at that day’s closing price. Dividends are credited as cash on the ex-dividend date and stock splits adjust share counts. Commissions and fees recorded in the ledger reduce the portfolio value.</p>
-              <p>Monthly portfolio returns are calculated from month-end portfolio values. In months with no external cash flows the return is the simple change in value. In months with contributions or withdrawals, the Modified Dietz method weights each flow by the share of the month it was invested.</p>
-              <div class="formula">R = (EMV − BMV − CF) / (BMV + Σ wᵢ · CFᵢ)</div>
-              <p>Monthly returns are chained geometrically, so the series approximates a time-weighted return. Growth of $100,000 compounds those monthly returns from the start of the selected window; cumulative arithmetic sums are never plotted.</p>
-            </div>
-          </details>
-          <details>
-            <summary>Benchmark</summary>
-            <div class="body">
-              <p>The benchmark is the S&amp;P 500 Total Return, represented by SPY adjusted closes with dividends reinvested. SPY's returns are net of the ETF's small expense ratio, so they run marginally below the index itself. Benchmark returns are measured over exactly the same dates as the portfolio, starting from the close on the fund’s inception date; a month missing from either series is excluded from both and disclosed under data quality.</p>
-            </div>
-          </details>
-          <details>
-            <summary>Risk statistics</summary>
-            <div class="body">
-              <p>All statistics use aligned monthly returns over the selected window and require at least 12 observations. Standard deviations are sample standard deviations.</p>
-              <div class="formula">Annualized return   = Π(1 + rₜ)^(12/n) − 1
-Volatility          = stdev(rₜ) × √12
-Sharpe              = (Annualized return − Rf) / Volatility
-Sortino             = (Annualized return − Rf) / Downside deviation
-Downside deviation  = √mean(min(rₜ − Rf/12, 0)²) × √12
-Beta                = cov(rₚ, r_b) / var(r_b)
-Jensen's alpha      = 12 × [ mean(rₚ − Rf/12) − β × mean(r_b − Rf/12) ]
-Tracking error      = stdev(rₚ − r_b) × √12
-Information ratio   = (Ann. return₍ₚ₎ − Ann. return₍b₎) / Tracking error
-Capture (up/down)   = Ann. return₍ₚ₎ / Ann. return₍b₎ over months where r_b &gt; 0 (or &lt; 0)</div>
-              <p>Active return is the difference between annualized portfolio and benchmark returns. It is not alpha: alpha adjusts for the portfolio's beta and the risk-free rate.</p>
-              <p id="rf-text"></p>
-            </div>
-          </details>
-          <details>
-            <summary>Drawdown &amp; rolling figures</summary>
-            <div class="body">
-              <p>Drawdown is the value at each month-end divided by the highest prior value in the window, minus one. The maximum drawdown is the deepest such point. Recovery is the first month-end at or above the prior peak. Rolling 1-year return compounds the trailing 12 monthly returns.</p>
-            </div>
-          </details>
-          <details>
-            <summary>Data quality</summary>
-            <div class="body">
-              <p>Missing months are never interpolated or filled. A statistic that cannot be calculated reliably is shown as N/A with the reason. Simulated, backtested and live results are labeled separately and are never combined into one track record.</p>
-              <p id="dq-text"></p>
-            </div>
-          </details>
-        </div>
-      </details>
-      <div class="disclaimer">
-        <p><strong>Past performance does not guarantee future results.</strong> Simulated performance does not represent actual trading or actual assets under management and may not reflect the impact of market factors such as liquidity, commissions and taxes.</p>
-        <p>PFW-SIF is a student-managed educational program at Purdue University Fort Wayne. Nothing on this page is investment advice or an offer to buy or sell any security.</p>
+      <div class="sec-head reveal"><div><p class="eyebrow">Research</p><h2>Every position starts as a report</h2></div><p class="aside"><a href="/reports/">See all reports →</a></p></div>
+      <div class="grid g3" id="rcards"><p class="loading">Loading research…</p></div>
+      <dl class="score reveal" id="score"></dl>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-head reveal"><div><p class="eyebrow">How it works</p><h2>From idea to position</h2></div><p class="aside"><a href="/process">The full investment process →</a></p></div>
+      <div class="reveal">
+        <div class="ptabs" role="tablist" id="ptabs"></div>
+        <div class="ppanel" role="tabpanel" id="ppanel"></div>
       </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="wrap">
+      <div class="grid g4 reveal">
+        <a class="card" href="/quarterly" style="text-decoration:none"><p class="k">Quarterly</p><h3>Quarter by quarter</h3><p>What worked and what didn't, every quarter since 2016.</p></a>
+        <a class="card" href="/holdings" style="text-decoration:none"><p class="k">Holdings</p><h3>Positions and trades</h3><p>Weights, cost basis, trade notes, dividends and policy checks.</p></a>
+        <a class="card" href="/team" style="text-decoration:none"><p class="k">Team</p><h3>Who decides</h3><p>Officers, eleven sector teams and the investment committee.</p></a>
+        <a class="card" href="/about" style="text-decoration:none"><p class="k">About</p><h3>The fund</h3><p>Mission, history and how PFW-SIF works.</p></a>
+      </div>
+      <div class="cta reveal" style="margin-top:28px"><div><h3>Want your name on the next pitch?</h3><p>Open to Purdue Fort Wayne students in every major. No experience required.</p></div><a class="btn" href="/join">How to join</a></div>
     </div>
   </section>
 </main>
 
-<footer class="site-foot">
-  <div class="wrap"><span>Purdue Fort Wayne Student Investment Fund · Doermer School of Business</span><span>Est. 2026</span></div>
-</footer>
-
+<footer class="site-foot"></footer>
+<script src="/assets/site.js"></script>
 <script>
-(function () {
-  "use strict";
+(async function () {
+  const { get, snapshot, fmt, $ } = window.PFW;
+  const esc = fmt.esc, pct = fmt.pct, money = fmt.money, cls = fmt.cls, MON = fmt.MON;
+  const pts = (v) => (v === null || v === undefined || !isFinite(v) ? "N/A" : (v < 0 ? "−" : "+") + Math.abs(v * 100).toFixed(0) + " pts");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const COLORS = ["#B49A6C", "#343A40", "#287A52", "#8C7347", "#697078", "#CFB991", "#4F565D", "#A44747", "#9AA1A8", "#E7DFCF"];
 
-  /* ---------------- Configuration (from the published fund profile) ---------------- */
-  const CONFIG = {
-    performanceType: "simulated",
-    riskFree: { rate: 0.0, source: "Not yet configured" },
-    startValue: 100000,
-    minObs: 12
-  };
-  const TYPE_LABELS = {
-    simulated: ["Simulated performance", "Performance shown on this page reflects the PFW-SIF simulated portfolio and does not represent actual assets under management or actual investment results."],
-    backtest: ["Backtested performance", "Backtested results are hypothetical and were produced by applying a strategy to historical data."],
-    live: ["Live performance", "Performance reflects the PFW-SIF live portfolio."],
-    actual: ["Fund performance", "Performance reflects actual PFW-SIF fund results."]
-  };
+  // Fade sections in as they scroll into view.
+  const io = "IntersectionObserver" in window ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.12 }) : null;
+  document.querySelectorAll(".reveal").forEach((el) => (io ? io.observe(el) : el.classList.add("in")));
 
-  /* ---------------- Live data (Supabase, read-only) ---------------- */
-  let LIVE = [], PROFILE = null, EXCLUDED = [], LOAD_ERROR = null, MPOS = {};
-  async function loadData() {
-    const c = window.PFW_CONFIG || {};
-    if (!c.supabaseUrl || !c.supabaseKey) throw new Error("config.js is missing supabaseUrl or supabaseKey.");
-    const headers = { apikey: c.supabaseKey, Accept: "application/json" };
-    if (!String(c.supabaseKey).startsWith("sb_")) headers.Authorization = "Bearer " + c.supabaseKey;
-    const base = c.supabaseUrl.replace(/\/$/, "") + "/rest/v1/";
-    const [mr, fp] = await Promise.all([
-      fetch(base + "monthly_returns?select=month,period_start,period_end,portfolio_return,benchmark_return,is_partial&order=month.asc", { headers }),
-      fetch(base + "fund_profile?select=*&id=eq.1", { headers })
+  let rows = [], prof = null, hold = null, research = null;
+  try {
+    [rows, [prof], hold, research] = await Promise.all([
+      get("monthly_returns?select=month,period_end,portfolio_return,benchmark_return,is_partial&order=month.asc"),
+      get("fund_profile?select=*&id=eq.1"), snapshot("holdings"), snapshot("research"),
     ]);
-    if (!mr.ok || !fp.ok) throw new Error("The performance database returned " + (mr.ok ? fp.status : mr.status) + ".");
-    // Month-end positions for the monthly table hover. Optional: the page works without it.
-    fetch(base + "public_snapshots?select=data&id=eq.monthly_positions", { headers })
-      .then(r => (r.ok ? r.json() : []))
-      .then(rows => { for (const m of (rows[0] && rows[0].data && rows[0].data.months) || []) MPOS[m.month] = m; })
-      .catch(() => {});
-    const rows = await mr.json(), prof = await fp.json();
-    PROFILE = prof[0] || {};
-    CONFIG.performanceType = TYPE_LABELS[PROFILE.performance_type] ? PROFILE.performance_type : "simulated";
-    CONFIG.riskFree = { rate: Number(PROFILE.risk_free_rate) || 0, source: PROFILE.risk_free_source || "Not yet configured" };
-    EXCLUDED = rows.filter(r => r.portfolio_return === null || r.benchmark_return === null).map(r => r.month);
-    LIVE = rows.filter(r => r.portfolio_return !== null && r.benchmark_return !== null).map(r => {
-      const [y, m] = r.month.split("-").map(Number);
-      return { y, m: m - 1, p: Number(r.portfolio_return), b: Number(r.benchmark_return), partial: !!r.is_partial, start: r.period_start, end: r.period_end };
-    });
+  } catch (e) {
+    $("growth").innerHTML = '<p class="loading">The fund\'s data could not be loaded right now. Please try again later.</p>';
+    $("l-nav").textContent = "Data unavailable";
+    return;
+  }
+  const live = prof && (prof.performance_type === "live" || prof.performance_type === "actual");
+  if (live) $("sim-tag").innerHTML = 'Fund performance · <a href="/disclosures">disclosures</a>';
+
+  // Monthly series → growth of $1 for the fund and the benchmark.
+  const M = rows.filter((r) => r.portfolio_return !== null && r.benchmark_return !== null).map((r) => ({ m: r.month, end: r.period_end, p: +r.portfolio_return, b: +r.benchmark_return, partial: r.is_partial }));
+  const prod = (a) => a.reduce((x, v) => x * (1 + v), 1);
+  const si = M.length ? prod(M.map((x) => x.p)) - 1 : null, siB = M.length ? prod(M.map((x) => x.b)) - 1 : null;
+  const yrs = M.length / 12;
+  const ann = yrs >= 1 ? Math.pow(1 + si, 1 / yrs) - 1 : null, annB = yrs >= 1 ? Math.pow(1 + siB, 1 / yrs) - 1 : null;
+  const ml = (k) => { const [y, m] = k.split("-").map(Number); return MON[m - 1] + " " + y; };
+
+  /* ---- Hero numbers (count up) ---- */
+  function countUp(el, target, render) {
+    if (target === null || !isFinite(target)) { el.textContent = "—"; return; }
+    if (reduce) { el.textContent = render(target); return; }
+    const t0 = performance.now(), dur = 1400;
+    const step = (t) => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = render(target * e); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+  const q = (k) => document.querySelector('[data-count="' + k + '"]');
+  if (hold) { countUp(q("nav"), hold.nav, (v) => money(v)); $("l-nav").textContent = "At the " + fmt.date(hold.as_of) + " close"; }
+  countUp(q("si"), si, (v) => pct(v, 0)); q("si").className = cls(si);
+  $("l-si").textContent = "S&P 500 TR " + pct(siB, 0) + " · since " + (M[0] ? ml(M[0].m) : "—");
+  countUp(q("ann"), ann, (v) => pct(v, 1)); q("ann").className = cls(ann);
+  $("l-ann").textContent = "S&P 500 TR " + pct(annB, 1) + " a year";
+  if (hold) { countUp(q("n"), hold.positions.length, (v) => String(Math.round(v))); $("l-n").textContent = [...new Set(hold.positions.map((p) => p.sector))].length + " sectors · " + pct(hold.cash / hold.nav, 1, false) + " cash"; }
+
+  /* ---- Hero background sparkline ---- */
+  (function () {
+    if (!M.length) return;
+    let v = 1; const pts = [1].concat(M.map((x) => (v *= 1 + x.p)));
+    const lo = Math.min(...pts), hi = Math.max(...pts), W = 760, H = 340;
+    const X = (i) => (i / (pts.length - 1)) * W, Y = (y) => H - 20 - ((Math.log(y) - Math.log(lo)) / (Math.log(hi) - Math.log(lo) || 1)) * (H - 60);
+    const d = pts.map((y, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(y).toFixed(1)).join("");
+    $("hero-line").setAttribute("d", d); $("hero-fill").setAttribute("d", d + "L" + W + " " + H + "L0 " + H + "Z");
+  })();
+
+  /* ---- Ticker tape ---- */
+  if (hold && hold.positions.length) {
+    const items = hold.positions.map((p) => {
+      const ch = p.prev_close ? p.last / p.prev_close - 1 : null;
+      return '<a href="/holdings"><b>' + esc(p.t) + '</b><span class="px">' + money(p.last, 2) + '</span><span class="ch ' + cls(ch) + '">' + (ch === null ? "" : (ch >= 0 ? "▲ " : "▼ ") + pct(ch, 2)) + '</span><span class="muted" style="color:#9AA1A8">' + pct(p.weight, 1, false) + " of fund</span></a>";
+    }).join("") + '<a href="/performance"><b>PFW-SIF</b><span class="px">' + money(hold.nav) + '</span><span class="muted" style="color:#9AA1A8">since inception ' + pct(si, 0) + "</span></a>";
+    const reps = Math.max(2, Math.ceil(12 / (hold.positions.length + 1)));
+    $("tape").innerHTML = items.repeat(reps * 2);
   }
 
-  /* ---------------- Engine (pure functions; authoritative copy belongs server-side) ---------------- */
-  const E = {
-    prod: a => a.reduce((x, r) => x * (1 + r), 1),
-    cum: a => a.length ? E.prod(a) - 1 : null,
-    ann: a => a.length >= 12 ? Math.pow(E.prod(a), 12 / a.length) - 1 : null,
-    mean: a => a.reduce((s, x) => s + x, 0) / a.length,
-    sd: a => { if (a.length < 2) return null; const m = E.mean(a); return Math.sqrt(a.reduce((s, x) => s + (x - m) ** 2, 0) / (a.length - 1)); },
-    cov: (a, b) => { const ma = E.mean(a), mb = E.mean(b); return a.reduce((s, x, i) => s + (x - ma) * (b[i] - mb), 0) / (a.length - 1); },
-    vol: a => a.length >= 12 ? E.sd(a) * Math.sqrt(12) : null,
-    sharpe(a, rf) { const v = E.vol(a), r = E.ann(a); return v !== null && v > 1e-10 && r !== null ? (r - rf) / v : null; },
-    sortino(a, rf) {
-      if (a.length < 12) return null;
-      const t = rf / 12;
-      const dd = Math.sqrt(E.mean(a.map(x => Math.min(x - t, 0) ** 2))) * Math.sqrt(12);
-      return dd > 1e-10 ? (E.ann(a) - rf) / dd : null;
-    },
-    beta(p, b) { if (p.length < 12) return null; const vb = E.sd(b) ** 2; return vb > 1e-14 ? E.cov(p, b) / vb : null; },
-    alpha(p, b, rf) {
-      const be = E.beta(p, b); if (be === null) return null;
-      const t = rf / 12;
-      return 12 * (E.mean(p.map(x => x - t)) - be * E.mean(b.map(x => x - t)));
-    },
-    te(p, b) { if (p.length < 12) return null; const s = E.sd(p.map((x, i) => x - b[i])); return s > 1e-10 ? s * Math.sqrt(12) : null; },
-    ir(p, b) { const t = E.te(p, b); return t ? (E.ann(p) - E.ann(b)) / t : null; },
-    corr(p, b) { if (p.length < 12) return null; const d = E.sd(p) * E.sd(b); return d > 1e-14 ? E.cov(p, b) / d : null; },
-    capture(p, b, up) {
-      if (p.length < 12) return null;
-      const idx = b.map((x, i) => (up ? x > 0 : x < 0) ? i : -1).filter(i => i >= 0);
-      if (idx.length < 3) return null;
-      const n = idx.length;
-      const rp = Math.pow(E.prod(idx.map(i => p[i])), 12 / n) - 1;
-      const rb = Math.pow(E.prod(idx.map(i => b[i])), 12 / n) - 1;
-      return rb !== 0 ? rp / rb : null;
-    },
-    wealth(a, start) { const w = [start]; a.forEach(r => w.push(w[w.length - 1] * (1 + r))); return w; },
-    drawdown(a) {
-      const w = E.wealth(a, 1);
-      let peak = w[0], peakI = 0, maxDD = 0, mPeak = 0, mTrough = 0;
-      const dd = w.map((v, i) => { if (v > peak) { peak = v; peakI = i; } const d = v / peak - 1; if (d < maxDD) { maxDD = d; mPeak = peakI; mTrough = i; } return d; });
-      let rec = null;
-      if (maxDD < 0) { for (let i = mTrough + 1; i < w.length; i++) if (w[i] >= w[mPeak]) { rec = i; break; } }
-      return { series: dd, max: maxDD, peak: mPeak, trough: mTrough, recovery: rec, current: dd[dd.length - 1] };
-    },
-    rolling(a, n, fn) { return a.map((_, i) => i + 1 >= n ? fn(a.slice(i + 1 - n, i + 1), i) : null); }
-  };
-  window.PFW_ENGINE = E;
+  /* ---- Growth chart ---- */
+  const WINS = [["1Y", 12], ["3Y", 36], ["5Y", 60], ["10Y", 120], ["All", Infinity]].filter(([, n]) => n === Infinity || M.length >= n);
+  let win = WINS.find((w) => w[0] === "All") ? "All" : WINS[0][0];
+  $("win").innerHTML = WINS.map(([k]) => '<button type="button" data-w="' + k + '" aria-pressed="' + (k === win) + '">' + k + "</button>").join("");
+  $("win").addEventListener("click", (e) => { const b = e.target.closest("button[data-w]"); if (!b) return; win = b.dataset.w; $("win").querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); drawGrowth(); });
 
-  /* ---------------- Formatting ---------------- */
-  const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const MONL = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const minus = "−";
-  const pct = (v, d = 1, sign = true) => { if (v === null || v === undefined || !isFinite(v)) return "N/A"; const t = Math.abs(v * 100).toFixed(d); if (+t === 0) return t + "%"; return (v < 0 ? minus : (sign ? "+" : "")) + t + "%"; };
-  const pts = (v, d = 1) => { if (v === null || !isFinite(v)) return "N/A"; const t = Math.abs(v * 100).toFixed(d); if (+t === 0) return t + " pts"; return (v < 0 ? minus : "+") + t + " pts"; };
-  const ratio = (v, d = 2) => { if (v === null || !isFinite(v)) return "N/A"; const t = Math.abs(v).toFixed(d); return (v < 0 && +t !== 0 ? minus : "") + t; };
-  const money = v => "$" + Math.round(v).toLocaleString("en-US");
-  const cls = v => v === null || !isFinite(v) || Math.abs(v) < 5e-4 ? "" : v > 0 ? "pos" : "neg";
-  const ml = (y, m) => MON[m] + " " + y;
-  const prevMonth = (y, m) => m === 0 ? [y - 1, 11] : [y, m - 1];
-  const monthEndDate = (y, m) => { const d = new Date(Date.UTC(y, m + 1, 0)); return MON[m] + " " + d.getUTCDate() + ", " + y; };
-  const $ = id => document.getElementById(id);
-  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-
-  /* ---------------- State ---------------- */
-  const state = { win: "SI", mode: "growth", series: "both", aView: "annual", aSeries: "both", mSeries: "p" };
-  const WINDOWS = [["1Y", 12], ["3Y", 36], ["5Y", 60], ["10Y", 120], ["SI", Infinity]];
-  const data = () => LIVE;
-
-  function windowSlice() {
-    const all = data();
-    const n = WINDOWS.find(w => w[0] === state.win)[1];
-    const start = n === Infinity ? 0 : all.length - n;
-    return { months: all.slice(start), startIdx: start };
-  }
-
-  /* ---------------- Header facts ---------------- */
-  const fmtISO = iso => { if (!iso) return "—"; const [y, m, d] = String(iso).slice(0, 10).split("-").map(Number); return MON[m - 1] + " " + d + ", " + y; };
-  function renderFacts() {
-    const all = data(), last = all[all.length - 1];
-    const P = PROFILE || {};
-    $("f-incep").textContent = fmtISO(P.inception_date || (all[0] && all[0].start));
-    $("f-through").textContent = fmtISO(P.data_through || (last && last.end));
-    const simulated = CONFIG.performanceType === "simulated" || CONFIG.performanceType === "backtest";
-    $("data-status").textContent = (simulated ? "Simulated track record" : "Track record") + " · " + all.length + (all.length === 1 ? " month" : " months");
-    $("data-source").textContent = "Data through " + fmtISO(P.data_through) + " · Portfolio from the PFW-SIF trade ledger · Prices: Tiingo end-of-day · Benchmark: " + (P.benchmark_ticker || "SPY") + " total return";
-    const t = TYPE_LABELS[CONFIG.performanceType];
-    $("perf-badge").textContent = t[0];
-    $("perf-note").textContent = t[1];
-    $("rf-text").textContent = "Risk-free rate: " + (CONFIG.riskFree.rate * 100).toFixed(2) + "% annual (" + CONFIG.riskFree.source + ").";
-    const partial = last && last.partial ? " The latest month (" + MON[last.m] + " " + last.y + ") is month to date." : "";
-    $("dq-text").textContent = "Current series: " + all.length + " aligned months" + (EXCLUDED.length ? ", " + EXCLUDED.length + " excluded (" + EXCLUDED.join(", ") + ")" : ", none excluded") + ", none filled." + partial;
-    document.querySelectorAll("[data-portfolio-name]").forEach(el => el.textContent = P.portfolio_name || "PFW-SIF Main Portfolio");
-  }
-
-  /* ---------------- Headline cards ---------------- */
-  function renderCards() {
-    const all = data();
-    const P = all.map(d => d.p), B = all.map(d => d.b);
-    const n = all.length;
-    const tail = (a, k) => a.slice(a.length - k);
-    const html = [];
-    function card(label, val, sub, na) {
-      html.push('<div class="card"><p class="eyebrow">' + label + '</p><p class="big ' + (na ? "na" : cls(val)) + '">' + (na ? "N/A" : pct(val)) + '</p>' + (sub ? '<p class="sub">' + sub + "</p>" : "") + "</div>");
-    }
-    function periodCard(label, k, annual, sub) {
-      if (n < k) { card(label, null, "Needs " + k + " months", true); return; }
-      card(label, annual ? E.ann(tail(P, k)) : E.cum(tail(P, k)), sub);
-    }
-    periodCard("1Y return", 12, false, "Trailing 12 months");
-    periodCard("3Y annualized", 36, true, "Per year · trailing 3 years");
-    periodCard("5Y annualized", 60, true, "Per year · trailing 5 years");
-    const first = all[0];
-    if (n >= 12) card("Since inception", E.ann(P), "Per year · since " + ml(first.y, first.m));
-    else card("Since inception", E.cum(P), "Cumulative · " + n + " months");
-    const w = windowSlice().months;
-    const wp = w.map(d => d.p), wb = w.map(d => d.b);
-    const dd = E.drawdown(wp);
-    card("Max drawdown · " + winLabel(), dd.max, dd.max < 0 ? labelAt(w, dd.peak) + " – " + labelAt(w, dd.trough) : "No decline in window");
-    const act = w.length >= 12 ? E.ann(wp) - E.ann(wb) : E.cum(wp) - E.cum(wb);
-    card("Active return · " + winLabel(), act, "vs S&amp;P 500 TR" + (w.length >= 12 ? " · per year" : " · cumulative"));
-    $("cards").innerHTML = html.join("");
-  }
-  const winLabel = () => state.win === "SI" ? "SI" : state.win;
-  // index 0 of a wealth/drawdown series is the start of the window (prior month-end)
-  function labelAt(w, i) {
-    if (i === 0) { const [y, m] = prevMonth(w[0].y, w[0].m); return ml(y, m); }
-    const d = w[i - 1]; return ml(d.y, d.m);
-  }
-
-  /* ---------------- Window selector ---------------- */
-  function renderWindowBar() {
-    const n = data().length;
-    $("win").innerHTML = WINDOWS.map(([k, len]) => {
-      const ok = len === Infinity || n >= len;
-      const label = k === "SI" ? "Since inception" : k;
-      return '<button type="button" data-w="' + k + '" aria-pressed="' + (state.win === k) + '"' + (ok ? "" : " disabled title=\"Needs " + len + " months; " + n + " recorded\"") + ">" + label + "</button>";
-    }).join("");
-    const w = windowSlice().months;
-    const [sy, sm] = [w[0].y, w[0].m], last = w[w.length - 1];
-    $("range").innerHTML = '<span class="num">' + ml(sy, sm) + " – " + ml(last.y, last.m) + "</span> · " + w.length + " monthly observations";
-  }
-
-  /* ---------------- Risk grid ---------------- */
-  const DEFS = {
-    cum: "Total compounded return over the window: ending value divided by starting value, minus one.",
-    vol: "How widely monthly returns vary, scaled to a yearly figure.",
-    sharpe: "Return above the risk-free rate for each unit of total volatility.",
-    sortino: "Like Sharpe, but only months below the risk-free threshold count as risk.",
-    beta: "Sensitivity to the S&P 500 TR. A beta of 0.9 means the portfolio tended to move 0.9% for each 1% benchmark move.",
-    alpha: "Return above what the portfolio's beta and the risk-free rate would predict (Jensen's alpha).",
-    te: "Volatility of the monthly difference between portfolio and benchmark returns.",
-    ir: "Active return divided by tracking error: how consistently the portfolio beat or lagged the benchmark.",
-    best: "Highest single monthly return in the window.",
-    worst: "Lowest single monthly return in the window.",
-    posm: "Share of months with a positive portfolio return.",
-    corr: "How closely monthly returns moved with the benchmark, from −1 to 1."
-  };
-  function renderRisk() {
-    const w = windowSlice().months;
-    const P = w.map(d => d.p), B = w.map(d => d.b), rf = CONFIG.riskFree.rate;
-    const short = w.length < CONFIG.minObs;
-    const naWhy = "Needs 12 months; " + w.length + " in window";
-    const rfl = "rf " + (rf * 100).toFixed(1) + "%";
-    const items = [
-      ["cum", "Cumulative return", E.cum(P), pct, ""],
-      ["vol", "Annualized volatility", E.vol(P), v => pct(v, 1, false), short ? naWhy : ""],
-      ["sharpe", "Sharpe ratio", E.sharpe(P, rf), ratio, short ? naWhy : ""],
-      ["sortino", "Sortino ratio", E.sortino(P, rf), ratio, short ? naWhy : ""],
-      ["beta", "Beta vs S&P 500 TR", E.beta(P, B), ratio, short ? naWhy : ""],
-      ["alpha", "Annualized alpha", E.alpha(P, B, rf), pct, short ? naWhy : ""],
-      ["ir", "Information ratio", E.ir(P, B), ratio, short ? naWhy : ""],
-      ["corr", "Correlation to S&P 500", E.corr(P, B), ratio, short ? naWhy : ""],
-      ["best", "Best month", Math.max(...P), pct, monthOf(w, P, Math.max(...P))],
-      ["worst", "Worst month", Math.min(...P), pct, monthOf(w, P, Math.min(...P))],
-      ["posm", "Positive months", P.filter(x => x > 0).length / P.length, v => pct(v, 1, false), P.filter(x => x > 0).length + " of " + P.length],
-      ["te", "Tracking error", E.te(P, B), v => pct(v, 1, false), short ? naWhy : "Annualized"]
-    ];
-    const signed = { cum: 1, alpha: 1, best: 1, worst: 1 };
-    $("metrics").innerHTML = items.map(([k, label, v, f, how]) => {
-      const na = v === null || !isFinite(v);
-      return '<div class="metric"><div class="top"><p class="eyebrow">' + esc(label) + '</p></div>' +
-        '<p class="val ' + (na ? "na" : signed[k] ? cls(v) : "") + '">' + f(v) + '</p>' + (how ? '<p class="how">' + esc(how) + '</p>' : "") + '</div>';
-    }).join("");
-    $("risk-aside").textContent = w.length + " months · monthly basis · " + (state.win === "SI" ? "since inception" : "trailing " + state.win);
-    $("risk-foot").textContent = "Calculated from aligned monthly PFW-SIF and S&P 500 TR (SPY) returns over the selected window. Sharpe, Sortino and alpha use a " + (rf * 100).toFixed(1) + "% risk-free rate (" + CONFIG.riskFree.source + "). Statistics need at least 12 observations.";
-  }
-  function monthOf(w, P, v) { const i = P.indexOf(v); return i < 0 ? "" : ml(w[i].y, w[i].m); }
-  document.addEventListener("click", e => {
-    const b = e.target.closest(".info"); if (!b) return;
-    const d = $(b.getAttribute("aria-controls")); const open = b.getAttribute("aria-expanded") === "true";
-    b.setAttribute("aria-expanded", String(!open)); d.hidden = open;
-  });
-
-  const css = (n, el) => getComputedStyle(el || document.documentElement).getPropertyValue(n).trim();
-  /* ---------------- Path helpers ---------------- */
-  // Monotone cubic interpolation (Fritsch–Carlson): smooth, never overshoots data.
-  function monotonePath(pts) {
-    const n = pts.length; if (n === 0) return ""; if (n === 1) return "M" + pts[0][0] + " " + pts[0][1];
-    const dx = [], dy = [], m = [];
-    for (let i = 0; i < n - 1; i++) { dx.push(pts[i + 1][0] - pts[i][0]); dy.push(pts[i + 1][1] - pts[i][1]); m.push(dy[i] / dx[i]); }
-    const t = [m[0]];
-    for (let i = 1; i < n - 1; i++) t.push(m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2);
-    t.push(m[n - 2]);
-    for (let i = 0; i < n - 1; i++) {
-      if (m[i] === 0) { t[i] = 0; t[i + 1] = 0; continue; }
-      const a = t[i] / m[i], b = t[i + 1] / m[i], h = a * a + b * b;
-      if (h > 9) { const s = 3 / Math.sqrt(h); t[i] = s * a * m[i]; t[i + 1] = s * b * m[i]; }
-    }
-    let d = "M" + pts[0][0].toFixed(2) + " " + pts[0][1].toFixed(2);
-    for (let i = 0; i < n - 1; i++) {
-      const h = dx[i] / 3;
-      d += "C" + (pts[i][0] + h).toFixed(2) + " " + (pts[i][1] + h * t[i]).toFixed(2) + " " + (pts[i + 1][0] - h).toFixed(2) + " " + (pts[i + 1][1] - h * t[i + 1]).toFixed(2) + " " + pts[i + 1][0].toFixed(2) + " " + pts[i + 1][1].toFixed(2);
-    }
-    return d;
-  }
-  function segments(vals, x, y) {
-    const segs = []; let cur = [];
-    vals.forEach((v, i) => { if (v === null || !isFinite(v)) { if (cur.length) segs.push(cur); cur = []; } else cur.push([x(i), y(v), i]); });
-    if (cur.length) segs.push(cur);
-    return segs;
-  }
-  function niceTicks(min, max, count) {
-    if (min === max) { min -= Math.abs(min) * 0.1 || 1; max += Math.abs(max) * 0.1 || 1; }
-    const span = max - min, raw = span / count, mag = Math.pow(10, Math.floor(Math.log10(raw)));
-    const step = [1, 2, 2.5, 5, 10].map(s => s * mag).find(s => span / s <= count) || 10 * mag;
-    const lo = Math.floor(min / step) * step, hi = Math.ceil(max / step) * step;
-    const t = []; for (let v = lo; v <= hi + step / 2; v += step) t.push(+v.toFixed(10));
-    return t;
-  }
-  let uid = 0;
-
-  /* ---------------- Chart renderer ----------------
-     opt: labels[{y,m}], series[{key,name,vals,color,width,area,areaFrom}], tickFmt, tip(i), height,
-          refLine, zeroMax, endTags, annotate:{i,v,text,color}, animate, empty, aria, compact */
-  const charts = new Map();
-  function drawChart(el, opt, animate) {
-    charts.set(el, opt);
-    const W = Math.max(260, el.clientWidth - 18), H = opt.height || 380;
-    const narrow = W < 560;
-    const M = { l: opt.compact ? 40 : (narrow ? 44 : 54), r: 14, t: 16, b: 30 };
-    const iw = W - M.l - M.r, ih = H - M.t - M.b;
-    const vals = [];
-    opt.series.forEach(s => s.vals.forEach(v => { if (v !== null && isFinite(v)) vals.push(v); }));
-    if (opt.refLine !== undefined) vals.push(opt.refLine);
-    if (!vals.length || opt.series.every(s => s.vals.filter(v => v !== null).length < 2)) {
-      el.innerHTML = '<div style="height:' + Math.min(H, 220) + 'px;display:grid;place-items:center;text-align:center;padding:24px;font-size:13px;color:' + (css("--muted-c", el) || "inherit") + '"><p class="muted" style="max-width:40ch">' + esc(opt.empty || "Not enough history to draw this chart.") + "</p></div>";
-      return;
-    }
+  function drawGrowth() {
+    const n = WINS.find((w) => w[0] === win)[1];
+    const S = n === Infinity ? M : M.slice(-n);
+    if (!S.length) { $("growth").innerHTML = '<p class="loading">No completed months yet.</p>'; return; }
+    const startLabel = n === Infinity ? "Start" : ml(M[M.length - n - 1] ? M[M.length - n - 1].m : S[0].m);
+    let f = 10000, b = 10000;
+    const pts = [{ k: "start", label: n === Infinity ? "Inception" : startLabel, f, b }].concat(S.map((x) => ({ k: x.m, label: ml(x.m) + (x.partial ? " (to date)" : ""), f: (f *= 1 + x.p), b: (b *= 1 + x.b) })));
+    const W = 1000, H = 380, L = 64, R = 18, T = 18, B = 34;
+    const vals = pts.flatMap((p) => [p.f, p.b]);
     let lo = Math.min(...vals), hi = Math.max(...vals);
-    if (opt.zeroMax) hi = Math.max(hi, 0);
-    const pad = (hi - lo) * 0.03; lo -= pad; hi += opt.zeroMax ? 0 : pad;
-    const ticks = niceTicks(lo, hi, opt.compact ? 3 : (narrow ? 4 : 5));
-    lo = ticks[0]; hi = ticks[ticks.length - 1];
-    const n = opt.labels.length;
-    const x = i => M.l + (n === 1 ? iw / 2 : (i / (n - 1)) * iw);
-    const y = v => M.t + ih - ((v - lo) / (hi - lo)) * ih;
-    const grid = css("--g-line", el), axis = css("--g-axis", el), txt = css("--g-text", el), surf = css("--g-surface", el);
-    const id = "c" + (++uid);
-    let s = '<svg viewBox="0 0 ' + W + " " + H + '" height="' + H + '" role="img" tabindex="0" aria-label="' + esc(opt.aria) + '"><defs>';
-    opt.series.forEach((se, k) => {
-      if (!se.area) return;
-      const top = se.areaFrom === "zero-down";
-      s += '<linearGradient id="' + id + "g" + k + '" x1="0" y1="0" x2="0" y2="1">' +
-        (top ? '<stop offset="0" stop-color="' + se.color + '" stop-opacity="0.02"/><stop offset="1" stop-color="' + se.color + '" stop-opacity="' + (se.areaOpacity || 0.32) + '"/>'
-             : '<stop offset="0" stop-color="' + se.color + '" stop-opacity="' + (se.areaOpacity || 0.2) + '"/><stop offset="0.85" stop-color="' + se.color + '" stop-opacity="0"/>') + "</linearGradient>";
-    });
-    s += '<clipPath id="' + id + 'clip"><rect x="' + M.l + '" y="' + (M.t - 6) + '" width="' + iw + '" height="' + (ih + 12) + '"/></clipPath></defs>';
-    // grid + right-side y axis
-    ticks.forEach(t => {
-      const yy = y(t).toFixed(1), isZero = Math.abs(t) < 1e-12 && lo < 0;
-      s += '<line x1="' + M.l + '" x2="' + (M.l + iw) + '" y1="' + yy + '" y2="' + yy + '" stroke="' + (isZero ? css("--line") : grid) + '" stroke-width="1"' + (isZero ? "" : ' stroke-dasharray="3 4"') + '/>';
-      s += '<text x="' + (M.l - 10) + '" y="' + (+yy + 3.5) + '" text-anchor="end" font-size="10.5" letter-spacing="0.3" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace" fill="' + css("--fg-3") + '">' + esc(opt.tickFmt(t)) + "</text>";
-    });
-    if (opt.refLine !== undefined && !ticks.includes(opt.refLine)) s += '<line x1="' + M.l + '" x2="' + (M.l + iw) + '" y1="' + y(opt.refLine) + '" y2="' + y(opt.refLine) + '" stroke="' + axis + '" stroke-width="1" stroke-dasharray="3 3"/>';
-    else if (opt.refLine !== undefined) s += '<line x1="' + M.l + '" x2="' + (M.l + iw) + '" y1="' + y(opt.refLine) + '" y2="' + y(opt.refLine) + '" stroke="' + axis + '" stroke-width="1" stroke-dasharray="4 4" stroke-opacity="0.8"/>';
-    if (opt.band) {
-      const b = opt.band, bx0 = x(b.i0), bx1 = x(b.i1);
-      s += '<rect x="' + bx0 + '" y="' + M.t + '" width="' + Math.max(1, bx1 - bx0) + '" height="' + ih + '" fill="' + css("--g-band", el) + '"/>';
-      s += '<line x1="' + bx0 + '" x2="' + bx0 + '" y1="' + M.t + '" y2="' + (M.t + ih) + '" stroke="' + css("--g-band-edge", el) + '" stroke-dasharray="2 3"/>';
-      s += '<text x="' + (bx0 + 8) + '" y="' + (M.t + 14) + '" font-size="10" font-weight="600" letter-spacing="1.2" font-family="IBM Plex Sans, system-ui, sans-serif" fill="' + txt + '">' + esc(b.label.toUpperCase()) + "</text>";
+    const pad = (hi - lo) * 0.06; lo = Math.max(0, lo - pad); hi += pad;
+    const X = (i) => L + (i / (pts.length - 1)) * (W - L - R);
+    const Y = (v) => T + (1 - (v - lo) / (hi - lo)) * (H - T - B);
+    const raw = (hi - lo) / 5, mag = 10 ** Math.floor(Math.log10(raw)), step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= raw);
+    let grid = "";
+    for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) grid += '<line class="grid-l" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(v).toFixed(1) + '" y2="' + Y(v).toFixed(1) + '"/><text class="ax-t" x="' + (L - 8) + '" y="' + (Y(v) + 4).toFixed(1) + '" text-anchor="end">' + (v >= 1000 ? "$" + Math.round(v / 1000) + "k" : "$" + Math.round(v)) + "</text>";
+    let ticks = "", lastYear = null;
+    const everyYears = Math.max(1, Math.ceil(pts.length / 12 / 8));
+    pts.forEach((p, i) => { if (p.k === "start") return; const [y, m] = p.k.split("-").map(Number); if (m === 1 && y !== lastYear && (y % everyYears === 0)) { lastYear = y; ticks += '<text class="ax-t" x="' + X(i).toFixed(1) + '" y="' + (H - 10) + '" text-anchor="middle">' + y + "</text>"; } });
+    if (!ticks) pts.forEach((p, i) => { if (i % Math.ceil(pts.length / 6) === 1) ticks += '<text class="ax-t" x="' + X(i).toFixed(1) + '" y="' + (H - 10) + '" text-anchor="middle">' + esc(p.label.replace(/ \(to date\)/, "")) + "</text>"; });
+    const line = (key) => pts.map((p, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(p[key]).toFixed(1)).join("");
+    const lf = line("f");
+    $("growth").innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Growth of $10,000, PFW-SIF vs S&amp;P 500 Total Return"><defs><linearGradient id="fundFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#B49A6C" stop-opacity=".22"/><stop offset="1" stop-color="#B49A6C" stop-opacity="0"/></linearGradient></defs>' +
+      grid + '<path class="a-fund" d="' + lf + "L" + X(pts.length - 1).toFixed(1) + " " + (H - B) + "L" + L + " " + (H - B) + 'Z"/>' +
+      '<path class="l-bench" d="' + line("b") + '"/><path class="l-fund" d="' + lf + '"/>' + ticks +
+      '<g id="xh" style="display:none"><line class="xh" y1="' + T + '" y2="' + (H - B) + '"/><circle class="dot-b" r="4.5"/><circle class="dot-f" r="5.5"/></g>' +
+      '<rect x="' + L + '" y="' + T + '" width="' + (W - L - R) + '" height="' + (H - T - B) + '" fill="transparent" id="hit"/></svg><div class="g-tip" id="g-tip" hidden></div>';
+    const end = pts[pts.length - 1];
+    $("g-legend").innerHTML = '<span><i style="background:var(--gold-dark)"></i>PFW-SIF <b>' + money(end.f) + '</b></span><span><i style="background:var(--slate-2)"></i>S&amp;P 500 TR <b>' + money(end.b) + "</b></span>";
+    $("g-range").textContent = pts[1].label.replace(/ \(to date\)/, "") + " – " + end.label;
+    const svg = $("growth").querySelector("svg"), hit = $("hit"), xh = $("xh"), tip = $("g-tip");
+    function at(clientX) {
+      const r = svg.getBoundingClientRect(), x = ((clientX - r.left) / r.width) * W;
+      const i = Math.max(0, Math.min(pts.length - 1, Math.round(((x - L) / (W - L - R)) * (pts.length - 1))));
+      const p = pts[i], cx = X(i);
+      xh.style.display = ""; xh.querySelector("line").setAttribute("x1", cx); xh.querySelector("line").setAttribute("x2", cx);
+      xh.querySelector(".dot-f").setAttribute("cx", cx); xh.querySelector(".dot-f").setAttribute("cy", Y(p.f));
+      xh.querySelector(".dot-b").setAttribute("cx", cx); xh.querySelector(".dot-b").setAttribute("cy", Y(p.b));
+      const d = p.f - p.b;
+      tip.innerHTML = "<b>" + esc(p.label) + '</b><div><span>PFW-SIF</span><span class="v">' + money(p.f) + '</span></div><div><span>S&amp;P 500 TR</span><span class="v">' + money(p.b) + '</span></div><div><span>Difference</span><span class="v" style="color:' + (d >= 0 ? "#7FC59E" : "#E08E8E") + '">' + (d >= 0 ? "+" : "−") + money(Math.abs(d)) + "</span></div>";
+      tip.hidden = false;
+      const px = (cx / W) * r.width, py = (Math.min(Y(p.f), Y(p.b)) / H) * r.height;
+      tip.style.left = Math.max(100, Math.min(r.width - 100, px)) + "px"; tip.style.top = Math.max(70, py - 12) + "px";
     }
-    // x labels
-    let lastX = -999;
-    const spanYears = n > 30;
-    opt.labels.forEach((L, i) => {
-      if (L.skip) return;
-      const show = spanYears ? L.m === 0 : n > 14 ? L.m % 3 === 0 : true;
-      if (!show) return;
-      const xx = x(i); if (xx - lastX < (narrow ? 46 : 58) || xx > M.l + iw - 14) return; lastX = xx;
-      const t = spanYears ? String(L.y) : MON[L.m] + " ’" + String(L.y).slice(2);
-      s += '<text x="' + xx.toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="10.5" letter-spacing="0.3" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace" fill="' + css("--gold-dark") + '">' + t + "</text>";
-    });
-    // series
-    s += '<g clip-path="url(#' + id + 'clip)">';
-    opt.series.forEach((se, k) => {
-      const segs = segments(se.vals, x, y);
-      segs.forEach(seg => {
-        const d = monotonePath(seg.map(p => [p[0], p[1]]));
-        if (se.area) {
-          const base = se.areaFrom === "zero" || se.areaFrom === "zero-down" ? y(Math.max(lo, Math.min(hi, 0))) : M.t + ih;
-          const a = d + "L" + seg[seg.length - 1][0].toFixed(2) + " " + base.toFixed(2) + "L" + seg[0][0].toFixed(2) + " " + base.toFixed(2) + "Z";
-          s += '<path class="' + (animate ? "fade" : "") + '" data-fade="1" d="' + a + '" fill="url(#' + id + "g" + k + ')" stroke="none"' + (animate ? ' style="opacity:0"' : "") + "/>";
-        }
-        const isBench = se.color === css("--c-b");
-        const sw = isBench ? 1.4 : 1.9;
-        s += '<path class="ln" d="' + d + '" fill="none" stroke="' + se.color + '" stroke-width="' + sw + '" stroke-linejoin="round" stroke-linecap="round"' + (isBench ? ' stroke-dasharray="5 4"' : "") + ' vector-effect="non-scaling-stroke"/>';
-      });
-    });
-    s += "</g>";
-    // annotation (e.g. max drawdown)
-    if (opt.annotate) {
-      const a = opt.annotate, ax = x(a.i), ay = y(a.v);
-      const right = ax < M.l + iw * 0.7;
-      s += '<line x1="' + ax + '" x2="' + ax + '" y1="' + ay + '" y2="' + (Math.min(ay + 40, M.t + ih - 8) - 14) + '" stroke="' + txt + '" stroke-width="1"/>';
-      s += '<circle cx="' + ax + '" cy="' + ay + '" r="4.5" fill="' + a.color + '" stroke="' + surf + '" stroke-width="2"/>';
-      const ty = Math.min(ay + 40, M.t + ih - 8), tw = a.text.length * 6.5 + 16, tx = right ? ax - 8 : ax - tw + 8;
-      s += '<rect x="' + tx + '" y="' + (ty - 14) + '" width="' + tw + '" height="21" rx="4" fill="' + css("--g-pill", el) + '"/>';
-      s += '<text x="' + (tx + tw / 2) + '" y="' + (ty + 1) + '" text-anchor="middle" font-size="11.5" font-weight="600" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace" fill="' + css("--g-pill-ink", el) + '">' + esc(a.text) + "</text>";
-    }
-    // end dots + axis tags
-    const tags = [];
-    opt.series.forEach(se => {
-      let li = null; se.vals.forEach((v, i) => { if (v !== null && isFinite(v)) li = i; });
-      if (li === null) return;
-      s += '<circle cx="' + x(li) + '" cy="' + y(se.vals[li]) + '" r="3" fill="' + se.color + '"/>';
-      if (false) tags.push({ yy: y(se.vals[li]), text: opt.tickFmt(se.vals[li], true), color: se.color, ink: se.ink || "#ffffff" });
-    });
-    tags.sort((a, b) => a.yy - b.yy);
-    for (let i = 1; i < tags.length; i++) if (tags[i].yy - tags[i - 1].yy < 20) tags[i].yy = tags[i - 1].yy + 20;
-    tags.forEach(t => {
-      const w = Math.max(48, t.text.length * 6.6 + 14);
-      s += '<rect x="' + (M.l + iw + 4) + '" y="' + (t.yy - 10) + '" width="' + w + '" height="20" rx="4" fill="' + t.color + '"/>';
-      s += '<text x="' + (M.l + iw + 4 + w / 2) + '" y="' + (t.yy + 4) + '" text-anchor="middle" font-size="11" font-weight="600" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace" fill="' + t.ink + '" style="font-variant-numeric:tabular-nums">' + esc(t.text) + "</text>";
-    });
-    s += '<g class="hover" pointer-events="none"></g><rect x="' + M.l + '" y="' + M.t + '" width="' + iw + '" height="' + ih + '" fill="transparent"/></svg>';
-    el.innerHTML = s + '<div class="tip readout" aria-live="polite"></div>';
-
-    const svg = el.querySelector("svg"), g = svg.querySelector(".hover"), tip = el.querySelector(".tip");
-    if (animate) {
-      svg.querySelectorAll("path.draw").forEach(p => { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        svg.querySelectorAll("path.draw").forEach(p => p.style.strokeDashoffset = 0);
-        svg.querySelectorAll("[data-fade]").forEach(p => p.style.opacity = 1);
-      }));
-      setTimeout(() => svg.querySelectorAll("path.draw").forEach(p => { p.style.strokeDasharray = ""; }), 1300);
-    }
-    let cur = null;
-    function show(i) {
-      cur = Math.max(0, Math.min(n - 1, i));
-      const xx = x(cur);
-      let h = '<line x1="' + xx + '" x2="' + xx + '" y1="' + M.t + '" y2="' + (M.t + ih) + '" stroke="' + css("--line") + '" stroke-width="1"/>';
-      opt.series.forEach(se => { const v = se.vals[cur]; if (v !== null && isFinite(v)) h += '<circle cx="' + xx + '" cy="' + y(v) + '" r="4" fill="' + se.color + '" stroke="' + surf + '" stroke-width="2"/>'; });
-      // date pill on x axis
-      const L = opt.labels[cur], dt = MON[L.m] + " " + L.y, pw = dt.length * 6.4 + 16;
-      const px = Math.max(M.l + pw / 2, Math.min(M.l + iw - pw / 2, xx));
-      h += '<rect x="' + (px - pw / 2) + '" y="' + (H - 23) + '" width="' + pw + '" height="20" rx="4" fill="' + css("--g-pill", el) + '"/><text x="' + px + '" y="' + (H - 9) + '" text-anchor="middle" font-size="11" font-weight="600" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace" fill="' + css("--g-pill-ink", el) + '">' + dt + "</text>";
-      g.innerHTML = h;
-      fill(cur, true);
-    }
-    // readout bar under the chart: shows the hovered month, or the latest month at rest
-    let lastIdx = n - 1;
-    for (let k = n - 1; k >= 0; k--) { if (opt.series.some(se => se.vals[k] !== null && isFinite(se.vals[k]))) { lastIdx = k; break; } }
-    function fill(i, live) {
-      const content = opt.tip(i);
-      tip.classList.toggle("live", !!live);
-      tip.innerHTML = content ? '<span class="state">' + (live ? "Selected" : "Latest") + "</span>" + content : "";
-    }
-    function hide() { cur = null; g.innerHTML = ""; fill(lastIdx, false); }
-    fill(lastIdx, false);
-    svg.addEventListener("pointermove", e => { const r = svg.getBoundingClientRect(); const px = (e.clientX - r.left) * (W / r.width); show(Math.round(((px - M.l) / iw) * (n - 1))); });
-    svg.addEventListener("pointerleave", hide);
-    svg.addEventListener("focus", () => show(n - 1));
-    svg.addEventListener("blur", hide);
-    svg.addEventListener("keydown", e => {
-      if (e.key === "ArrowLeft" || e.key === "ArrowRight") { e.preventDefault(); show((cur === null ? n - 1 : cur) + (e.key === "ArrowLeft" ? -1 : 1)); }
-      else if (e.key === "Home") { e.preventDefault(); show(0); } else if (e.key === "End") { e.preventDefault(); show(n - 1); } else if (e.key === "Escape") hide();
-    });
+    hit.addEventListener("pointermove", (e) => at(e.clientX));
+    hit.addEventListener("pointerdown", (e) => at(e.clientX));
+    hit.addEventListener("pointerleave", () => { xh.style.display = "none"; tip.hidden = true; });
   }
-  const redrawAll = () => charts.forEach((o, el) => drawChart(el, o, false));
-  let rt, lastW = 0;
-  new ResizeObserver(() => { const w = document.body.clientWidth; if (w === lastW) return; lastW = w; clearTimeout(rt); rt = setTimeout(redrawAll, 90); }).observe(document.body);
-  const themeChange = () => { renderMain(false); renderHeat(); renderConsistency(false); };
-  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", themeChange);
-  new MutationObserver(themeChange).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  drawGrowth();
 
-  /* Chart theme tokens, set per container */
-  function chartTokens(el, dark) {
-    const r = document.documentElement;
-    const st = el.style;
-    if (dark) {
-      st.setProperty("--g-line", "rgba(255,255,255,0.06)"); st.setProperty("--g-axis", "rgba(255,255,255,0.28)");
-      st.setProperty("--g-text", "#8d8a82"); st.setProperty("--g-strong", "#f1eee7"); st.setProperty("--g-surface", css("--t-bg"));
-      st.setProperty("--g-cross", "rgba(255,255,255,0.35)"); st.setProperty("--g-pill", "#f1eee7"); st.setProperty("--g-pill-ink", "#0f1114");
-      st.setProperty("--g-band", "rgba(240,144,122,0.07)"); st.setProperty("--g-band-edge", "rgba(240,144,122,0.35)");
-    } else {
-      st.setProperty("--g-line", css("--c-grid")); st.setProperty("--g-axis", css("--c-ref")); st.setProperty("--g-text", css("--fg-2"));
-      st.setProperty("--g-strong", css("--fg")); st.setProperty("--g-surface", css("--paper")); st.setProperty("--g-cross", css("--fg-3"));
-      st.setProperty("--g-pill", css("--fg")); st.setProperty("--g-pill-ink", css("--paper"));
-      st.setProperty("--g-band", "rgba(231,223,207,0.28)"); st.setProperty("--g-band-edge", css("--c-ref"));
-    }
+  /* ---- What-if calculator ---- */
+  const starts = [];
+  M.forEach((x, i) => { const [y, m] = x.m.split("-").map(Number); if (i === 0 || m === 1) starts.push({ i, label: i === 0 ? "Inception (" + ml(x.m) + ")" : "January " + y }); });
+  $("start").innerHTML = starts.map((s) => '<option value="' + s.i + '">' + esc(s.label) + "</option>").join("");
+  function calc() {
+    const amt = +$("amt").value, i = +$("start").value;
+    $("amt-out").textContent = money(amt);
+    const S = M.slice(i);
+    if (!S.length) return;
+    const f = amt * prod(S.map((x) => x.p)), b = amt * prod(S.map((x) => x.b));
+    $("c-f").textContent = money(f); $("c-b").textContent = money(b);
+    $("c-fr").innerHTML = '<span class="' + cls(f / amt - 1) + '">' + pct(f / amt - 1, 0) + "</span> total return";
+    $("c-br").innerHTML = '<span class="' + cls(b / amt - 1) + '">' + pct(b / amt - 1, 0) + "</span> total return";
+    const tot = f + b; $("c-barf").style.width = (f / tot * 100) + "%"; $("c-barb").style.width = (b / tot * 100) + "%";
+    const d = f - b, last = S[S.length - 1];
+    $("c-sum").innerHTML = "From " + esc(ml(S[0].m)) + " through " + esc(ml(last.m)) + ", " + money(amt) + " in PFW-SIF would have " + (d >= 0 ? "beaten" : "trailed") + " the S&amp;P 500 by <b>" + money(Math.abs(d)) + "</b>. " + (live ? "" : "Simulated results; past performance does not predict future returns.");
   }
+  $("amt").addEventListener("input", calc); $("start").addEventListener("change", calc);
+  if (M.length) calc();
 
-  /* ---------------- Main chart ---------------- */
-  function renderMain(animate) {
-    chartTokens($("main-chart"), false);
-    const { months: w, startIdx } = windowSlice();
-    const all = data();
-    const P = w.map(d => d.p), B = w.map(d => d.b);
-    const showP = state.series !== "b", showB = state.series !== "p";
-    const gold = css("--c-p"), bench = css("--c-b");
-    const [py, pm] = prevMonth(w[0].y, w[0].m);
-    const fromInception = startIdx === 0;
-    const labelsW = [fromInception ? { y: w[0].y, m: w[0].m, skip: true } : { y: py, m: pm }].concat(w.map(d => ({ y: d.y, m: d.m })));
-    const lab = L => MONL[L.m] + " " + L.y;
-    const SV = CONFIG.startValue;
-    let opt, stats = [], note = "", title = "", legendP = "PFW-SIF", legendB = "S&P 500 TR";
-
-    if (state.mode === "growth") {
-      const wp = E.wealth(P, SV), wb = E.wealth(B, SV);
-      title = fromInception ? "Growth of $100,000 since inception" : "Growth of $100,000 since " + ml(py, pm);
-      opt = {
-        labels: labelsW, height: 380, aria: "Growth of $100,000 for PFW-SIF and the S&P 500 TR. Use arrow keys to read values.",
-        endTags: true, height: 400,
-        series: [showB && { vals: wb, color: bench, w: 1.5, ink: "#ffffff" }, showP && { vals: wp, color: gold, w: 2.5, ink: "#1F2328" }].filter(Boolean),
-        tickFmt: (v, tag) => tag ? "$" + (v / 1000).toFixed(1) + "k" : "$" + Math.round(v / 1000) + "k",
-        tip: i => {
-          let h = '<div class="d">' + (i === 0 ? "Start · " : "") + lab(labelsW[i]) + "</div>";
-          if (showP) h += '<div class="grp"><div class="r"><span class="k"><i style="background:' + gold + '"></i>PFW-SIF</span><span class="num">' + money(wp[i]) + '</span></div><div class="r"><span class="muted">Since start</span><span class="num ' + cls(wp[i] / SV - 1) + '">' + pct(wp[i] / SV - 1, 2) + "</span></div></div>";
-          if (showB) h += '<div class="grp"><div class="r"><span class="k"><i style="background:' + bench + '"></i>S&amp;P 500 TR</span><span class="num">' + money(wb[i]) + '</span></div><div class="r"><span class="muted">Since start</span><span class="num ' + cls(wb[i] / SV - 1) + '">' + pct(wb[i] / SV - 1, 2) + "</span></div></div>";
-          if (showP && showB) { const a = wp[i] / SV - wb[i] / SV; h += '<div class="grp"><div class="r"><span>Spread</span><span class="num ' + cls(a) + '">' + pts(a, 2) + "</span></div></div>"; }
-          return h;
-        }
-      };
-      const ddb = E.drawdown(showP ? P : B);
-      if (false && ddb.max < -0.02) opt.band = { i0: ddb.peak, i1: ddb.recovery === null ? wp.length - 1 : ddb.recovery, label: "Max drawdown " + pct(ddb.max, 1, false) };
-      const ep = wp[wp.length - 1], eb = wb[wb.length - 1];
-      stats = [["PFW-SIF ending value", money(ep), ""], ["PFW-SIF return", pct(ep / SV - 1), cls(ep / SV - 1)], ["S&P 500 TR ending value", money(eb), ""], ["S&P 500 TR return", pct(eb / SV - 1), cls(eb / SV - 1)], ["Active difference", pts(ep / SV - eb / SV), cls(ep - eb)], ["Months", String(w.length), ""]];
-      note = "Both series start at $100,000 at the beginning of the window and compound monthly returns independently. PFW-SIF values are net of commissions and fees recorded in the trade ledger; the benchmark is SPY with dividends reinvested.";
-    } else if (state.mode === "dd") {
-      const dp = E.drawdown(P), db = E.drawdown(B);
-      title = "Drawdown from prior peak";
-      opt = {
-        labels: labelsW, height: 340, zeroMax: true, aria: "Drawdown from prior peak for PFW-SIF and the S&P 500 TR.",
-        endTags: true,
-        series: [showB && { vals: db.series, color: bench, w: 1.5, area: !showP, areaFrom: "zero-down", areaOpacity: 0.12, ink: "#ffffff" }, showP && { vals: dp.series, color: gold, w: 2.5, area: true, areaFrom: "zero-down", areaOpacity: 0.16, ink: "#1F2328" }].filter(Boolean),
-        tickFmt: (v, tag) => pct(v, tag ? 1 : 0, false),
-        tip: i => {
-          let h = '<div class="d">' + lab(labelsW[i]) + "</div>";
-          if (showP) h += '<div class="r"><span class="k"><i style="background:' + gold + '"></i>PFW-SIF</span><span class="num ' + cls(dp.series[i]) + '">' + pct(dp.series[i], 2, false) + "</span></div>";
-          if (showB) h += '<div class="r"><span class="k"><i style="background:' + bench + '"></i>S&amp;P 500 TR</span><span class="num ' + cls(db.series[i]) + '">' + pct(db.series[i], 2, false) + "</span></div>";
-          return h;
-        }
-      };
-      const D = showP ? dp : db, who = showP ? "PFW-SIF" : "S&P 500 TR";
-      if (D.max < 0) opt.annotate = { i: D.trough, v: D.max, color: showP ? gold : bench, text: "Max " + pct(D.max, 1, false) + " · " + labelAt(w, D.trough) };
-      const recTxt = D.max === 0 ? "No drawdown" : D.recovery === null ? "Not yet recovered" : labelAt(w, D.recovery);
-      const durEnd = D.recovery === null ? w.length : D.recovery;
-      stats = [["Max drawdown · " + who, pct(D.max, 1, false), cls(D.max)], ["Current drawdown", pct(D.current, 1, false), cls(D.current)], ["Peak", D.max === 0 ? "—" : labelAt(w, D.peak), ""], ["Trough", D.max === 0 ? "—" : labelAt(w, D.trough), ""], ["Recovery", recTxt, ""], ["Duration", D.max === 0 ? "—" : (durEnd - D.peak) + " mo" + (D.recovery === null ? " (ongoing)" : ""), ""]];
-      if (showP && showB) stats[1] = ["S&P max drawdown", pct(db.max, 1, false), cls(db.max)];
-      note = "Drawdown is measured within the selected window, so a 5Y figure is the deepest decline in those five years, not since inception. Peak, trough and recovery describe the " + who + " maximum drawdown.";
-    } else {
-      const rp = E.rolling(all.map(d => d.p), 12, a => E.cum(a)).slice(startIdx);
-      const rb = E.rolling(all.map(d => d.b), 12, a => E.cum(a)).slice(startIdx);
-      const labelsR = w.map(d => ({ y: d.y, m: d.m }));
-      title = "Rolling 12-month return";
-      opt = {
-        labels: labelsR, height: 340, refLine: 0, aria: "Rolling 12-month return for PFW-SIF and the S&P 500 TR.",
-        empty: "Rolling 1-year returns need 12 months of history. " + all.length + " months are recorded.",
-        endTags: true,
-        series: [showB && { vals: rb, color: bench, w: 1.5, ink: "#ffffff" }, showP && { vals: rp, color: gold, w: 2.5, ink: "#1F2328" }].filter(Boolean),
-        tickFmt: (v, tag) => pct(v, tag ? 1 : 0, true),
-        tip: i => {
-          if ((showP ? rp[i] : rb[i]) === null) return '<div class="d">' + lab(labelsR[i]) + '</div><div class="muted">Fewer than 12 months of history</div>';
-          let h = '<div class="d">12 months to ' + lab(labelsR[i]) + "</div>";
-          if (showP) h += '<div class="r"><span class="k"><i style="background:' + gold + '"></i>PFW-SIF</span><span class="num ' + cls(rp[i]) + '">' + pct(rp[i], 2) + "</span></div>";
-          if (showB) h += '<div class="r"><span class="k"><i style="background:' + bench + '"></i>S&amp;P 500 TR</span><span class="num ' + cls(rb[i]) + '">' + pct(rb[i], 2) + "</span></div>";
-          if (showP && showB) h += '<div class="grp"><div class="r"><span>Difference</span><span class="num ' + cls(rp[i] - rb[i]) + '">' + pts(rp[i] - rb[i], 2) + "</span></div></div>";
-          return h;
-        }
-      };
-      const S = (showP ? rp : rb).map((v, i) => [v, i]).filter(a => a[0] !== null);
-      const who = showP ? "PFW-SIF" : "S&P 500 TR";
-      if (S.length) {
-        const hi = S.reduce((a, b) => b[0] > a[0] ? b : a), lo = S.reduce((a, b) => b[0] < a[0] ? b : a), la = S[S.length - 1];
-        const other = showP && showB ? rb[la[1]] : null;
-        stats = [["Latest · " + who, pct(la[0]), cls(la[0])], ["Latest · S&P 500 TR", showP && showB ? pct(other) : "—", cls(other)], ["Highest", pct(hi[0]), cls(hi[0])], ["Highest in", ml(w[hi[1]].y, w[hi[1]].m), ""], ["Lowest", pct(lo[0]), cls(lo[0])], ["Lowest in", ml(w[lo[1]].y, w[lo[1]].m), ""]];
-      } else stats = [["Latest", "N/A", ""], ["Highest", "N/A", ""], ["Lowest", "N/A", ""], ["", "", ""], ["", "", ""], ["", "", ""]];
-      note = "Each point compounds the 12 monthly returns ending that month. Points near the start of the window use months just before it when they exist.";
-    }
-    $("chart-h").textContent = title;
-    $("legend").innerHTML = (showP ? '<span><i style="background:' + gold + ';height:3px"></i>' + legendP + "</span>" : "") + (showB ? '<span><i style="background:' + bench + '"></i>' + legendB + "</span>" : "");
-    drawChart($("main-chart"), opt, false);
-    $("chart-stats").innerHTML = stats.map(([k, v, c]) => '<div><p class="eyebrow">' + esc(k) + '</p><p class="v ' + c + '">' + esc(v) + "</p></div>").join("");
-    $("chart-note").textContent = note;
-  }
-
-  /* ---------------- Annual table ---------------- */
-  function renderAnnual() {
-    const all = data();
-    const years = [...new Set(all.map(d => d.y))];
-    const last = all[all.length - 1], first = all[0];
-    let cp = 1, cb = 1;
-    const rows = years.map(Y => {
-      const ms = all.filter(d => d.y === Y);
-      const p = E.cum(ms.map(d => d.p)), b = E.cum(ms.map(d => d.b));
-      cp *= 1 + p; cb *= 1 + b;
-      let tag = "";
-      if (Y === last.y && last.m < 11) tag = "YTD through " + MON[last.m];
-      else if (Y === first.y && first.m > 0) tag = "Partial, from " + MON[first.m];
-      return { Y, p, b, cp: cp - 1, cb: cb - 1, tag };
-    }).reverse();
-    const cum = state.aView === "cum", sp = state.aSeries;
-    const vp = r => cum ? r.cp : r.p, vb = r => cum ? r.cb : r.b;
-    const maxAbs = Math.max(...rows.map(r => Math.max(Math.abs(vp(r)), Math.abs(vb(r))))) || 1;
-    const bar = (v, c) => { const w = Math.abs(v) / maxAbs * 50; return '<span class="b ' + c + '" style="' + (v >= 0 ? "left:50%" : "right:50%") + ";width:" + w.toFixed(2) + '%"></span>'; };
-    let h = "<thead><tr><th scope=\"col\">Year</th>" + (sp !== "b" ? "<th scope=\"col\">PFW-SIF</th>" : "") + (sp !== "p" ? "<th scope=\"col\">S&amp;P 500 TR</th>" : "") + (sp === "both" ? "<th scope=\"col\">Spread</th>" : "") + "</tr></thead><tbody>";
-    rows.forEach(r => {
-      const a = vp(r) - vb(r);
-      h += '<tr><td class="yr">' + r.Y + (r.tag ? "<small>" + r.tag + "</small>" : "") + "</td>" +
-        (sp !== "b" ? '<td class="' + cls(vp(r)) + '">' + pct(vp(r)) + "</td>" : "") +
-        (sp !== "p" ? '<td class="bench">' + pct(vb(r)) + "</td>" : "") +
-        (sp === "both" ? '<td class="spread ' + cls(a) + '">' + pts(a) + "</td>" : "") + "</tr>";
+  /* ---- Portfolio donut ---- */
+  if (hold && hold.positions.length) {
+    const parts = hold.positions.map((p, i) => ({ t: p.t, name: p.name, w: p.weight || 0, mv: p.mv, g: p.gain_pct, sector: p.sector, c: COLORS[i % COLORS.length] }));
+    parts.push({ t: "Cash", name: "Cash", w: hold.cash / hold.nav, mv: hold.cash, g: null, sector: "Cash", c: "#D9D5CC" });
+    const svg = $("donut").querySelector("svg"), R0 = 92, R1 = 140, C = 150;
+    let a = -Math.PI / 2, html = "";
+    const pt = (r, ang) => (C + r * Math.cos(ang)).toFixed(2) + " " + (C + r * Math.sin(ang)).toFixed(2);
+    parts.forEach((p, i) => {
+      const a2 = a + Math.max(0.0001, p.w) * Math.PI * 2 - 0.012, large = a2 - a > Math.PI ? 1 : 0;
+      html += '<path data-i="' + i + '" fill="' + p.c + '" d="M' + pt(R1, a) + " A" + R1 + " " + R1 + " 0 " + large + " 1 " + pt(R1, a2) + " L" + pt(R0, a2) + " A" + R0 + " " + R0 + " 0 " + large + " 0 " + pt(R0, a) + ' Z"><title>' + esc(p.t) + " " + pct(p.w, 1, false) + "</title></path>";
+      a = a2 + 0.012;
     });
-    $("annual").innerHTML = h + "</tbody>";
-  }
-
-  /* ---------------- Monthly heatmap ---------------- */
-  function renderHeat() {
-    const all = data();
-    const pos = css("--pos-wash") === "" ? css("--pos") : css("--pos"), neg = css("--neg"), bg = css("--paper");
-    const mix = (v) => {
-      if (v === null) return "";
-      const t = Math.min(1, Math.abs(v) / 0.06);
-      const c = v >= 0 ? pos : neg;
-      return "background:color-mix(in oklab, " + c + " " + Math.round(8 + t * 26) + "%, " + bg + ")";
+    svg.innerHTML = html;
+    $("mix-list").innerHTML = parts.map((p, i) => '<a href="/holdings" data-i="' + i + '"><i style="background:' + p.c + '"></i><b>' + esc(p.t) + '</b><span class="nm">' + esc(p.name === p.t ? "Uninvested cash" : p.name + " · " + p.sector) + '</span><span class="w">' + pct(p.w, 1, false) + '</span><span class="g ' + cls(p.g) + '">' + (p.g === null ? money(p.mv) : pct(p.g, 0) + " gain") + "</span></a>").join("");
+    const setOn = (i) => {
+      svg.querySelectorAll("path").forEach((el) => { el.classList.toggle("on", i !== null && +el.dataset.i === i); el.classList.toggle("dim", i !== null && +el.dataset.i !== i); });
+      $("mix-list").querySelectorAll("a").forEach((el) => el.classList.toggle("on", i !== null && +el.dataset.i === i));
+      if (i === null) { $("d-big").textContent = money(hold.nav); $("d-small").textContent = hold.positions.length + " positions + cash"; return; }
+      const p = parts[i]; $("d-big").textContent = pct(p.w, 1, false); $("d-small").textContent = p.t + " · " + money(p.mv);
     };
-    $("sw-neg").style.cssText = mix(-0.06); $("sw-0").style.cssText = "background:" + bg + ";border:1px solid " + css("--line"); $("sw-pos").style.cssText = mix(0.06);
-    const pick = d => state.mSeries === "p" ? d.p : state.mSeries === "b" ? d.b : d.p - d.b;
-    const years = [...new Set(all.map(d => d.y))].reverse();
-    let h = '<thead><tr><th scope="col">Year</th>' + MON.map(m => '<th scope="col">' + m + "</th>").join("") + '<th scope="col">Year</th></tr></thead><tbody>';
-    years.forEach(Y => {
-      h += '<tr><th scope="row" style="text-align:left;background:transparent;font-size:13px;letter-spacing:0;color:var(--fg)">' + Y + "</th>";
-      for (let m = 0; m < 12; m++) {
-        const d = all.find(x => x.y === Y && x.m === m);
-        if (!d) { h += '<td class="c empty">·</td>'; continue; }
-        const v = pick(d);
-        h += '<td class="c" tabindex="0" data-y="' + Y + '" data-m="' + m + '" style="' + mix(v) + '">' + pct(v, 1) + "</td>";
-      }
-      const ms = all.filter(x => x.y === Y);
-      const yp = E.cum(ms.map(x => x.p)), yb = E.cum(ms.map(x => x.b));
-      const yv = state.mSeries === "p" ? yp : state.mSeries === "b" ? yb : yp - yb;
-      h += '<td class="c ytd ' + cls(yv) + '">' + (state.mSeries === "a" ? pts(yv) : pct(yv)) + "</td></tr>";
-    });
-    $("heat").innerHTML = h + "</tbody>";
-  }
-  function heatDetail(td) {
-    const d = data().find(x => x.y === +td.dataset.y && x.m === +td.dataset.m); if (!d) return;
-    $("heat-detail").innerHTML = "<b>" + MONL[d.m] + " " + d.y + "</b> · PFW-SIF <span class=\"num " + cls(d.p) + "\">" + pct(d.p, 2) + "</span> · S&amp;P 500 TR <span class=\"num " + cls(d.b) + "\">" + pct(d.b, 2) + "</span> · Spread <span class=\"num " + cls(d.p - d.b) + "\">" + pts(d.p - d.b, 2) + "</span>";
-  }
-  function heatTip(td) {
-    const tip = $("heat-tip");
-    const y = +td.dataset.y, m = +td.dataset.m;
-    const e = MPOS[y + "-" + String(m + 1).padStart(2, "0")];
-    if (!e || !e.positions) { tip.hidden = true; return; }
-    const sm = v => (v < 0 ? minus : v > 0 ? "+" : "") + "$" + Math.abs(Math.round(v)).toLocaleString("en-US");
-    const [ey, em, ed] = e.date.split("-").map(Number);
-    const rows = e.positions.map(p => '<tr><td>' + esc(p.t) + (p.shares === 0 ? ' <span style="font-weight:400;color:var(--fg-2)">sold</span>' : "") + '</td><td>' + money(p.value) + '</td><td class="' + cls(p.change / 1e4) + '">' + sm(p.change) + '</td><td class="' + cls(p.changePct) + '">' + (p.changePct === null ? "—" : pct(p.changePct, 1)) + "</td></tr>").join("");
-    const invested = e.positions.reduce((s, p) => s + p.value, 0);
-    tip.innerHTML = '<div class="tt-h"><b>' + MONL[m] + " " + y + '</b><span>Values at the ' + MON[em - 1] + " " + ed + ", " + ey + " close</span></div>" +
-      '<table><thead><tr><th>Position</th><th>Value</th><th>Change</th><th>%</th></tr></thead><tbody>' + rows +
-      '<tr class="cash"><td>Cash</td><td>' + money(e.cash) + '</td><td></td><td></td></tr>' +
-      '<tr class="tot"><td>Total</td><td>' + money(e.value) + '</td><td></td><td>' + (invested + e.cash > 0 ? Math.round(invested / (invested + e.cash) * 100) + "% invested" : "") + "</td></tr></tbody></table>" +
-      '<p class="note">Change is the gain or loss for the month, including dividends and any buys or sales.</p>';
-    tip.hidden = false;
-    const r = td.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
-    let left = Math.min(Math.max(12, r.left + r.width / 2 - w / 2), window.innerWidth - w - 12);
-    let top = r.bottom + 8;
-    if (top + h > window.innerHeight - 8) top = Math.max(8, r.top - h - 8);
-    tip.style.left = left + "px"; tip.style.top = top + "px";
-  }
-  const hideTip = () => { $("heat-tip").hidden = true; };
-  $("heat").addEventListener("pointerover", e => { const td = e.target.closest("td.c[data-y]"); if (td) { heatDetail(td); heatTip(td); } });
-  $("heat").addEventListener("focusin", e => { const td = e.target.closest("td.c[data-y]"); if (td) { heatDetail(td); heatTip(td); } });
-  $("heat").addEventListener("pointerleave", hideTip);
-  $("heat").addEventListener("focusout", hideTip);
-  window.addEventListener("scroll", hideTip, { passive: true });
-  document.addEventListener("keydown", e => { if (e.key === "Escape") hideTip(); });
-
-  /* ---------------- Consistency + rolling risk ---------------- */
-  function renderConsistency(animate) {
-    const { months: w, startIdx } = windowSlice();
-    const all = data();
-    const P = w.map(d => d.p), B = w.map(d => d.b);
-    const n = w.length;
-    const pm = P.filter(x => x > 0).length, bm = P.filter((x, i) => x > B[i]).length;
-    const yrs = [...new Set(w.map(d => d.y))].filter(Y => w.filter(d => d.y === Y).length === 12);
-    const ys = yrs.map(Y => { const ms = w.filter(d => d.y === Y); return [E.cum(ms.map(d => d.p)), E.cum(ms.map(d => d.b))]; });
-    const py = ys.filter(a => a[0] > 0).length, by = ys.filter(a => a[0] > a[1]).length;
-    const up = E.capture(P, B, true), dn = E.capture(P, B, false);
-    const cell = (label, v, sub, meter) => '<div><p class="eyebrow">' + label + '</p><p class="v">' + v + "</p>" + (meter !== undefined && meter !== null ? '<div class="meter"><i style="width:' + (meter * 100).toFixed(1) + '%"></i></div>' : "") + '<p class="n">' + sub + "</p></div>";
-    $("consist").innerHTML =
-      cell("Positive months", pct(pm / n, 0, false), pm + " of " + n + " months", pm / n) +
-      cell("Months beating S&amp;P", pct(bm / n, 0, false), bm + " of " + n + " months", bm / n) +
-      cell("Positive years", ys.length ? pct(py / ys.length, 0, false) : "N/A", ys.length ? py + " of " + ys.length + " complete calendar years" : "No complete calendar year in window", ys.length ? py / ys.length : null) +
-      cell("Years beating S&amp;P", ys.length ? pct(by / ys.length, 0, false) : "N/A", ys.length ? by + " of " + ys.length + " complete calendar years" : "No complete calendar year in window", ys.length ? by / ys.length : null) +
-      cell("Upside capture", up === null ? "N/A" : (up * 100).toFixed(0) + "%", up === null ? "Needs 12 months" : "Months when S&amp;P rose", null) +
-      cell("Downside capture", dn === null ? "N/A" : (dn * 100).toFixed(0) + "%", dn === null ? "Needs 12 months with down months" : "Months when S&amp;P fell", null);
-
-    const AP = all.map(d => d.p), AB = all.map(d => d.b), rf = CONFIG.riskFree.rate;
-    const labels = w.map(d => ({ y: d.y, m: d.m }));
-    const gold = css("--c-p"), bench = css("--c-b");
-    const lab = i => MONL[labels[i].m] + " " + labels[i].y;
-    const vol = [E.rolling(AP, 12, a => E.vol(a)).slice(startIdx), E.rolling(AB, 12, a => E.vol(a)).slice(startIdx)];
-    const sh = [E.rolling(AP, 12, a => E.sharpe(a, rf)).slice(startIdx), E.rolling(AB, 12, a => E.sharpe(a, rf)).slice(startIdx)];
-    const be = E.rolling(AP, 12, (a, i) => E.beta(a, AB.slice(i - 11, i + 1))).slice(startIdx);
-    const emptyMsg = "Rolling statistics need 12 months of history. " + all.length + " months are recorded.";
-    const mini = (el, sers, fmt, ref, name) => { chartTokens($(el), false); drawChart($(el), {
-      labels, height: 190, compact: true, noEnd: false, refLine: ref, empty: emptyMsg, aria: name,
-      series: sers, tickFmt: fmt,
-      tip: i => { const rows = sers.slice().reverse().map(s => s.vals[i] === null ? "" : '<div class="r"><span>' + s.name + '</span><span class="num">' + fmt(s.vals[i], true) + "</span></div>").join(""); return rows ? '<div class="d">12 months to ' + lab(i) + "</div>" + rows : null; }
-    }, false); };
-    mini("mini-vol", [{ vals: vol[1], color: bench, w: 1.5, name: "S&amp;P 500 TR" }, { vals: vol[0], color: gold, w: 2, name: "PFW-SIF" }], (v, f) => pct(v, f ? 1 : 0, false), undefined, "Rolling 12-month volatility");
-    mini("mini-sharpe", [{ vals: sh[1], color: bench, w: 1.5, name: "S&amp;P 500 TR" }, { vals: sh[0], color: gold, w: 2, name: "PFW-SIF" }], v => ratio(v, 1), 0, "Rolling 12-month Sharpe ratio");
-    mini("mini-beta", [{ vals: be, color: gold, w: 2, name: "Beta" }], v => ratio(v, 2), 1, "Rolling 12-month beta");
-    $("mini-sharpe-note").textContent = "Risk-free rate " + (rf * 100).toFixed(1) + "%, both series";
+    setOn(null);
+    svg.addEventListener("pointerover", (e) => { const el = e.target.closest("path[data-i]"); if (el) setOn(+el.dataset.i); });
+    svg.addEventListener("pointerleave", () => setOn(null));
+    svg.addEventListener("click", () => { location.href = "/holdings"; });
+    $("mix-list").addEventListener("pointerover", (e) => { const el = e.target.closest("a[data-i]"); if (el) setOn(+el.dataset.i); });
+    $("mix-list").addEventListener("pointerleave", () => setOn(null));
+    $("mix-asof").textContent = "Weights at the " + fmt.date(hold.as_of) + " close. Hover a slice or row for details; click to open Holdings.";
   }
 
-  /* ---------------- Wiring ---------------- */
-  function renderAll() {
-    renderFacts(); renderWindowBar(); renderCards(); renderRisk(); renderMain(true); renderAnnual(); renderHeat(); renderConsistency(true);
-  }
-  function bindSeg(id, key, attr, after) {
-    $(id).addEventListener("click", e => {
-      const b = e.target.closest("button"); if (!b || b.disabled) return;
-      state[key] = b.dataset[attr];
-      $(id).querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
-      after();
-    });
-  }
-  bindSeg("mode", "mode", "mode", () => renderMain(true));
-  bindSeg("series", "series", "s", () => renderMain(true));
-  bindSeg("a-view", "aView", "v", renderAnnual);
-  bindSeg("a-series", "aSeries", "s", renderAnnual);
-  bindSeg("m-series", "mSeries", "s", renderHeat);
-  $("win").addEventListener("click", e => {
-    const b = e.target.closest("button"); if (!b || b.disabled) return;
-    state.win = b.dataset.w;
-    renderWindowBar(); renderCards(); renderRisk(); renderMain(true); renderConsistency(true);
-  });
-  function renderNav() {
-    const c = window.PFW_CONFIG || {};
-    const nav = Array.isArray(c.nav) && c.nav.length ? c.nav : [{ label: "Performance", href: "/" }, { label: "Holdings", href: "/holdings" }, { label: "Research", href: "/research" }];
-    const clean = p => p.replace(/\.html$/, "").replace(/\/index$/, "/").replace(/(.)\/$/, "$1");
-    const here = clean(location.pathname);
-    const norm = h => { try { const u = new URL(h, location.href); return u.origin === location.origin ? clean(u.pathname) : null; } catch (e) { return null; } };
-    $("site-nav").innerHTML = nav.map(n => '<a href="' + esc(n.href) + '"' + (norm(n.href) === here ? ' aria-current="page"' : "") + ">" + esc(n.label) + "</a>").join("");
-    if (c.homeUrl) $("home-link").setAttribute("href", c.homeUrl);
-    if (c.applyUrl) { const a = $("apply-link"); a.href = c.applyUrl; a.hidden = false; }
-  }
-  function showState(kind, message) {
-    const has = kind === "data";
-    document.querySelectorAll(".needs-data").forEach(el => { el.hidden = !has; });
-    $("no-data").hidden = has;
-    if (kind === "error") {
-      $("data-status").textContent = "Data unavailable";
-      $("data-source").textContent = "Performance data could not be loaded. Please try again later.";
-      $("no-data-eyebrow").textContent = "Data temporarily unavailable";
-      $("no-data-title").textContent = "Performance data could not be loaded.";
-      $("no-data-text").textContent = message || "Please refresh the page in a few minutes.";
-    }
-  }
-  renderNav();
-  showState("loading");
-  $("no-data").hidden = true;
-  loadData().then(() => {
-    renderFacts();
-    if (!LIVE.length) { showState("empty"); return; }
-    state.win = LIVE.length >= 60 ? "5Y" : "SI";
-    showState("data");
-    renderAll();
-  }).catch(err => {
-    LOAD_ERROR = err;
-    console.error("PFW-SIF performance data:", err);
-    showState("error");
-  });
+  /* ---- Research highlights + committee scorecard ---- */
+  if (research && research.reports && research.reports.length) {
+    const R = research.reports;
+    const picks = [];
+    const featured = R.find((r) => r.featured); if (featured) picks.push(featured);
+    for (const r of R.filter((r) => r.type === "Initiation")) { if (picks.length >= 3) break; if (!picks.includes(r)) picks.push(r); }
+    $("rcards").innerHTML = picks.map((r) => {
+      const pill = r.decision === "Not approved" ? '<span class="pill no">Not approved</span>' : '<span class="pill' + (r.recommendation === "Hold" ? " hold" : "") + '">' + esc(r.recommendation || r.type) + "</span>";
+      return '<a class="rcard reveal in" href="' + esc(r.url || "/research") + '"><div class="top"><span>' + esc(r.ticker || "") + " · " + esc(r.type) + " · " + fmt.date(r.date) + "</span>" + pill + "</div><h3>" + esc(r.title) + "</h3><p>" + esc(r.summary || "") + '</p><div class="since"><div>Since report<b class="' + cls(r.return_since) + '">' + pct(r.return_since, 0) + '</b></div><div>S&amp;P 500 TR<b>' + pct(r.benchmark_return_since, 0) + "</b></div>" + (r.target_price ? "<div>Target<b>" + money(r.target_price) + "</b></div>" : "") + "</div></a>";
+    }).join("");
+    const sc = research.scorecard || {}, A = sc.approved_ideas || {}, X = sc.rejected_ideas || {};
+    $("score").innerHTML =
+      "<div><dt>Pitches decided</dt><dd>" + (sc.pitches ?? "—") + "</dd><small>" + (sc.approved ?? 0) + " approved · " + (sc.not_approved ?? 0) + " declined</small></div>" +
+      '<div><dt>Approved ideas vs S&amp;P 500</dt><dd class="' + cls(A.avg_active) + '">' + pts(A.avg_active) + "</dd><small>Average since pitch, " + (A.count ?? 0) + " ideas</small></div>" +
+      '<div><dt>Declined ideas vs S&amp;P 500</dt><dd class="' + cls(X.avg_active) + '">' + pts(X.avg_active) + "</dd><small>What the committee passed on, " + (X.count ?? 0) + " ideas</small></div>";
+  } else $("rcards").innerHTML = '<p class="loading">No research published yet.</p>';
+
+  /* ---- Process tabs ---- */
+  const STEPS = [
+    ["Research", "Sector teams screen their part of the market, study filings and competitors, and build a financial model and valuation.", "Each of eleven teams covers one S&P 500 sector."],
+    ["Pitch", "The team writes an initiation report with a 12-month price target, catalysts, risks and the conditions that would make the fund sell.", "Every report is published, approved or not."],
+    ["Vote", "The investment committee questions the team and votes. A simple majority approves; approved ideas are bought at the next close.", "Declined pitches are tracked against the S&P 500 too."],
+    ["Monitor", "Positions are valued every trading day, checked against policy limits, and reviewed in writing at least once a year.", "Exits get a short exit memo explaining why."],
+  ];
+  $("ptabs").innerHTML = STEPS.map((s, i) => '<button type="button" role="tab" id="pt' + i + '" aria-selected="' + (i === 0) + '" aria-controls="ppanel"><b>0' + (i + 1) + "</b><span>" + esc(s[0]) + "</span></button>").join("");
+  const showStep = (i) => { $("ptabs").querySelectorAll("button").forEach((b, j) => b.setAttribute("aria-selected", String(j === i))); $("ppanel").innerHTML = "<p>" + esc(STEPS[i][1]) + '</p><div class="ex">' + esc(STEPS[i][2]) + "</div>"; $("ppanel").setAttribute("aria-labelledby", "pt" + i); };
+  $("ptabs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) showStep([...$("ptabs").children].indexOf(b)); });
+  $("ptabs").addEventListener("keydown", (e) => { const bs = [...$("ptabs").children], i = bs.findIndex((b) => b.getAttribute("aria-selected") === "true"); if (e.key === "ArrowRight" || e.key === "ArrowLeft") { const n = (i + (e.key === "ArrowRight" ? 1 : bs.length - 1)) % bs.length; showStep(n); bs[n].focus(); } });
+  showStep(0);
 })();
 </script>
 </body>

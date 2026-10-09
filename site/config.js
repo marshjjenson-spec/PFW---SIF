@@ -14,7 +14,7 @@ window.PFW_CONFIG = {
   // Tabs across the top of every page. The current page is highlighted automatically.
   // Add your other pages here as they go live, e.g. { label: "About", href: "/about" }.
   nav: [
-    { label: "Performance", href: "/" },
+    { label: "Performance", href: "/performance" },
     { label: "Holdings", href: "/holdings" },
     { label: "Research", href: "/research" },
     { label: "Quarterly", href: "/quarterly" },

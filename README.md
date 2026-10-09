@@ -2,7 +2,7 @@
 
 The public website for the Purdue Fort Wayne Student Investment Fund, with live data. It has three tabs:
 
-- **Performance** (`/`): returns, risk statistics, drawdowns and calendar history against the S&P 500 Total Return.
+- **Performance** (`/performance`): returns, risk statistics, drawdowns and calendar history against the S&P 500 Total Return.
 - **Holdings** (`/holdings`): every position, sector allocation, trade notes with research links, dividends, policy limits and closed positions.
 - **Research** (`/research`): the report library, a featured report, the track record of every pitch against the S&P 500, coverage by sector, the pitch pipeline and the research process.
 
@@ -19,7 +19,7 @@ Trade ledger (Supabase: trades)  +  Tiingo end-of-day prices
                 │
    Public, read-only: fund_profile, monthly_returns, public_snapshots
                 │
-   site/index.html (Performance) + holdings.html + research.html on Vercel → visitors
+   site/index.html (Home) + performance.html + holdings.html + research.html on Vercel → visitors
 ```
 
 - **Nobody can change data from the website.** The pages only read three public tables. Trades, prices, company details, secrets and job logs are private.
@@ -30,7 +30,8 @@ Trade ledger (Supabase: trades)  +  Tiingo end-of-day prices
 
 | Path | What it is |
 |---|---|
-| `site/index.html` | The Performance page (`/`) |
+| `site/index.html` | The interactive home page (`/`): live fund numbers, holdings ticker, growth-of-$10,000 chart, what-if calculator, portfolio donut, research highlights |
+| `site/performance.html` | The Performance page (`/performance`) |
 | `site/holdings.html` | The Holdings page (`/holdings`) |
 | `site/research.html` | The Research page (`/research`) |
 | `site/config.js` | Database address, read-only key, nav links, Apply link |

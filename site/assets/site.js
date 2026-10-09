@@ -4,7 +4,7 @@
   const c = window.PFW_CONFIG || {};
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
   const $ = (id) => document.getElementById(id);
-  const DEFAULT_NAV = [{ label: "Performance", href: "/" }, { label: "Holdings", href: "/holdings" }, { label: "Research", href: "/research" }];
+  const DEFAULT_NAV = [{ label: "Performance", href: "/performance" }, { label: "Holdings", href: "/holdings" }, { label: "Research", href: "/research" }];
   const nav = Array.isArray(c.nav) && c.nav.length ? c.nav : DEFAULT_NAV;
   const clean = (p) => p.replace(/\.html$/, "").replace(/\/index$/, "/").replace(/(.)\/$/, "$1");
   const here = clean(location.pathname);

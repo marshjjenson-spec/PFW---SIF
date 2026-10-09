@@ -1107,7 +1107,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   /* ---------------- Navigation + states ---------------- */
   function renderNav() {
     const c = window.PFW_CONFIG || {};
-    const nav = Array.isArray(c.nav) && c.nav.length ? c.nav : [{ label: "Performance", href: "/" }, { label: "Holdings", href: "/holdings" }, { label: "Research", href: "/research" }];
+    const nav = Array.isArray(c.nav) && c.nav.length ? c.nav : [{ label: "Performance", href: "/performance" }, { label: "Holdings", href: "/holdings" }, { label: "Research", href: "/research" }];
     const here = location.pathname.replace(/\.html$/, "").replace(/\/index$/, "/").replace(/(.)\/$/, "$1");
     const norm = h => { try { const u = new URL(h, location.href); return u.origin === location.origin ? u.pathname.replace(/\.html$/, "").replace(/\/index$/, "/").replace(/(.)\/$/, "$1") : null; } catch (e) { return null; } };
     $("site-nav").innerHTML = nav.map(n => '<a href="' + esc(n.href) + '"' + (norm(n.href) === here ? ' aria-current="page"' : "") + ">" + esc(n.label) + "</a>").join("");

@@ -974,7 +974,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   /* ---------------- Navigation + states ---------------- */
   function renderNav() {
     const c = window.PFW_CONFIG || {};
-    const nav = Array.isArray(c.nav) && c.nav.length ? c.nav : [{ label: "Performance", href: "/" }, { label: "Holdings", href: "/holdings" }, { label: "Research", href: "/research" }];
+    const nav = Array.isArray(c.nav) && c.nav.length ? c.nav : [{ label: "Performance", href: "/performance" }, { label: "Holdings", href: "/holdings" }, { label: "Research", href: "/research" }];
     const clean = p => p.replace(/\.html$/, "").replace(/\/index$/, "/").replace(/(.)\/$/, "$1");
     const here = clean(location.pathname);
     const norm = h => { try { const u = new URL(h, location.href); return u.origin === location.origin ? clean(u.pathname) : null; } catch (e) { return null; } };

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Join the Fund | PFW-SIF</title>
-<meta name="description" content="How to join the Purdue Fort Wayne Student Investment Fund: who can apply, what members do, the time commitment and the application steps.">
+<meta name="description" content="How to join the Purdue Fort Wayne Student Investment Fund: open to anyone from any school or background, with no stock pitch required.">
 <meta name="theme-color" content="#1F2328">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,14 +15,14 @@
 </head>
 <body>
 <header class="site"><div class="wrap"></div></header>
-<div class="strip"><div class="wrap"><b>Join the fund</b><span>Open to Purdue Fort Wayne students in any major</span></div></div>
+<div class="strip"><div class="wrap"><b>Join the fund</b><span>Open to anyone, from any school, major or background</span></div></div>
 
 <main>
   <section class="hero">
     <div class="wrap">
       <p class="eyebrow">Membership</p>
       <h1>Learn Investing By Doing It, <em>In Front Of A Committee.</em></h1>
-      <p class="lede">Members research real companies, write reports, pitch to the investment committee and help manage the fund's portfolio. You do not need to be a finance major or have investing experience; you need curiosity, reliability and a willingness to have your work questioned.</p>
+      <p class="lede">Members research real companies, write reports, pitch to the investment committee and help manage the fund's portfolio. Anyone can join: Purdue Fort Wayne students, students from other schools, any major, any level of experience. There is no stock pitch to get in. We talk with you about your background, help you get started, and you work alongside the team from day one.</p>
       <div style="margin-top:26px;display:flex;flex-wrap:wrap;gap:12px" id="apply-row"></div>
     </div>
   </section>
@@ -51,19 +51,19 @@
 
   <section class="block">
     <div class="wrap">
-      <div class="sec-head"><div><p class="eyebrow">How to apply</p><h2>Four Steps</h2></div></div>
+      <div class="sec-head"><div><p class="eyebrow">How to join</p><h2>Four Steps</h2></div></div>
       <div class="steps">
-        <div class="step"><div><h3>Apply</h3><span class="who">Start of each semester</span></div><p>Submit a short application: your major and year, why you want to join, and which sectors interest you. A résumé is welcome but not required.</p></div>
-        <div class="step"><div><h3>Stock Idea</h3><span class="who">One page</span></div><p>Write one page on a company you think is worth owning or avoiding: what it does, why the market might be wrong about it, and one risk. Clear thinking matters more than polish.</p></div>
-        <div class="step"><div><h3>Conversation</h3><span class="who">About 20 minutes</span></div><p>Talk with two fund officers about your idea and your interests. There are no trick questions and no finance quiz.</p></div>
-        <div class="step"><div><h3>Onboarding</h3><span class="who">First two weeks</span></div><p>New members join a sector team, learn the fund's report template and valuation model, and shadow a committee meeting before presenting.</p></div>
+        <div class="step"><div><h3>Reach Out</h3><span class="who">Any time</span></div><p>Tell us a little about yourself: your school, your major or field, and what interests you about investing. No stock pitch, no résumé and no prior experience required.</p></div>
+        <div class="step"><div><h3>Conversation</h3><span class="who">About 20 minutes</span></div><p>A relaxed talk with fund officers about your background, your goals and the sectors you are curious about. There are no trick questions and no finance quiz; it is how we find the right place for you.</p></div>
+        <div class="step"><div><h3>Onboarding</h3><span class="who">First two weeks</span></div><p>We help you get started: you join a sector team, learn the fund's research template and valuation model, and sit in on an investment committee meeting.</p></div>
+        <div class="step"><div><h3>Work With The Team</h3><span class="who">From day one</span></div><p>You research companies with your sector team, contribute to reports and position reviews, and build up to presenting your own pitch to the committee when you are ready.</p></div>
       </div>
     </div>
   </section>
 
   <section class="block">
     <div class="wrap">
-      <div class="cta"><div><h3>Questions Before You Apply?</h3><p>Read the FAQ, or see the kind of work members do in the research library.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="/faq">Read the FAQ</a><a class="btn" href="/reports/" style="background:transparent;color:#fff;border:1px solid var(--border-dark)">See the research</a></div></div>
+      <div class="cta"><div><h3>Questions Before You Join?</h3><p>Read the FAQ, or see the kind of work members do in the research library.</p></div><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="/faq">Read the FAQ</a><a class="btn" href="/reports/" style="background:transparent;color:#fff;border:1px solid var(--border-dark)">See the research</a></div></div>
     </div>
   </section>
 </main>
@@ -74,9 +74,9 @@
 (function () {
   const { config: c, fmt, $ } = window.PFW;
   const row = $("apply-row");
-  if (c.applyUrl) row.innerHTML = '<a class="btn" href="' + fmt.esc(c.applyUrl) + '">Apply now</a>';
-  else if (c.contactEmail) row.innerHTML = '<a class="btn" href="mailto:' + fmt.esc(c.contactEmail) + '?subject=' + encodeURIComponent("PFW-SIF membership") + '">Email the fund to apply</a>';
-  else row.innerHTML = '<p class="notice" style="margin:0"><b>Applications open at the start of each semester.</b> The application link will appear here when it opens.</p>';
+  if (c.applyUrl) row.innerHTML = '<a class="btn" href="' + fmt.esc(c.applyUrl) + '">Join now</a>';
+  else if (c.contactEmail) row.innerHTML = '<a class="btn" href="mailto:' + fmt.esc(c.contactEmail) + '?subject=' + encodeURIComponent("PFW-SIF membership") + '">Email the fund to join</a>';
+  else row.innerHTML = '<p class="notice" style="margin:0"><b>New members are welcome any time.</b> A sign-up link will appear here soon.</p>';
   row.innerHTML += '<a class="btn ghost" href="/team">See open roles</a>';
 })();
 </script>

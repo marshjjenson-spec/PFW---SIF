@@ -457,7 +457,7 @@
     ["Research", "Sector teams analyze industry trends, company fundamentals, financial statements, competitive advantages, and valuation to identify mispriced opportunities.", "Each of eleven teams covers one S&P 500 sector."],
     ["Pitch", "Analysts present their thesis, financial models, valuation, catalysts, and downside risks. Every recommendation must be supported by evidence.", "Every report is published, approved or not."],
     ["Vote", "The investment committee questions the team and votes. A simple majority approves; approved ideas are bought at the next close.", "Declined pitches are tracked against the S&P 500 too."],
-    ["Monitor", "Positions are tracked against their investment thesis, valuation, risk limits, and benchmarks. New information drives reassessment, not emotion.", "Exits get a short exit memo explaining why."],
+    ["Monitor", "Positions are tracked against their investment thesis, valuation, risk limits, and benchmarks. New information drives reassessment—not emotion.", "Exits get a short exit memo explaining why."],
   ];
   $("ptabs").innerHTML = STEPS.map((s, i) => '<button type="button" role="tab" id="pt' + i + '" aria-selected="' + (i === 0) + '" aria-controls="ppanel"><b>0' + (i + 1) + "</b><span>" + esc(s[0]) + "</span></button>").join("");
   const showStep = (i) => { $("ptabs").querySelectorAll("button").forEach((b, j) => b.setAttribute("aria-selected", String(j === i))); $("ppanel").innerHTML = "<p>" + esc(STEPS[i][1]) + '</p><div class="ex">' + esc(STEPS[i][2]) + "</div>"; $("ppanel").setAttribute("aria-labelledby", "pt" + i); };

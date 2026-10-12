@@ -69,7 +69,7 @@ img { max-width: 100%; }
 
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
-h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-wrap: balance; margin: 0; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-wrap: balance; margin: 0; text-transform: capitalize; }
 p { margin: 0; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -328,7 +328,7 @@ footer.site-foot .wrap { padding-block: 26px; display: flex; flex-wrap: wrap; ju
 .method-all[open] > summary.method-btn { border-bottom: 1px solid var(--line-2); border-radius: var(--r) var(--r) 0 0; }
 .method-all > summary.method-btn::after { display: none; }
 .method-btn > span:first-child { display: grid; gap: 6px; }
-.method-title { font-family: var(--f-display); font-size: clamp(25px, 2.6vw, 31px); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); }
+.method-title { font-family: var(--f-display); font-size: clamp(25px, 2.6vw, 31px); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-transform: capitalize; }
 .method-hint { flex: none; display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg); background: var(--gold-light); padding: 9px 14px; border-radius: 4px; box-shadow: inset 0 -2px 0 var(--gold); }
 .method-hint::after { content: ""; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .18s; }
 .method-all[open] .method-hint::after { transform: rotate(-135deg) translateY(-2px); }
@@ -370,7 +370,7 @@ footer.site-foot .wrap { padding-block: 26px; display: flex; flex-wrap: wrap; ju
   </div>
 </header>
 
-<div class="preview" role="region" aria-label="Data status">
+<div class="preview" role="region" aria-label="Data status" style="display:none">
   <div class="wrap">
     <span class="status-label" id="data-status">Simulated track record</span>
     <span id="data-source">Loading performance data…</span>
@@ -381,8 +381,7 @@ footer.site-foot .wrap { padding-block: 26px; display: flex; flex-wrap: wrap; ju
   <div class="hero">
     <div class="wrap">
       <div class="rule"></div>
-      <p class="eyebrow">Performance · Track Record</p>
-      <h1>Every return, benchmarked.<em>Every method, disclosed.</em></h1>
+      <h1>Every Return, Benchmarked.<em>Every Method, Disclosed.</em></h1>
       <p class="lede">PFW-SIF results measured against the S&amp;P 500 Total Return, with the risk statistics, drawdowns and calendar history a fund committee would ask for. Figures that need more history than the fund has recorded are shown as N/A, never estimated.</p>
       <div class="hero-rule" aria-hidden="true"></div>
       <dl class="facts">
@@ -475,11 +474,6 @@ footer.site-foot .wrap { padding-block: 26px; display: flex; flex-wrap: wrap; ju
         <div class="seg small" role="group" aria-label="Annual view" id="a-view">
           <button type="button" data-v="annual" aria-pressed="true">Annual</button>
           <button type="button" data-v="cum" aria-pressed="false">Cumulative</button>
-        </div>
-        <div class="seg small" role="group" aria-label="Annual series" id="a-series">
-          <button type="button" data-s="both" aria-pressed="true">Both</button>
-          <button type="button" data-s="p" aria-pressed="false">PFW-SIF</button>
-          <button type="button" data-s="b" aria-pressed="false">S&amp;P 500 TR</button>
         </div>
       </div>
       <div class="table-wrap"><table id="annual"></table></div>
@@ -686,7 +680,7 @@ Capture (up/down)   = Ann. return₍ₚ₎ / Ann. return₍b₎ over months wher
   const MONL = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   const minus = "−";
   const pct = (v, d = 1, sign = true) => { if (v === null || v === undefined || !isFinite(v)) return "N/A"; const t = Math.abs(v * 100).toFixed(d); if (+t === 0) return t + "%"; return (v < 0 ? minus : (sign ? "+" : "")) + t + "%"; };
-  const pts = (v, d = 1) => { if (v === null || !isFinite(v)) return "N/A"; const t = Math.abs(v * 100).toFixed(d); if (+t === 0) return t + " pts"; return (v < 0 ? minus : "+") + t + " pts"; };
+  const pts = (v, d = 1) => { if (v === null || !isFinite(v)) return "N/A"; const t = Math.abs(v * 100).toFixed(d); if (+t === 0) return t + "%"; return (v < 0 ? minus : "+") + t + "%"; };
   const ratio = (v, d = 2) => { if (v === null || !isFinite(v)) return "N/A"; const t = Math.abs(v).toFixed(d); return (v < 0 && +t !== 0 ? minus : "") + t; };
   const money = v => "$" + Math.round(v).toLocaleString("en-US");
   const cls = v => v === null || !isFinite(v) || Math.abs(v) < 5e-4 ? "" : v > 0 ? "pos" : "neg";
@@ -1275,7 +1269,6 @@ Capture (up/down)   = Ann. return₍ₚ₎ / Ann. return₍b₎ over months wher
   bindSeg("mode", "mode", "mode", () => renderMain(true));
   bindSeg("series", "series", "s", () => renderMain(true));
   bindSeg("a-view", "aView", "v", renderAnnual);
-  bindSeg("a-series", "aSeries", "s", renderAnnual);
   bindSeg("m-series", "mSeries", "s", renderHeat);
   $("win").addEventListener("click", e => {
     const b = e.target.closest("button"); if (!b || b.disabled) return;

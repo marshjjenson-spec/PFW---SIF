@@ -19,7 +19,7 @@
 * { box-sizing: border-box; }
 html { scroll-padding-top: 76px; }
 body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-wrap: balance; margin: 0; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-wrap: balance; margin: 0; text-transform: capitalize; }
 h3 { font-size: 22px; line-height: 1.2; }
 p { margin: 0 0 12px; color: var(--fg-p); }
 a { color: var(--slate); text-decoration-color: var(--gold-dark); text-underline-offset: 3px; }

@@ -270,8 +270,8 @@ function page(r) {
     : `${esc(r.decision)}${r.vote.replace(/^(Approved|Not approved)\s*/, "") ? " · vote " + esc(r.vote.replace(/^(Approved|Not approved)\s*/, "")) : ""}, ${fmtDate(r.decisionDate)}${r.executed ? ` · bought ${fmtDate(r.executed.date)} at ${money(r.executed.price)}` : ""}`;
 
   const returnsTable = review
-    ? `<table class="tbl"><thead><tr><th>Since ${fmtDate(r.heldSince)}</th><th>${r.ticker}</th><th>S&amp;P 500 TR</th><th>Difference</th></tr></thead><tbody><tr><td>Total return</td><td>${pct(afterLast[1] / 100 - 1, 0, true)}</td><td>${pct(afterLast[2] / 100 - 1, 0, true)}</td><td>${pct((afterLast[1] - afterLast[2]) / 100, 0, true)} pts</td></tr><tr><td>Purchase price</td><td>${money(r.costPrice)}</td><td colspan="2">Split-adjusted: ${money(d.since[0][4])}</td></tr></tbody></table>`
-    : `<table class="tbl"><thead><tr><th>Since the pitch</th><th>${r.ticker}</th><th>S&amp;P 500 TR</th><th>Difference</th></tr></thead><tbody><tr><td>${fmtDate(d.sinceFrom)} – ${fmtDate(d.latest)}</td><td>${pct(afterLast[1] / 100 - 1, 0, true)}</td><td>${pct(afterLast[2] / 100 - 1, 0, true)}</td><td>${pct((afterLast[1] - afterLast[2]) / 100, 0, true)} pts</td></tr></tbody></table>`;
+    ? `<table class="tbl"><thead><tr><th>Since ${fmtDate(r.heldSince)}</th><th>${r.ticker}</th><th>S&amp;P 500 TR</th><th>Difference</th></tr></thead><tbody><tr><td>Total return</td><td>${pct(afterLast[1] / 100 - 1, 0, true)}</td><td>${pct(afterLast[2] / 100 - 1, 0, true)}</td><td>${pct((afterLast[1] - afterLast[2]) / 100, 0, true)}</td></tr><tr><td>Purchase price</td><td>${money(r.costPrice)}</td><td colspan="2">Split-adjusted: ${money(d.since[0][4])}</td></tr></tbody></table>`
+    : `<table class="tbl"><thead><tr><th>Since the pitch</th><th>${r.ticker}</th><th>S&amp;P 500 TR</th><th>Difference</th></tr></thead><tbody><tr><td>${fmtDate(d.sinceFrom)} – ${fmtDate(d.latest)}</td><td>${pct(afterLast[1] / 100 - 1, 0, true)}</td><td>${pct(afterLast[2] / 100 - 1, 0, true)}</td><td>${pct((afterLast[1] - afterLast[2]) / 100, 0, true)}</td></tr></tbody></table>`;
 
   const dcfComment = v.na ? v.reason : (() => {
     const gap = v.base.perShare / price - 1;

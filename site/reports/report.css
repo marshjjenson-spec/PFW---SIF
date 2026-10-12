@@ -184,3 +184,6 @@ h1.idx { font-family: var(--f-display); font-size: 38px; font-weight: 600; margi
   h2 { break-after: avoid; }
   .chart, .tbl, .ic, .cr { break-inside: avoid; }
 }
+
+/* Headlines: first letter of every word capitalized. */
+h1, h2, h3 { text-transform: capitalize; }

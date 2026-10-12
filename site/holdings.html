@@ -65,7 +65,7 @@
 
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
-h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-wrap: balance; margin: 0; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-wrap: balance; margin: 0; text-transform: capitalize; }
 p { margin: 0; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -559,13 +559,13 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
       <h1>Every position, disclosed.<em>Every share, accounted for.</em></h1>
       <p class="lede">The complete PFW-SIF portfolio: what the fund owns, what it paid, where each position stands today, and how the portfolio is allocated across sectors compared with the S&amp;P 500.</p>
       <div class="hero-rule" aria-hidden="true"></div>
-      <dl class="facts">
+      <dl class="facts" style="display:none">
         <div><dt class="eyebrow">Portfolio</dt><dd id="f-port">PFW-SIF Main Portfolio</dd></div>
         <div><dt class="eyebrow">Benchmark</dt><dd>S&amp;P 500 Total Return<br><span class="muted">SPY, dividends reinvested</span></dd></div>
         <div><dt class="eyebrow">Prices as of</dt><dd class="num" id="f-asof">—</dd></div>
         <div><dt class="eyebrow">Positions</dt><dd class="num" id="f-npos">—</dd></div>
       </dl>
-      <div class="notice" role="note">
+      <div class="notice" role="note" style="display:none">
         <span class="badge" id="hold-badge">Simulated portfolio</span>
         <p id="hold-note">Holdings shown on this page belong to the PFW-SIF simulated portfolio and do not represent actual assets under management. Positions are not investment recommendations.</p>
       </div>
@@ -596,7 +596,6 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">Allocation</p><h2 id="h-alloc">How the portfolio is allocated</h2></div>
-        <p class="aside">Hover or tap a slice to see its weight.</p>
       </div>
       <div class="alloc-panel">
         <div class="alloc-top">
@@ -604,7 +603,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
             <button type="button" data-v="sector" aria-pressed="true">By sector</button>
             <button type="button" data-v="position" aria-pressed="false">By position</button>
           </div>
-          <span class="hint" id="alloc-hint">Weights at current market value</span>
+          <span class="hint" id="alloc-hint" style="display:none">Weights at current market value</span>
         </div>
         <div class="alloc-body">
           <div class="donut-wrap" id="donut"></div>
@@ -618,10 +617,9 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">Current holdings</p><h2 id="h-hold">Every position</h2></div>
-        <p class="aside">Select a row for purchase history, position details and the research thesis.</p>
       </div>
       <div class="tools">
-        <label class="search"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="#9AA1A8" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="#9AA1A8" stroke-width="1.6" stroke-linecap="round"/></svg><input id="q" type="search" placeholder="Search ticker or company" aria-label="Search holdings"></label>
+        <label class="search" style="display:none"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="#9AA1A8" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="#9AA1A8" stroke-width="1.6" stroke-linecap="round"/></svg><input id="q" type="search" placeholder="Search ticker or company" aria-label="Search holdings"></label>
         <span class="count" id="count"></span>
         <button type="button" class="btn-ghost" id="dl-csv"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0l-3.5-3.5M8 10l3.5-3.5M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Download CSV</button>
       </div>
@@ -655,7 +653,6 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">Investment policy</p><h2 id="h-policy">Policy limits</h2></div>
-        <p class="aside">The fund&rsquo;s position, sector and cash rules, checked against today&rsquo;s weights.</p>
       </div>
       <div class="table-wrap"><table class="x-t" id="policy-t"></table></div>
     </div>
@@ -665,7 +662,6 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">Dividend income</p><h2 id="h-inc">Income from holdings</h2></div>
-        <p class="aside">Dividends are credited to cash on the ex-dividend date.</p>
       </div>
       <div class="inc-grid">
         <div class="inc-cells" id="inc-cells"></div>
@@ -904,7 +900,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
       const act = s.bm !== undefined ? s.w - s.bm : (s.cash && bm ? s.w : null);
       h += '<tr data-k="' + esc(s.key) + '"><td class="nm"><i style="background:' + s.color + '"></i>' + esc(s.name) + (s.sub && !sec ? "<small>" + esc(s.sub) + "</small>" : "") +
         '<span class="wbar" aria-hidden="true"><b style="width:' + (s.w / maxW * 100).toFixed(1) + '%"></b></span></td><td>' + pct(s.w, 1, false) + '</td><td class="hide-sm">' + money(s.mv) + "</td>" +
-        (bm ? '<td class="bm">' + (s.bm !== undefined ? pct(s.bm, 1, false) : "—") + '</td><td class="' + cls(act) + '">' + (act === null ? "—" : (act > 0 ? "+" : act < 0 ? minus : "") + Math.abs(act * 100).toFixed(1) + " pts") + "</td>" : "") + "</tr>";
+        (bm ? '<td class="bm">' + (s.bm !== undefined ? pct(s.bm, 1, false) : "—") + '</td><td class="' + cls(act) + '">' + (act === null ? "—" : (act > 0 ? "+" : act < 0 ? minus : "") + Math.abs(act * 100).toFixed(1) + "%") + "</td>" : "") + "</tr>";
     });
     $("legend-t").innerHTML = h + "</tbody>";
     $("legend-t").querySelectorAll("tbody tr").forEach(tr => {
@@ -1013,8 +1009,8 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
         const by = sectorWeights();
         const act = [...new Set([...Object.keys(SP_SECTORS), ...Object.keys(by)])].map(k => [k, (by[k] || 0) - (SP_SECTORS[k] || 0)]).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))[0];
         const ok = Math.abs(act[1]) <= maxAct;
-        rows.push(["Sector vs. S&amp;P 500", "Within ±" + (maxAct * 100).toFixed(0) + " pts of benchmark weight", (act[1] < 0 ? minus : "+") + Math.abs(act[1] * 100).toFixed(1) + " pts", esc(act[0]), Math.abs(act[1]) / maxAct, ok, (Math.abs(maxAct - Math.abs(act[1])) * 100).toFixed(1) + (ok ? " pts room" : " pts over")]);
-      } else rows.push(["Sector vs. S&amp;P 500", "Within ±" + (maxAct * 100).toFixed(0) + " pts of benchmark weight", "N/A", "Benchmark weights not yet published", null, null, ""]);
+        rows.push(["Sector vs. S&amp;P 500", "Within ±" + (maxAct * 100).toFixed(0) + "% of benchmark weight", (act[1] < 0 ? minus : "+") + Math.abs(act[1] * 100).toFixed(1) + "%", esc(act[0]), Math.abs(act[1]) / maxAct, ok, (Math.abs(maxAct - Math.abs(act[1])) * 100).toFixed(1) + (ok ? "% room" : "% over")]);
+      } else rows.push(["Sector vs. S&amp;P 500", "Within ±" + (maxAct * 100).toFixed(0) + "% of benchmark weight", "N/A", "Benchmark weights not yet published", null, null, ""]);
     }
     if (cMin !== null || cMax !== null) {
       const lo = cMin ?? 0, hi = cMax ?? 1, ok = cw >= lo && cw <= hi;

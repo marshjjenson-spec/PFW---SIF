@@ -65,7 +65,7 @@
 
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
-h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-wrap: balance; margin: 0; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.005em; color: var(--fg); text-wrap: balance; margin: 0; text-transform: capitalize; }
 p { margin: 0; }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -650,7 +650,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   </div>
 </header>
 
-<div class="preview" role="region" aria-label="Data status">
+<div class="preview" role="region" aria-label="Data status" style="display:none">
   <div class="wrap">
     <span class="status-label" id="data-status">Research</span>
     <span id="data-source">Loading research…</span>
@@ -660,7 +660,6 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
 <main>
   <div class="hero">
     <div class="wrap">
-      <p class="eyebrow">Research · Equity Analysis</p>
       <h1>Every position starts as a report.<em>Every call, tracked.</em></h1>
       <p class="lede">The written research behind PFW-SIF's decisions: initiation reports, updates, exit memos and sector reviews from each sector team, with every pitch measured against the S&amp;P 500 from the day it was presented, whether the committee approved it or not.</p>
       <div class="hero-rule" aria-hidden="true"></div>
@@ -712,7 +711,6 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">Research library</p><h2 id="h-lib">Every report</h2></div>
-        <p class="aside">Select a report for the full summary, the committee decision and the link to the report.</p>
       </div>
       <div class="tools r-tools">
         <label class="search"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="#9AA1A8" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="#9AA1A8" stroke-width="1.6" stroke-linecap="round"/></svg><input id="q" type="search" placeholder="Search company, ticker or title" aria-label="Search research"></label>
@@ -729,7 +727,6 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">Coverage</p><h2 id="h-cov">Research by sector</h2></div>
-        <p class="aside">How much research each sector has, next to what the fund holds there today.</p>
       </div>
       <div class="table-wrap"><table class="x-t" id="cov-t"></table></div>
     </div>
@@ -739,10 +736,8 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">Research pipeline</p><h2 id="h-pipe">Under consideration</h2></div>
-        <p class="aside">Companies sector teams are researching for a future pitch. Not current holdings.</p>
       </div>
       <div class="table-wrap"><table class="x-t" id="pipe-t"></table></div>
-      <p class="pipe-note">A company joins the portfolio only after the investment committee approves its pitch.</p>
     </div>
   </section>
 
@@ -750,7 +745,6 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     <div class="wrap">
       <div class="sec-head">
         <div><p class="eyebrow">Research process</p><h2 id="h-process">From idea to position</h2></div>
-        <p class="aside">Every stock the fund owns has gone through the same five steps.</p>
       </div>
       <ol class="steps">
         <li><b>Idea generation</b><p>Sector teams screen their sector for companies with a mispricing worth investigating.</p></li>
@@ -813,7 +807,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const has = v => v !== null && v !== undefined && isFinite(v);
   const pct = (v, d = 1, sign = true) => { if (!has(v)) return "N/A"; const t = Math.abs(v * 100).toFixed(d); if (+t === 0) return t + "%"; return (v < 0 ? minus : sign ? "+" : "") + t + "%"; };
-  const pts = (v, d = 1) => { if (!has(v)) return "N/A"; const t = Math.abs(v * 100).toFixed(d); if (+t === 0) return t + " pts"; return (v < 0 ? minus : "+") + t + " pts"; };
+  const pts = (v, d = 1) => { if (!has(v)) return "N/A"; const t = Math.abs(v * 100).toFixed(d); if (+t === 0) return t + "%"; return (v < 0 ? minus : "+") + t + "%"; };
   const money = (v, d = 2) => has(v) ? (v < 0 ? minus : "") + "$" + Math.abs(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }) : "—";
   const cls = v => !has(v) || Math.abs(v) < 5e-4 ? "" : v > 0 ? "pos" : "neg";
   const fmtDate = iso => { if (!iso) return "—"; const [y, m, d] = String(iso).slice(0, 10).split("-").map(Number); return MON[m - 1] + " " + d + ", " + y; };

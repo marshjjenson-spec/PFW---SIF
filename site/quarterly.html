@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Quarterly Reviews | PFW-SIF</title>
-<meta name="description" content="PFW-SIF quarterly reviews: each quarter's return against the S&amp;P 500 Total Return, the positions that helped and hurt, quarter-end holdings and the research published.">
+<title>Reports | PFW-SIF</title>
+<meta name="description" content="PFW-SIF monthly, quarterly, semi-annual and annual reports: each period's return against the S&amp;P 500 Total Return, the positions that helped and hurt, quarter-end holdings and the research published.">
 <meta name="theme-color" content="#1F2328">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,21 +15,20 @@
 </head>
 <body>
 <header class="site"><div class="wrap"></div></header>
-<div class="strip"><div class="wrap"><b>Quarterly reviews</b><span id="strip">Generated from the fund's published data</span></div></div>
+<div class="strip"><div class="wrap"><b>Reports</b><span id="strip">Generated from the fund's published data</span></div></div>
 
 <main>
   <section class="hero">
     <div class="wrap">
-      <p class="eyebrow">Quarterly reviews</p>
-      <h1>Every quarter, <em>what worked and what didn't.</em></h1>
-      <p class="lede">Each review shows the quarter's return against the S&amp;P 500 Total Return, the positions that added and subtracted the most, the portfolio at quarter end and the research the teams published. The reviews are built from the same data as the Performance and Holdings pages, so they update automatically.</p>
-      <p class="notice" style="margin-top:18px" id="sim-note"><b>Simulated performance.</b> Results come from a paper portfolio managed for education and do not represent assets under management.</p>
+      <p class="eyebrow">Reports</p>
+      <h1>Every Period, <em>What Worked And What Didn't.</em></h1>
+      <p class="lede">Monthly, quarterly, semi-annual and annual reports. Each one shows the period's return against the S&amp;P 500 Total Return, the positions that added and subtracted the most, the portfolio at period end and the research the teams published. The reports are built from the same data as the Performance and Holdings pages, so they update automatically.</p>
     </div>
   </section>
 
   <section class="block" style="padding-top:36px">
     <div class="wrap">
-      <div class="sec-head"><div><p class="eyebrow">Choose a year</p><h2 id="year-title">Reviews</h2></div><div class="filters" id="years" role="group" aria-label="Year"></div></div>
+      <div class="sec-head"><div><p class="eyebrow">Choose a report and year</p><h2 id="year-title">Reports</h2></div><div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end"><div class="filters" id="kinds" role="group" aria-label="Report type"></div><div class="filters" id="years" role="group" aria-label="Year"></div></div></div>
       <div class="q-list" id="list"><p class="loading">Loading the fund's data…</p></div>
     </div>
   </section>
@@ -41,8 +40,14 @@
 (async function () {
   const { get, snapshot, fmt, $ } = window.PFW;
   const esc = fmt.esc, pct = fmt.pct, money = fmt.money, cls = fmt.cls;
-  const QN = ["First", "Second", "Third", "Fourth"];
-  const QM = ["January–March", "April–June", "July–September", "October–December"];
+  const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const KINDS = {
+    M: { label: "Monthly", len: 1, noun: "month", title: (g, y) => MONTHS[g] + " " + y },
+    Q: { label: "Quarterly", len: 3, noun: "quarter", title: (g, y) => ["First", "Second", "Third", "Fourth"][g] + " Quarter " + y },
+    H: { label: "Semi-Annual", len: 6, noun: "half", title: (g, y) => ["First", "Second"][g] + " Half " + y },
+    Y: { label: "Annual", len: 12, noun: "year", title: (g, y) => "Full Year " + y },
+  };
+  const range = (K, g) => K.len === 1 ? MONTHS[g] : MONTHS[g * K.len] + "–" + MONTHS[g * K.len + K.len - 1];
   const signed$ = (v) => (v < 0 ? "−" : v > 0 ? "+" : "") + "$" + Math.abs(Math.round(v)).toLocaleString("en-US");
   let rows, mp, research, prof;
   try {
@@ -54,52 +59,57 @@
     $("list").innerHTML = '<p class="loading">The fund\'s data could not be loaded. Please try again later.</p>';
     return;
   }
-  if (prof && (prof.performance_type === "live" || prof.performance_type === "actual")) $("sim-note").innerHTML = "<b>Fund performance.</b> Results reflect the fund's actual holdings.";
   if (prof) $("strip").textContent = "Data through " + fmt.date(prof.data_through);
   const months = {}; for (const m of (mp && mp.months) || []) months[m.month] = m;
   const reports = (research && research.reports) || [];
 
-  // Group months into calendar quarters.
-  const quarters = [];
-  for (const r of rows) {
-    if (r.portfolio_return === null || r.benchmark_return === null) continue;
-    const [y, m] = r.month.split("-").map(Number), q = Math.floor((m - 1) / 3);
-    let Q = quarters.find((x) => x.y === y && x.q === q);
-    if (!Q) quarters.push((Q = { y, q, months: [] }));
-    Q.months.push(r);
-  }
+  // Group months into calendar periods (month, quarter, half, year).
   const prod = (a) => a.reduce((x, v) => x * (1 + v), 1) - 1;
-  for (const Q of quarters) {
-    Q.p = prod(Q.months.map((m) => Number(m.portfolio_return)));
-    Q.b = prod(Q.months.map((m) => Number(m.benchmark_return)));
-    Q.partial = Q.months.length < 3 || Q.months.some((m) => m.is_partial);
-    const ytd = quarters.filter((x) => x.y === Q.y && x.q <= Q.q).flatMap((x) => x.months);
-    Q.ytdP = prod(ytd.map((m) => Number(m.portfolio_return)));
-    Q.ytdB = prod(ytd.map((m) => Number(m.benchmark_return)));
-    Q.startValue = Number(Q.months[0].bmv) || 0;
-    Q.endValue = Number(Q.months[Q.months.length - 1].emv) || 0;
-    const contrib = {};
-    for (const m of Q.months) for (const p of (months[m.month] && months[m.month].positions) || []) {
-      const c = (contrib[p.t] ||= { t: p.t, change: 0 }); c.change += p.change;
+  const valid = rows.filter((r) => r.portfolio_return !== null && r.benchmark_return !== null);
+  function build(kind) {
+    const K = KINDS[kind], out = [];
+    for (const r of valid) {
+      const [y, m] = r.month.split("-").map(Number), g = Math.floor((m - 1) / K.len);
+      let Q = out.find((x) => x.y === y && x.g === g);
+      if (!Q) out.push((Q = { kind, K, y, g, months: [] }));
+      Q.months.push(r);
     }
-    Q.contrib = Object.values(contrib).sort((a, b) => b.change - a.change);
-    Q.end = months[Q.months[Q.months.length - 1].month] || null;
-    const qs = `${Q.y}-${String(Q.q * 3 + 1).padStart(2, "0")}-01`, qe = `${Q.y}-${String(Q.q * 3 + 3).padStart(2, "0")}-31`;
-    Q.reports = reports.filter((r) => r.date >= qs && r.date <= qe);
+    for (const Q of out) {
+      Q.p = prod(Q.months.map((m) => Number(m.portfolio_return)));
+      Q.b = prod(Q.months.map((m) => Number(m.benchmark_return)));
+      Q.partial = Q.months.length < K.len || Q.months.some((m) => m.is_partial);
+      const ytd = out.filter((x) => x.y === Q.y && x.g <= Q.g).flatMap((x) => x.months);
+      Q.ytdP = prod(ytd.map((m) => Number(m.portfolio_return)));
+      Q.ytdB = prod(ytd.map((m) => Number(m.benchmark_return)));
+      Q.startValue = Number(Q.months[0].bmv) || 0;
+      Q.endValue = Number(Q.months[Q.months.length - 1].emv) || 0;
+      const contrib = {};
+      for (const m of Q.months) for (const p of (months[m.month] && months[m.month].positions) || []) {
+        const c = (contrib[p.t] ||= { t: p.t, change: 0 }); c.change += p.change;
+      }
+      Q.contrib = Object.values(contrib).sort((a, b) => b.change - a.change);
+      Q.end = months[Q.months[Q.months.length - 1].month] || null;
+      const qs = `${Q.y}-${String(Q.g * K.len + 1).padStart(2, "0")}-01`, qe = `${Q.y}-${String(Q.g * K.len + K.len).padStart(2, "0")}-31`;
+      Q.reports = reports.filter((r) => r.date >= qs && r.date <= qe);
+    }
+    return out;
   }
+  const PERIODS = { M: build("M"), Q: build("Q"), H: build("H"), Y: build("Y") };
+  const quarters = PERIODS.Q;
   const years = [...new Set(quarters.map((q) => q.y))].sort((a, b) => b - a);
   if (!years.length) { $("list").innerHTML = '<p class="loading">No completed months yet.</p>'; return; }
 
   function commentary(Q) {
     const diff = Q.p - Q.b;
-    let s = `PFW-SIF ${Q.partial ? "has returned" : "returned"} ${pct(Q.p)} in the ${Q.partial ? "quarter to date" : "quarter"}, against ${pct(Q.b)} for the S&P 500 Total Return, `;
-    s += Math.abs(diff) < 0.0005 ? "in line with the benchmark. " : `${(Math.abs(diff) * 100).toFixed(1)} percentage points ${diff > 0 ? "ahead of" : "behind"} it. `;
+    const noun = Q.K.noun;
+    let s = `PFW-SIF ${Q.partial ? "has returned" : "returned"} ${pct(Q.p)} in the ${Q.partial ? noun + " to date" : noun}, against ${pct(Q.b)} for the S&P 500 Total Return, `;
+    s += Math.abs(diff) < 0.0005 ? "in line with the benchmark. " : `${(Math.abs(diff) * 100).toFixed(1)}% ${diff > 0 ? "ahead of" : "behind"} it. `;
     const best = Q.contrib[0], worst = Q.contrib[Q.contrib.length - 1];
     if (best && best.change > 0) s += `${best.t} added the most (${signed$(best.change)})`;
     if (worst && worst !== best && worst.change < 0) s += `${best && best.change > 0 ? ", while " : ""}${worst.t} detracted the most (${signed$(worst.change)})`;
     if ((best && best.change > 0) || (worst && worst.change < 0)) s += ". ";
-    s += `Year to date, the fund is ${pct(Q.ytdP)} against ${pct(Q.ytdB)} for the benchmark.`;
-    if (Q.reports.length) s += ` The teams published ${Q.reports.length} research ${Q.reports.length === 1 ? "report" : "reports"} this quarter.`;
+    if (Q.kind !== "Y") s += `Year to date, the fund is ${pct(Q.ytdP)} against ${pct(Q.ytdB)} for the benchmark.`;
+    if (Q.reports.length) s += ` The teams published ${Q.reports.length} research ${Q.reports.length === 1 ? "report" : "reports"} this ${noun}.`;
     return s;
   }
 
@@ -107,12 +117,13 @@
     const end = Q.end, invested = end ? end.positions.reduce((s, p) => s + p.value, 0) : 0;
     const contribRows = Q.contrib.map((c) => `<tr><td><b>${esc(c.t)}</b></td><td class="r ${cls(c.change / 1e4)}">${signed$(c.change)}</td><td class="r ${cls(c.change / (Q.startValue || 1))}">${Q.startValue > 0 ? pct(c.change / Q.startValue, 1) : "—"}</td></tr>`).join("");
     const holdRows = end ? end.positions.filter((p) => p.value > 0).map((p) => `<tr><td><b>${esc(p.t)}</b></td><td class="r">${money(p.value)}</td><td class="r">${end.value > 0 ? pct(p.value / end.value, 1, false) : "—"}</td></tr>`).join("") + `<tr><td class="muted">Cash</td><td class="r muted">${money(end.cash)}</td><td class="r muted">${end.value > 0 ? pct(end.cash / end.value, 1, false) : "—"}</td></tr>` : "";
-    const rep = Q.reports.length ? `<ul style="margin:0;padding-left:18px">${Q.reports.map((r) => `<li>${r.url ? `<a href="${esc(r.url)}">${esc(r.title)}</a>` : esc(r.title)} <span class="muted">· ${fmt.date(r.date)}${r.decision ? " · " + esc(r.decision) : ""}</span></li>`).join("")}</ul>` : '<p class="muted" style="margin:0">No reports published this quarter.</p>';
-    return `<article class="qr" id="q${Q.y}-${Q.q + 1}">
-      <div class="qr-head"><h3>${QN[Q.q]} quarter ${Q.y}${Q.partial ? ' <span class="muted" style="font-size:16px">· quarter to date</span>' : ""}</h3><span class="muted" style="font-size:13px">${QM[Q.q]} · ${Q.months.length} month${Q.months.length === 1 ? "" : "s"}${end ? " · values at the " + fmt.date(end.date) + " close" : ""}</span></div>
+    const noun = Q.K.noun;
+    const rep = Q.reports.length ? `<ul style="margin:0;padding-left:18px">${Q.reports.map((r) => `<li>${r.url ? `<a href="${esc(r.url)}">${esc(r.title)}</a>` : esc(r.title)} <span class="muted">· ${fmt.date(r.date)}${r.decision ? " · " + esc(r.decision) : ""}</span></li>`).join("")}</ul>` : '<p class="muted" style="margin:0">No reports published this ${noun}.</p>';
+    return `<article class="qr" id="${Q.kind.toLowerCase()}${Q.y}-${Q.g + 1}">
+      <div class="qr-head"><h3>${Q.K.title(Q.g, Q.y)}${Q.partial ? ` <span class="muted" style="font-size:16px">· ${noun} to date</span>` : ""}</h3><span class="muted" style="font-size:13px">${range(Q.K, Q.g)} · ${Q.months.length} month${Q.months.length === 1 ? "" : "s"}${end ? " · values at the " + fmt.date(end.date) + " close" : ""}</span></div>
       <div class="qr-body">
         <div>
-          <dl class="kpis"><div><dt>PFW-SIF</dt><dd class="${cls(Q.p)}">${pct(Q.p)}</dd></div><div><dt>S&amp;P 500 TR</dt><dd class="${cls(Q.b)}">${pct(Q.b)}</dd></div><div><dt>Difference</dt><dd class="${cls(Q.p - Q.b)}">${(Q.p - Q.b < 0 ? "−" : "+") + Math.abs((Q.p - Q.b) * 100).toFixed(1)} pts</dd></div></dl>
+          <dl class="kpis"><div><dt>PFW-SIF</dt><dd class="${cls(Q.p)}">${pct(Q.p)}</dd></div><div><dt>S&amp;P 500 TR</dt><dd class="${cls(Q.b)}">${pct(Q.b)}</dd></div><div><dt>Difference</dt><dd class="${cls(Q.p - Q.b)}">${(Q.p - Q.b < 0 ? "−" : "+") + Math.abs((Q.p - Q.b) * 100).toFixed(1)}%</dd></div></dl>
           <p>${esc(commentary(Q))}</p>
           <p class="eyebrow" style="margin:16px 0 6px">Research published</p>
           ${rep}
@@ -120,7 +131,7 @@
         <div>
           <p class="eyebrow" style="margin-bottom:6px">Contribution by position</p>
           <table class="mini"><thead><tr><th>Position</th><th class="r">Gain / loss</th><th class="r">Of starting value</th></tr></thead><tbody>${contribRows || '<tr><td colspan="3" class="muted">No positions held.</td></tr>'}</tbody></table>
-          <p class="eyebrow" style="margin:16px 0 6px">Holdings at quarter end</p>
+          <p class="eyebrow" style="margin:16px 0 6px">Holdings at ${noun} end</p>
           <table class="mini"><thead><tr><th>Position</th><th class="r">Value</th><th class="r">Weight</th></tr></thead><tbody>${holdRows}</tbody></table>
           <p class="muted" style="font-size:12px;margin:8px 0 0">Portfolio value ${money(Q.startValue)} → ${money(Q.endValue)}${end && end.value > 0 ? " · " + Math.round(invested / end.value * 100) + "% invested" : ""}</p>
         </div>
@@ -128,15 +139,23 @@
     </article>`;
   }
 
-  function show(y) {
-    $("years").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.y === y)));
-    $("year-title").textContent = y + " reviews";
-    $("list").innerHTML = quarters.filter((q) => q.y === y).sort((a, b) => b.q - a.q).map(card).join("");
+  let kind = "Q", year = years[0];
+  function show() {
+    $("kinds").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.k === kind)));
+    $("years").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.y === year)));
+    $("year-title").textContent = year + " " + KINDS[kind].label + " Reports";
+    const list = PERIODS[kind].filter((q) => q.y === year).sort((a, b) => b.g - a.g);
+    $("list").innerHTML = list.length ? list.map(card).join("") : '<p class="loading">No reports for this year yet.</p>';
+    history.replaceState(null, "", "#" + year + "-" + kind.toLowerCase());
   }
+  $("kinds").innerHTML = Object.entries(KINDS).map(([k, K]) => `<button type="button" data-k="${k}" aria-pressed="false">${K.label}</button>`).join("");
+  $("kinds").addEventListener("click", (e) => { const b = e.target.closest("button[data-k]"); if (b) { kind = b.dataset.k; show(); } });
   $("years").innerHTML = years.map((y) => `<button type="button" data-y="${y}" aria-pressed="false">${y}</button>`).join("");
-  $("years").addEventListener("click", (e) => { const b = e.target.closest("button[data-y]"); if (b) { show(+b.dataset.y); history.replaceState(null, "", "#" + b.dataset.y); } });
-  const fromHash = +String(location.hash).replace(/^#(\d{4}).*/, "$1");
-  show(years.includes(fromHash) ? fromHash : years[0]);
+  $("years").addEventListener("click", (e) => { const b = e.target.closest("button[data-y]"); if (b) { year = +b.dataset.y; show(); } });
+  const hm = String(location.hash).match(/^#(?:(\d{4})-?)?([mqhy])?$/i);
+  if (hm && hm[1] && years.includes(+hm[1])) year = +hm[1];
+  if (hm && hm[2]) kind = hm[2].toUpperCase();
+  show();
 })();
 </script>
 </body>

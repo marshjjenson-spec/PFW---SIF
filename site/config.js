@@ -17,7 +17,7 @@ window.PFW_CONFIG = {
     { label: "Performance", href: "/performance" },
     { label: "Holdings", href: "/holdings" },
     { label: "Research", href: "/research" },
-    { label: "Quarterly", href: "/quarterly" },
+    { label: "Reporting", href: "/quarterly" },
     { label: "Process", href: "/process" },
     { label: "Team", href: "/team" },
     { label: "About", href: "/about" },

@@ -54,6 +54,8 @@ const capFmt = (v) => (v == null ? "—" : v >= 1e12 ? "$" + (v / 1e12).toFixed(
 const pct = (v, d = 1, sign = false) => (v == null || !Number.isFinite(v) ? "—" : (v < 0 ? "−" : sign && v > 0 ? "+" : "") + Math.abs(v * 100).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }) + "%");
 const mult = (v) => (v == null || !Number.isFinite(v) || v <= 0 ? "n/m" : v.toFixed(1) + "x");
 const fyLabel = (end) => "FY" + end.slice(0, 4);
+// Headline style: capitalize the first letter of every word (leaves iPhone, PFW-SIF and tickers alone).
+const tc = (s) => String(s).split(/(\s+)/).map((w) => { const i = w.search(/[A-Za-z]/); if (i < 0 || w[i] !== w[i].toLowerCase() || /[A-Z]/.test(w.slice(i + 1))) return w; return w.slice(0, i) + w[i].toUpperCase() + w.slice(i + 1); }).join("");
 
 /* ---------------- Charts (inline SVG) ---------------- */
 function lineChart(points, { lines, refs = [], markers = [], height = 230, yFmt = (v) => v.toFixed(0), legend }) {
@@ -270,8 +272,8 @@ function page(r) {
     : `${esc(r.decision)}${r.vote.replace(/^(Approved|Not approved)\s*/, "") ? " · vote " + esc(r.vote.replace(/^(Approved|Not approved)\s*/, "")) : ""}, ${fmtDate(r.decisionDate)}${r.executed ? ` · bought ${fmtDate(r.executed.date)} at ${money(r.executed.price)}` : ""}`;
 
   const returnsTable = review
-    ? `<table class="tbl"><thead><tr><th>Since ${fmtDate(r.heldSince)}</th><th>${r.ticker}</th><th>S&amp;P 500 TR</th><th>Difference</th></tr></thead><tbody><tr><td>Total return</td><td>${pct(afterLast[1] / 100 - 1, 0, true)}</td><td>${pct(afterLast[2] / 100 - 1, 0, true)}</td><td>${pct((afterLast[1] - afterLast[2]) / 100, 0, true)} pts</td></tr><tr><td>Purchase price</td><td>${money(r.costPrice)}</td><td colspan="2">Split-adjusted: ${money(d.since[0][4])}</td></tr></tbody></table>`
-    : `<table class="tbl"><thead><tr><th>Since the pitch</th><th>${r.ticker}</th><th>S&amp;P 500 TR</th><th>Difference</th></tr></thead><tbody><tr><td>${fmtDate(d.sinceFrom)} – ${fmtDate(d.latest)}</td><td>${pct(afterLast[1] / 100 - 1, 0, true)}</td><td>${pct(afterLast[2] / 100 - 1, 0, true)}</td><td>${pct((afterLast[1] - afterLast[2]) / 100, 0, true)} pts</td></tr></tbody></table>`;
+    ? `<table class="tbl"><thead><tr><th>Since ${fmtDate(r.heldSince)}</th><th>${r.ticker}</th><th>S&amp;P 500 TR</th><th>Difference</th></tr></thead><tbody><tr><td>Total return</td><td>${pct(afterLast[1] / 100 - 1, 0, true)}</td><td>${pct(afterLast[2] / 100 - 1, 0, true)}</td><td>${pct((afterLast[1] - afterLast[2]) / 100, 0, true)}</td></tr><tr><td>Purchase price</td><td>${money(r.costPrice)}</td><td colspan="2">Split-adjusted: ${money(d.since[0][4])}</td></tr></tbody></table>`
+    : `<table class="tbl"><thead><tr><th>Since the pitch</th><th>${r.ticker}</th><th>S&amp;P 500 TR</th><th>Difference</th></tr></thead><tbody><tr><td>${fmtDate(d.sinceFrom)} – ${fmtDate(d.latest)}</td><td>${pct(afterLast[1] / 100 - 1, 0, true)}</td><td>${pct(afterLast[2] / 100 - 1, 0, true)}</td><td>${pct((afterLast[1] - afterLast[2]) / 100, 0, true)}</td></tr></tbody></table>`;
 
   const dcfComment = v.na ? v.reason : (() => {
     const gap = v.base.perShare / price - 1;
@@ -330,7 +332,7 @@ ${v.grid.map((row, i) => `<tr><td>${pct(v.wacc + [-0.01, 0, 0.01][i])}</td>${row
   <h2>Key Financials</h2>
   ${keyDrivers(d)}
 
-  <h2>${esc(perfTitle)}</h2>
+  <h2>${esc(tc(perfTitle))}</h2>
   ${perf}
   <p class="src">${perfNote} Weekly closes from Yahoo Finance.</p>
 
@@ -341,7 +343,7 @@ ${v.grid.map((row, i) => `<tr><td>${pct(v.wacc + [-0.01, 0, 0.01][i])}</td>${row
 <div class="right">
   <div class="cr">
     <section><h3 class="caps">Catalysts</h3><ol class="pts">${r.catalysts.map(([h, t]) => `<li><b>${esc(h)}</b><span>${esc(t)}</span></li>`).join("")}</ol></section>
-    <section><h3 class="caps">Risks to the Thesis</h3><ol class="pts">${r.risks.map(([h, t]) => `<li><b>${esc(h)}</b><span>${esc(t)}</span></li>`).join("")}</ol></section>
+    <section><h3 class="caps">Risks To The Thesis</h3><ol class="pts">${r.risks.map(([h, t]) => `<li><b>${esc(h)}</b><span>${esc(t)}</span></li>`).join("")}</ol></section>
   </div>
 
   <h2 class="ctr">DCF Model Valuation</h2>
@@ -372,8 +374,8 @@ ${v.grid.map((row, i) => `<tr><td>${pct(v.wacc + [-0.01, 0, 0.01][i])}</td>${row
 <article class="sheet page2">
 <header class="mast slim"><div class="logo"><span class="lt"><span class="mk">PFW-SIF</span></span></div><div class="mid">${esc(r.company)} (${esc(r.ticker)}) · ${review ? "Position review" : "Investment case"}</div><div class="asof">Page 2</div></header>
 
-<h2 class="big">${esc(r.caseTitle)}</h2>
-${r.caseSections.map(([h, t]) => `<h3>${esc(h)}</h3><p>${esc(t)}</p>`).join("")}
+<h2 class="big">${esc(tc(r.caseTitle))}</h2>
+${r.caseSections.map(([h, t]) => `<h3>${esc(tc(h))}</h3><p>${esc(t)}</p>`).join("")}
 
 <h2>Price Target: ${money(r.target, 0)} (${pct(implied, 1, true)})</h2>
 <div class="cols">
@@ -391,12 +393,12 @@ ${r.caseSections.map(([h, t]) => `<h3>${esc(h)}</h3><p>${esc(t)}</p>`).join("")}
 
 ${r.financials ? `<h2>Operating Detail</h2><table class="tbl"><thead><tr><th></th>${r.financials.cols.map((c) => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>${r.financials.rows.map(([k, ...vals]) => `<tr><td>${esc(k)}</td>${vals.map((x) => `<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table><p class="src">${esc(r.financials.note)} Segment figures from company earnings releases.</p>` : ""}
 
-<h2>${review ? "Share Price Since Purchase" : "How the Pitch Has Done Since"}</h2>
+<h2>${review ? "Share Price Since Purchase" : "How The Pitch Has Done Since"}</h2>
 ${page2Chart}
 ${returnsTable}
 <p class="src">${review ? `Weekly closes from ${fmtDate(r.heldSince)} to ${fmtDate(d.latest)}, adjusted for stock splits.` : `Added after publication so the committee's decision can be judged. Total returns with dividends reinvested from ${fmtDate(d.sinceFrom)} to ${fmtDate(d.latest)}.`}</p>
 
-<h2>Methodology and Sources</h2>
+<h2>Methodology And Sources</h2>
 <ul class="meth">
 <li>Financial statements: SEC EDGAR company filings (10-K and 10-Q) filed on or before ${fmtDate(d.asOf)}.</li>
 <li>Prices and total returns: Yahoo Finance daily closes, dividends reinvested. Benchmark: S&amp;P 500 Total Return, measured with SPY.</li>
@@ -432,7 +434,7 @@ function indexPage() {
 <nav class="crumbs"><a href="/research">← Research</a></nav>
 <article class="sheet">
 <header class="mast"><div class="logo"><span class="emb" aria-hidden="true">SIF</span><span class="lt"><span class="mk">PFW-SIF</span><span class="sub">Purdue Fort Wayne<br>Student Investment Fund</span></span></div><div class="mid">Research Reports</div><div class="asof">${reports.length} reports</div></header>
-<h1 class="idx">Every pitch, every review</h1>
+<h1 class="idx">Every Pitch, Every Review</h1>
 <p>Each report has a one-page investment review and a full investment case with the price target, valuation and performance. Declined pitches are kept so the committee's decisions can be judged over time.</p>
 <div class="scroll"><table class="tbl list"><thead><tr><th>Published</th><th>Company</th><th>Type</th><th>Rating</th><th>Price</th><th>Target</th><th>Committee</th></tr></thead><tbody>
 ${rows}

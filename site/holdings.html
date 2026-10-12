@@ -556,16 +556,16 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <div class="hero">
     <div class="wrap">
       <p class="eyebrow">Portfolio · Holdings</p>
-      <h1>Every position, disclosed.<em>Every share, accounted for.</em></h1>
+      <h1>Every Position, Disclosed.<em>Every Share, Accounted For.</em></h1>
       <p class="lede">The complete PFW-SIF portfolio: what the fund owns, what it paid, where each position stands today, and how the portfolio is allocated across sectors compared with the S&amp;P 500.</p>
       <div class="hero-rule" aria-hidden="true"></div>
-      <dl class="facts">
+      <dl class="facts" hidden>
         <div><dt class="eyebrow">Portfolio</dt><dd id="f-port">PFW-SIF Main Portfolio</dd></div>
         <div><dt class="eyebrow">Benchmark</dt><dd>S&amp;P 500 Total Return<br><span class="muted">SPY, dividends reinvested</span></dd></div>
         <div><dt class="eyebrow">Prices as of</dt><dd class="num" id="f-asof">—</dd></div>
         <div><dt class="eyebrow">Positions</dt><dd class="num" id="f-npos">—</dd></div>
       </dl>
-      <div class="notice" role="note">
+      <div class="notice" role="note" hidden>
         <span class="badge" id="hold-badge">Simulated portfolio</span>
         <p id="hold-note">Holdings shown on this page belong to the PFW-SIF simulated portfolio and do not represent actual assets under management. Positions are not investment recommendations.</p>
       </div>
@@ -576,7 +576,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     <div class="wrap">
       <div class="empty-box">
         <p class="eyebrow" id="no-data-eyebrow">Holdings</p>
-        <h2 id="no-data-title">Holdings appear here once the fund records its first purchase.</h2>
+        <h2 id="no-data-title">Holdings Appear Here Once The Fund Records Its First Purchase.</h2>
         <p id="no-data-text">Positions, allocation and trade notes are published automatically after each market close.</p>
       </div>
     </div>
@@ -585,7 +585,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <section hidden class="block needs-data" aria-labelledby="h-summary">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="eyebrow">Portfolio summary</p><h2 id="h-summary">Where the portfolio stands</h2></div>
+        <div><p class="eyebrow">Portfolio summary</p><h2 id="h-summary">Where The Portfolio Stands</h2></div>
         <p class="aside" id="summary-aside"></p>
       </div>
       <div class="hold-summary" id="hold-summary"></div>
@@ -595,8 +595,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <section hidden class="block needs-data" aria-labelledby="h-alloc">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="eyebrow">Allocation</p><h2 id="h-alloc">How the portfolio is allocated</h2></div>
-        <p class="aside">Hover or tap a slice to see its weight.</p>
+        <div><p class="eyebrow">Allocation</p><h2 id="h-alloc">How The Portfolio Is Allocated</h2></div>
       </div>
       <div class="alloc-panel">
         <div class="alloc-top">
@@ -604,7 +603,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
             <button type="button" data-v="sector" aria-pressed="true">By sector</button>
             <button type="button" data-v="position" aria-pressed="false">By position</button>
           </div>
-          <span class="hint" id="alloc-hint">Weights at current market value</span>
+          <span class="hint" id="alloc-hint" hidden>Weights at current market value</span>
         </div>
         <div class="alloc-body">
           <div class="donut-wrap" id="donut"></div>
@@ -617,11 +616,10 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <section hidden class="block needs-data" aria-labelledby="h-hold">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="eyebrow">Current holdings</p><h2 id="h-hold">Every position</h2></div>
-        <p class="aside">Select a row for purchase history, position details and the research thesis.</p>
+        <div><p class="eyebrow">Current holdings</p><h2 id="h-hold">Every Position</h2></div>
       </div>
       <div class="tools">
-        <label class="search"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="#9AA1A8" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="#9AA1A8" stroke-width="1.6" stroke-linecap="round"/></svg><input id="q" type="search" placeholder="Search ticker or company" aria-label="Search holdings"></label>
+        <label class="search" hidden><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5.2" fill="none" stroke="#9AA1A8" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="#9AA1A8" stroke-width="1.6" stroke-linecap="round"/></svg><input id="q" type="search" placeholder="Search ticker or company" aria-label="Search holdings"></label>
         <span class="count" id="count"></span>
         <button type="button" class="btn-ghost" id="dl-csv"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0l-3.5-3.5M8 10l3.5-3.5M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Download CSV</button>
       </div>
@@ -632,7 +630,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <section hidden class="block needs-data" aria-labelledby="h-attrib">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="eyebrow">Since purchase</p><h2 id="h-attrib">Top contributors &amp; detractors</h2></div>
+        <div><p class="eyebrow">Since purchase</p><h2 id="h-attrib">Top Contributors &amp; Detractors</h2></div>
         <p class="aside">Unrealized gain or loss in dollars and as a share of portfolio value.</p>
       </div>
       <div class="attrib">
@@ -645,7 +643,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <section hidden class="block needs-data" aria-labelledby="h-conc">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="eyebrow">Concentration &amp; risk</p><h2 id="h-conc">Portfolio characteristics</h2></div>
+        <div><p class="eyebrow">Concentration &amp; risk</p><h2 id="h-conc">Portfolio Characteristics</h2></div>
       </div>
       <div class="conc" id="conc"></div>
     </div>
@@ -654,8 +652,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <section hidden class="block needs-data" id="policy-sec" aria-labelledby="h-policy">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="eyebrow">Investment policy</p><h2 id="h-policy">Policy limits</h2></div>
-        <p class="aside">The fund&rsquo;s position, sector and cash rules, checked against today&rsquo;s weights.</p>
+        <div><p class="eyebrow">Investment policy</p><h2 id="h-policy">Policy Limits</h2></div>
       </div>
       <div class="table-wrap"><table class="x-t" id="policy-t"></table></div>
     </div>
@@ -664,8 +661,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <section hidden class="block needs-data" aria-labelledby="h-inc">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="eyebrow">Dividend income</p><h2 id="h-inc">Income from holdings</h2></div>
-        <p class="aside">Dividends are credited to cash on the ex-dividend date.</p>
+        <div><p class="eyebrow">Dividend income</p><h2 id="h-inc">Income From Holdings</h2></div>
       </div>
       <div class="inc-grid">
         <div class="inc-cells" id="inc-cells"></div>
@@ -677,7 +673,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <section hidden class="block needs-data" id="act-sec" aria-labelledby="h-act">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="eyebrow">Trading activity</p><h2 id="h-act">Recent transactions</h2></div>
+        <div><p class="eyebrow">Trading activity</p><h2 id="h-act">Recent Transactions</h2></div>
         <p class="aside">The latest buys and sells approved by the investment committee. Select a transaction to read why it was made.</p>
       </div>
       <div class="table-wrap"><table class="act-t" id="act-t"></table></div>
@@ -687,7 +683,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   <section hidden class="block needs-data" id="closed-sec" aria-labelledby="h-closed">
     <div class="wrap">
       <div class="sec-head">
-        <div><p class="eyebrow">Realized results</p><h2 id="h-closed">Closed positions</h2></div>
+        <div><p class="eyebrow">Realized results</p><h2 id="h-closed">Closed Positions</h2></div>
         <p class="aside">Positions the fund has fully sold, with the gain or loss locked in.</p>
       </div>
       <div class="table-wrap"><table class="x-t" id="closed-t"></table></div>
@@ -757,6 +753,8 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
   const cls = v => v === null || v === undefined || !isFinite(v) || Math.abs(v) < 5e-4 ? "" : v > 0 ? "pos" : "neg";
   const fmtDate = iso => { if (!iso) return "—"; const [y, m, d] = String(iso).slice(0, 10).split("-").map(Number); return MON[m - 1] + " " + d + ", " + y; };
   const shares = v => Number(v).toLocaleString("en-US", { maximumFractionDigits: 4 });
+  // Headline style: capitalize the first letter of every word (leaves iPhone, PFW-SIF and tickers alone).
+  const tc = s => String(s).split(/(\s+)/).map(w => { if (/^&[a-z]+;/.test(w)) return w; const i = w.search(/[A-Za-z]/); if (i < 0 || w[i] !== w[i].toLowerCase() || /[A-Z]/.test(w.slice(i + 1))) return w; return w.slice(0, i) + w[i].toUpperCase() + w.slice(i + 1); }).join("");
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   // Full https links, or this site's own report pages (/reports/...).
   const safeUrl = u => { const s = String(u || "").trim(); if (!/^https?:\/\//i.test(s) && !/^\/reports\/[\w.-]*$/.test(s)) return null; try { return new URL(s, location.origin).href; } catch (e) { return null; } };
@@ -904,7 +902,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
       const act = s.bm !== undefined ? s.w - s.bm : (s.cash && bm ? s.w : null);
       h += '<tr data-k="' + esc(s.key) + '"><td class="nm"><i style="background:' + s.color + '"></i>' + esc(s.name) + (s.sub && !sec ? "<small>" + esc(s.sub) + "</small>" : "") +
         '<span class="wbar" aria-hidden="true"><b style="width:' + (s.w / maxW * 100).toFixed(1) + '%"></b></span></td><td>' + pct(s.w, 1, false) + '</td><td class="hide-sm">' + money(s.mv) + "</td>" +
-        (bm ? '<td class="bm">' + (s.bm !== undefined ? pct(s.bm, 1, false) : "—") + '</td><td class="' + cls(act) + '">' + (act === null ? "—" : (act > 0 ? "+" : act < 0 ? minus : "") + Math.abs(act * 100).toFixed(1) + " pts") + "</td>" : "") + "</tr>";
+        (bm ? '<td class="bm">' + (s.bm !== undefined ? pct(s.bm, 1, false) : "—") + '</td><td class="' + cls(act) + '">' + (act === null ? "—" : (act > 0 ? "+" : act < 0 ? minus : "") + Math.abs(act * 100).toFixed(1) + "%") + "</td>" : "") + "</tr>";
     });
     $("legend-t").innerHTML = h + "</tbody>";
     $("legend-t").querySelectorAll("tbody tr").forEach(tr => {
@@ -940,10 +938,10 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
       h += '<tr class="pos-row' + (open ? " open" : "") + '" data-t="' + esc(p.t) + '" tabindex="0" aria-expanded="' + open + '"><td class="co"><b>' + esc(p.t) + "</b><span>" + esc(p.name) + '</span></td><td class="sec">' + esc(p.sector) + "</td><td>" + shares(p.shares) + "</td><td class=\"sub\">" + money(p.avgCost, 2) + "</td><td>" + money(p.last, 2) + "</td><td>" + (p.priced ? money(p.mv) : "—") + "</td><td>" + pct(p.w, 1, false) + '</td><td class="' + cls(p.gain) + '">' + (p.gain === null ? "—" : smoney(p.gain)) + '</td><td class="' + cls(p.gainPct) + '">' + pct(p.gainPct) + '</td><td class="' + cls(p.dayChg) + '">' + (p.dayChg === null ? "—" : pct(p.dayChg, 2)) + '</td><td class="sub">' + fmtDate(p.first) + "</td></tr>";
       if (open) {
         h += '<tr class="detail"><td colspan="' + COLS.length + '"><div class="det">' +
-          '<div><h4>Purchase history</h4><table class="lots"><thead><tr><th scope="col">Date</th><th scope="col">Shares</th><th scope="col">Price</th><th scope="col">Cost</th></tr></thead><tbody>' +
+          '<div><h4>Purchase History</h4><table class="lots"><thead><tr><th scope="col">Date</th><th scope="col">Shares</th><th scope="col">Price</th><th scope="col">Cost</th></tr></thead><tbody>' +
           p.lots.map(l => "<tr><td>" + fmtDate(l.date) + "</td><td>" + shares(l.shares) + "</td><td>" + money(Number(l.price), 2) + "</td><td>" + money(l.shares * l.price) + "</td></tr>").join("") + "</tbody></table></div>" +
-          '<div><h4>Position details</h4><div class="kv"><span>Industry</span><b style="font-family:var(--f-body);font-size:13px">' + esc(p.industry || "—") + "</b><span>Cost basis</span><b>" + money(p.cost) + "</b><span>Held for</span><b>" + heldFor(p.first) + "</b><span>Beta vs S&amp;P 500</span><b>" + (p.beta === null ? "N/A" : p.beta.toFixed(2)) + "</b><span>Share of sector</span><b>" + pct(secMv ? p.mv / secMv : null, 0, false) + "</b></div></div>" +
-          '<div><h4>Investment thesis</h4>' + (p.thesis ? '<p class="thesis">' + esc(p.thesis) + "</p>" : '<p class="thesis" style="color:var(--fg-2)">Thesis not yet published.</p>') + linkOut(p.thesisUrl, "Read the research report →") + "</div>" +
+          '<div><h4>Position Details</h4><div class="kv"><span>Industry</span><b style="font-family:var(--f-body);font-size:13px">' + esc(p.industry || "—") + "</b><span>Cost basis</span><b>" + money(p.cost) + "</b><span>Held for</span><b>" + heldFor(p.first) + "</b><span>Beta vs S&amp;P 500</span><b>" + (p.beta === null ? "N/A" : p.beta.toFixed(2)) + "</b><span>Share of sector</span><b>" + pct(secMv ? p.mv / secMv : null, 0, false) + "</b></div></div>" +
+          '<div><h4>Investment Thesis</h4>' + (p.thesis ? '<p class="thesis">' + esc(p.thesis) + "</p>" : '<p class="thesis" style="color:var(--fg-2)">Thesis not yet published.</p>') + linkOut(p.thesisUrl, "Read the research report →") + "</div>" +
           "</div></td></tr>";
       }
     });
@@ -1013,8 +1011,8 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
         const by = sectorWeights();
         const act = [...new Set([...Object.keys(SP_SECTORS), ...Object.keys(by)])].map(k => [k, (by[k] || 0) - (SP_SECTORS[k] || 0)]).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))[0];
         const ok = Math.abs(act[1]) <= maxAct;
-        rows.push(["Sector vs. S&amp;P 500", "Within ±" + (maxAct * 100).toFixed(0) + " pts of benchmark weight", (act[1] < 0 ? minus : "+") + Math.abs(act[1] * 100).toFixed(1) + " pts", esc(act[0]), Math.abs(act[1]) / maxAct, ok, (Math.abs(maxAct - Math.abs(act[1])) * 100).toFixed(1) + (ok ? " pts room" : " pts over")]);
-      } else rows.push(["Sector vs. S&amp;P 500", "Within ±" + (maxAct * 100).toFixed(0) + " pts of benchmark weight", "N/A", "Benchmark weights not yet published", null, null, ""]);
+        rows.push(["Sector vs. S&amp;P 500", "Within ±" + (maxAct * 100).toFixed(0) + "% of benchmark weight", (act[1] < 0 ? minus : "+") + Math.abs(act[1] * 100).toFixed(1) + "%", esc(act[0]), Math.abs(act[1]) / maxAct, ok, (Math.abs(maxAct - Math.abs(act[1])) * 100).toFixed(1) + (ok ? " pts room" : " pts over")]);
+      } else rows.push(["Sector vs. S&amp;P 500", "Within ±" + (maxAct * 100).toFixed(0) + "% of benchmark weight", "N/A", "Benchmark weights not yet published", null, null, ""]);
     }
     if (cMin !== null || cMax !== null) {
       const lo = cMin ?? 0, hi = cMax ?? 1, ok = cw >= lo && cw <= hi;
@@ -1058,9 +1056,9 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
       if (open) {
         const report = safeUrl(a.report_url);
         h += '<tr class="tx-detail" id="tx-' + i + '"><td colspan="' + cols + '"><div class="txd">' +
-          '<div class="txd-why"><h4>' + (a.type === "BUY" ? "Why we bought" : "Why we sold") + "</h4><p>" + (a.rationale ? esc(a.rationale) : '<span style="color:var(--fg-2)">' + esc(a.note) + ". A full note has not been published for this trade.</span>") + "</p></div>" +
+          '<div class="txd-why"><h4>' + (a.type === "BUY" ? "Why We Bought" : "Why We Sold") + "</h4><p>" + (a.rationale ? esc(a.rationale) : '<span style="color:var(--fg-2)">' + esc(a.note) + ". A full note has not been published for this trade.</span>") + "</p></div>" +
           '<div class="txd-meta"><h4>Decision</h4><div class="kv"><span>Recommended by</span><b class="txt">' + esc(a.team || "—") + "</b><span>Committee approval</span><b>" + fmtDate(a.approved) + "</b><span>Executed</span><b>" + fmtDate(a.date) + "</b><span>Trade value</span><b>" + money(Number(a.value)) + "</b></div></div>" +
-          '<div class="txd-report"><h4>Research behind the decision</h4>' + (a.report_title ? '<p class="rep-title">' + esc(a.report_title) + "</p>" : "") + (report ? linkOut(report, "Read the research report →", "rep-link") : '<p class="rep-hint">No research report linked to this trade.</p>') + "</div>" +
+          '<div class="txd-report"><h4>Research Behind The Decision</h4>' + (a.report_title ? '<p class="rep-title">' + esc(a.report_title) + "</p>" : "") + (report ? linkOut(report, "Read the research report →", "rep-link") : '<p class="rep-hint">No research report linked to this trade.</p>') + "</div>" +
           "</div></td></tr>";
       }
     });
@@ -1122,7 +1120,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
       $("data-status").textContent = "Data unavailable";
       $("data-source").textContent = "Holdings could not be loaded. Please try again later.";
       $("no-data-eyebrow").textContent = "Data temporarily unavailable";
-      $("no-data-title").textContent = "Holdings could not be loaded.";
+      $("no-data-title").textContent = "Holdings Could Not Be Loaded.";
       $("no-data-text").textContent = message || "Please refresh the page in a few minutes.";
     }
   }
@@ -1140,7 +1138,7 @@ a.mark:focus-visible, .nav a:focus-visible, a.apply:focus-visible { outline: 2px
     if (!SNAP || !POS.length || NAV <= 0) {
       showState("empty");
       if (SNAP && CLOSED.length) {
-        $("no-data-title").textContent = "The fund holds no positions right now.";
+        $("no-data-title").textContent = "The Fund Holds No Positions Right Now.";
         $("no-data-text").textContent = "Everything previously owned has been sold; closed positions are listed below.";
         $("closed-sec").hidden = false; renderClosed();
       }

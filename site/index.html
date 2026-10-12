@@ -46,7 +46,7 @@
 
 /* Ticker tape */
 .tape { background: var(--near-black); border-top: 1px solid #2A2F34; border-bottom: 2px solid var(--gold); overflow: hidden; white-space: nowrap; }
-.tape .track { display: inline-flex; gap: 0; animation: tape 40s linear infinite; padding-block: 11px; }
+.tape .track { display: inline-flex; gap: 0; animation: tape 90s linear infinite; padding-block: 11px; }
 .tape:hover .track { animation-play-state: paused; }
 .tape a { display: inline-flex; align-items: baseline; gap: 10px; padding-inline: 26px; color: #D4D7DA; text-decoration: none; font-size: 13px; border-right: 1px solid #2A2F34; }
 .tape a b { color: #fff; letter-spacing: .04em; }
@@ -122,7 +122,7 @@
 .rcard:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(20,23,26,.08); border-color: var(--gold-dark); }
 .rcard .top { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-2); }
 .rcard .pill { color: #fff; background: var(--gold-dark); padding: 2px 8px; border-radius: 3px; letter-spacing: .08em; }
-.rcard .pill.hold { background: var(--slate-2); } .rcard .pill.no { background: var(--neg); }
+.rcard .pill.hold { background: var(--slate-2); } .rcard .pill.no { background: #A39C90; }
 .rcard h3 { font-size: 23px; line-height: 1.15; }
 .rcard p { font-size: 14px; margin: 0; }
 .rcard .since { margin-top: auto; display: flex; gap: 18px; padding-top: 12px; border-top: 1px solid var(--line-2); font-size: 12px; color: var(--fg-2); }
@@ -165,7 +165,7 @@
     </svg>
     <div class="wrap">
       <p class="eyebrow">Purdue Fort Wayne Student Investment Fund</p>
-      <h1>Students picking stocks. <em>Graded by the market.</em></h1>
+      <h1>Students Picking Stocks. <em>Graded By The Market.</em></h1>
       <p class="lede">We research companies, pitch them to an investment committee and manage the portfolio against the S&amp;P 500, and we publish every result, including the ideas we turned down.</p>
       <div class="hero-actions">
         <a class="btn" href="/performance">See the performance</a>
@@ -178,7 +178,6 @@
         <div><dt>Annualized</dt><dd data-count="ann">—</dd><small id="l-ann">&nbsp;</small></div>
         <div><dt>Holdings</dt><dd data-count="n">—</dd><small id="l-n">&nbsp;</small></div>
       </dl>
-      <span class="sim-tag" id="sim-tag">Simulated performance · <a href="/disclosures">what this means</a></span>
     </div>
   </section>
 
@@ -186,7 +185,7 @@
 
   <section class="block" style="border-top:0">
     <div class="wrap">
-      <div class="sec-head reveal"><div><p class="eyebrow">Track record</p><h2>Growth of $10,000</h2></div>
+      <div class="sec-head reveal"><div><p class="eyebrow">Track record</p><h2>Growth Of $10,000</h2></div>
         <div class="seg filters" id="win" role="group" aria-label="Time period"></div></div>
       <div class="chart-card reveal">
         <div class="chart-top"><div class="legend-h" id="g-legend"></div><span class="muted" style="font-size:12px" id="g-range"></span></div>
@@ -198,7 +197,7 @@
 
   <section class="block">
     <div class="wrap">
-      <div class="sec-head reveal"><div><p class="eyebrow">Try it</p><h2>What if you had invested with us?</h2></div><p class="aside">Pick an amount and a start date. The result follows the fund's actual monthly returns, compared with the S&amp;P 500 Total Return.</p></div>
+      <div class="sec-head reveal"><div><h2>What If You Had Invested With Us?</h2></div><p class="aside">Pick an amount and a start date. The result follows the fund's actual monthly returns, compared with the S&amp;P 500 Total Return.</p></div>
       <div class="calc reveal">
         <div class="in">
           <label for="amt">Amount invested</label>
@@ -221,7 +220,7 @@
 
   <section class="block">
     <div class="wrap">
-      <div class="sec-head reveal"><div><p class="eyebrow">Portfolio</p><h2>What the fund owns</h2></div><p class="aside" id="mix-asof">Hover a slice or a row for details; click to open the Holdings page.</p></div>
+      <div class="sec-head reveal"><div><p class="eyebrow">Portfolio</p><h2>What The Fund Owns</h2></div><p class="aside" id="mix-asof">Hover a slice or a row for details; click to open the Holdings page.</p></div>
       <div class="mix reveal">
         <div class="donut" id="donut"><svg viewBox="0 0 300 300" role="img" aria-label="Portfolio weights"></svg><div class="center"><b id="d-big">—</b><span id="d-small">Hover a slice</span></div></div>
         <div class="mix-list" id="mix-list"></div>
@@ -231,7 +230,7 @@
 
   <section class="block">
     <div class="wrap">
-      <div class="sec-head reveal"><div><p class="eyebrow">Research</p><h2>Every position starts as a report</h2></div><p class="aside"><a href="/reports/">See all reports →</a></p></div>
+      <div class="sec-head reveal"><div><p class="eyebrow">Research</p><h2>Every Position Starts As A Report</h2></div><p class="aside"><a href="/reports/">See all reports →</a></p></div>
       <div class="grid g3" id="rcards"><p class="loading">Loading research…</p></div>
       <dl class="score reveal" id="score"></dl>
     </div>
@@ -239,7 +238,7 @@
 
   <section class="block">
     <div class="wrap">
-      <div class="sec-head reveal"><div><p class="eyebrow">How it works</p><h2>From idea to position</h2></div><p class="aside"><a href="/process">The full investment process →</a></p></div>
+      <div class="sec-head reveal"><div><p class="eyebrow">How it works</p><h2>From Idea To Position</h2></div><p class="aside"><a href="/process">The full investment process →</a></p></div>
       <div class="reveal">
         <div class="ptabs" role="tablist" id="ptabs"></div>
         <div class="ppanel" role="tabpanel" id="ppanel"></div>
@@ -250,12 +249,12 @@
   <section class="block">
     <div class="wrap">
       <div class="grid g4 reveal">
-        <a class="card" href="/quarterly" style="text-decoration:none"><p class="k">Quarterly</p><h3>Quarter by quarter</h3><p>What worked and what didn't, every quarter since 2016.</p></a>
-        <a class="card" href="/holdings" style="text-decoration:none"><p class="k">Holdings</p><h3>Positions and trades</h3><p>Weights, cost basis, trade notes, dividends and policy checks.</p></a>
-        <a class="card" href="/team" style="text-decoration:none"><p class="k">Team</p><h3>Who decides</h3><p>Officers, eleven sector teams and the investment committee.</p></a>
-        <a class="card" href="/about" style="text-decoration:none"><p class="k">About</p><h3>The fund</h3><p>Mission, history and how PFW-SIF works.</p></a>
+        <a class="card" href="/quarterly" style="text-decoration:none"><p class="k">Reporting</p><h3>Monthly To Annual Reports</h3><p>What worked and what didn't, every month, quarter, half and year since 2016.</p></a>
+        <a class="card" href="/holdings" style="text-decoration:none"><p class="k">Holdings</p><h3>Positions And Trades</h3><p>Weights, cost basis, trade notes, dividends and policy checks.</p></a>
+        <a class="card" href="/team" style="text-decoration:none"><p class="k">Team</p><h3>Who Decides</h3><p>Officers, eleven sector teams and the investment committee.</p></a>
+        <a class="card" href="/about" style="text-decoration:none"><p class="k">About</p><h3>The Fund</h3><p>Mission, history and how PFW-SIF works.</p></a>
       </div>
-      <div class="cta reveal" style="margin-top:28px"><div><h3>Want your name on the next pitch?</h3><p>Open to Purdue Fort Wayne students in every major. No experience required.</p></div><a class="btn" href="/join">How to join</a></div>
+      <div class="cta reveal" style="margin-top:28px"><div><h3>Want Your Name On The Next Pitch?</h3><p>Open to Purdue Fort Wayne students in every major. Students from other schools are welcome to join too. No experience required.</p></div><a class="btn" href="/join">How to join</a></div>
     </div>
   </section>
 </main>
@@ -266,9 +265,12 @@
 (async function () {
   const { get, snapshot, fmt, $ } = window.PFW;
   const esc = fmt.esc, pct = fmt.pct, money = fmt.money, cls = fmt.cls, MON = fmt.MON;
-  const pts = (v) => (v === null || v === undefined || !isFinite(v) ? "N/A" : (v < 0 ? "−" : "+") + Math.abs(v * 100).toFixed(0) + " pts");
+  const pts = (v) => (v === null || v === undefined || !isFinite(v) ? "N/A" : (v < 0 ? "−" : "+") + Math.abs(v * 100).toFixed(0) + "%");
+  // Headline style: capitalize the first letter of every word (leaves iPhone, PFW-SIF and tickers alone).
+  const tc = (s) => String(s).split(/(\s+)/).map((w) => { const i = w.search(/[A-Za-z]/); if (i < 0 || w[i] !== w[i].toLowerCase() || /[A-Z]/.test(w.slice(i + 1))) return w; return w.slice(0, i) + w[i].toUpperCase() + w.slice(i + 1); }).join("");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const COLORS = ["#B49A6C", "#343A40", "#287A52", "#8C7347", "#697078", "#CFB991", "#4F565D", "#A44747", "#9AA1A8", "#E7DFCF"];
+  // One palette for the portfolio chart: PFW golds from deep to light.
+  const COLORS = ["#6F5B37", "#8C7347", "#B49A6C", "#CFB991", "#E7DFCF", "#A6895A", "#C4AB7E", "#DCCDAE"];
 
   // Fade sections in as they scroll into view.
   const io = "IntersectionObserver" in window ? new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.12 }) : null;
@@ -286,7 +288,6 @@
     return;
   }
   const live = prof && (prof.performance_type === "live" || prof.performance_type === "actual");
-  if (live) $("sim-tag").innerHTML = 'Fund performance · <a href="/disclosures">disclosures</a>';
 
   // Monthly series → growth of $1 for the fund and the benchmark.
   const M = rows.filter((r) => r.portfolio_return !== null && r.benchmark_return !== null).map((r) => ({ m: r.month, end: r.period_end, p: +r.portfolio_return, b: +r.benchmark_return, partial: r.is_partial }));
@@ -411,7 +412,7 @@
   /* ---- Portfolio donut ---- */
   if (hold && hold.positions.length) {
     const parts = hold.positions.map((p, i) => ({ t: p.t, name: p.name, w: p.weight || 0, mv: p.mv, g: p.gain_pct, sector: p.sector, c: COLORS[i % COLORS.length] }));
-    parts.push({ t: "Cash", name: "Cash", w: hold.cash / hold.nav, mv: hold.cash, g: null, sector: "Cash", c: "#D9D5CC" });
+    parts.push({ t: "Cash", name: "Cash", w: hold.cash / hold.nav, mv: hold.cash, g: null, sector: "Cash", c: "#ECE6D8" });
     const svg = $("donut").querySelector("svg"), R0 = 92, R1 = 140, C = 150;
     let a = -Math.PI / 2, html = "";
     const pt = (r, ang) => (C + r * Math.cos(ang)).toFixed(2) + " " + (C + r * Math.sin(ang)).toFixed(2);
@@ -445,7 +446,7 @@
     for (const r of R.filter((r) => r.type === "Initiation")) { if (picks.length >= 3) break; if (!picks.includes(r)) picks.push(r); }
     $("rcards").innerHTML = picks.map((r) => {
       const pill = r.decision === "Not approved" ? '<span class="pill no">Not approved</span>' : '<span class="pill' + (r.recommendation === "Hold" ? " hold" : "") + '">' + esc(r.recommendation || r.type) + "</span>";
-      return '<a class="rcard reveal in" href="' + esc(r.url || "/research") + '"><div class="top"><span>' + esc(r.ticker || "") + " · " + esc(r.type) + " · " + fmt.date(r.date) + "</span>" + pill + "</div><h3>" + esc(r.title) + "</h3><p>" + esc(r.summary || "") + '</p><div class="since"><div>Since report<b class="' + cls(r.return_since) + '">' + pct(r.return_since, 0) + '</b></div><div>S&amp;P 500 TR<b>' + pct(r.benchmark_return_since, 0) + "</b></div>" + (r.target_price ? "<div>Target<b>" + money(r.target_price) + "</b></div>" : "") + "</div></a>";
+      return '<a class="rcard reveal in" href="' + esc(r.url || "/research") + '"><div class="top"><span>' + esc(r.ticker || "") + " · " + esc(r.type) + " · " + fmt.date(r.date) + "</span>" + pill + "</div><h3>" + esc(tc(r.title)) + "</h3><p>" + esc(r.summary || "") + '</p><div class="since"><div>Since report<b class="' + cls(r.return_since) + '">' + pct(r.return_since, 0) + '</b></div><div>S&amp;P 500 TR<b>' + pct(r.benchmark_return_since, 0) + "</b></div>" + (r.target_price ? "<div>Target<b>" + money(r.target_price) + "</b></div>" : "") + "</div></a>";
     }).join("");
     const sc = research.scorecard || {}, A = sc.approved_ideas || {}, X = sc.rejected_ideas || {};
     $("score").innerHTML =
@@ -456,10 +457,10 @@
 
   /* ---- Process tabs ---- */
   const STEPS = [
-    ["Research", "Sector teams screen their part of the market, study filings and competitors, and build a financial model and valuation.", "Each of eleven teams covers one S&P 500 sector."],
-    ["Pitch", "The team writes an initiation report with a 12-month price target, catalysts, risks and the conditions that would make the fund sell.", "Every report is published, approved or not."],
+    ["Research", "Sector teams analyze industry trends, company fundamentals, financial statements, competitive advantages, and valuation to identify mispriced opportunities.", "Each of eleven teams covers one S&P 500 sector."],
+    ["Pitch", "Analysts present their thesis, financial models, valuation, catalysts, and downside risks. Every recommendation must be supported by evidence.", "Every report is published, approved or not."],
     ["Vote", "The investment committee questions the team and votes. A simple majority approves; approved ideas are bought at the next close.", "Declined pitches are tracked against the S&P 500 too."],
-    ["Monitor", "Positions are valued every trading day, checked against policy limits, and reviewed in writing at least once a year.", "Exits get a short exit memo explaining why."],
+    ["Monitor", "Positions are tracked against their investment thesis, valuation, risk limits, and benchmarks. New information drives reassessment—not emotion.", "Exits get a short exit memo explaining why."],
   ];
   $("ptabs").innerHTML = STEPS.map((s, i) => '<button type="button" role="tab" id="pt' + i + '" aria-selected="' + (i === 0) + '" aria-controls="ppanel"><b>0' + (i + 1) + "</b><span>" + esc(s[0]) + "</span></button>").join("");
   const showStep = (i) => { $("ptabs").querySelectorAll("button").forEach((b, j) => b.setAttribute("aria-selected", String(j === i))); $("ppanel").innerHTML = "<p>" + esc(STEPS[i][1]) + '</p><div class="ex">' + esc(STEPS[i][2]) + "</div>"; $("ppanel").setAttribute("aria-labelledby", "pt" + i); };
